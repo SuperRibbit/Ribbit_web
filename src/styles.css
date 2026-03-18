@@ -8,6 +8,22 @@
     padding: 0;
 }
 
+:root {
+    --azul-bg: #B0D5F7;
+    --text-dark: #252641;
+    --text-light: #919191;
+    --border-color: #D9D9D9;
+    --verde-escuro: #2E8A65;
+    --verde-claro: #9EE766;
+    --azul-escuro: #5B5CEC;
+    --azul: #91B9F8;
+    --amarelo-escuro: #F79073;
+    --amarelo: #FDEE8C;
+    --branco: #FCFFFE;
+    --vermelho: #E7655F;
+
+}
+
 html, body {
     height: 100%;
     font-family: "Raleway", sans-serif;
@@ -30,3 +46,4 @@ a {
 ul, ol {
     list-style: none;
 }
+
