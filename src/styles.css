@@ -1,1 +1,49 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --azul-bg: #B0D5F7;
+    --text-dark: #252641;
+    --text-light: #919191;
+    --border-color: #D9D9D9;
+    --verde-escuro: #2E8A65;
+    --verde-claro: #9EE766;
+    --azul-escuro: #5B5CEC;
+    --azul: #91B9F8;
+    --amarelo-escuro: #F79073;
+    --amarelo: #FDEE8C;
+    --branco: #FCFFFE;
+    --vermelho: #E7655F;
+
+}
+
+html, body {
+    height: 100%;
+    font-family: "Raleway", sans-serif;
+}
+
+img, picture, video, canvas {
+    display: block;
+    max-width: 100%;
+}
+
+button, input, textarea, select {
+    font: inherit;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul, ol {
+    list-style: none;
+}
+
