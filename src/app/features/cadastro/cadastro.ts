@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { CadastroService } from './service/login.service';
+import { CadastroService } from './service/cadastro.service';
 import { cadastroUsuario } from '../../model/cadastroUsuario';
 import { CustomButton } from '../../shared/components/custom-button/custom-button';
 
