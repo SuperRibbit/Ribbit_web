@@ -8,18 +8,19 @@ import { CustomButton } from '../../shared/components/custom-button/custom-butto
 
 @Component({
   selector: 'app-cadastro',
-  imports: [FormsModule, NgForm, CommonModule, Router, CustomButton],
+  imports: [FormsModule, CommonModule, CustomButton],
   templateUrl: './cadastro.html',
   styleUrl: './cadastro.css',
 })
 export class Cadastro {
   private router = inject(Router);
-  private loginService = inject(CadastroService)
+  private cadastroService = inject(CadastroService);
 
-  userLogin: cadastroUsuario = {
+  userCadastro: cadastroUsuario = {
     nome: '',
     email: '',
-    senha: ''
+    senha: '',
+    confirmacaoSenha: ''
   };
 
   enviando = signal(false);
@@ -33,7 +34,7 @@ export class Cadastro {
     this.enviando.set(true);
 
     setTimeout(() => {
-      this.mensagem.set('Login simulado com sucesso!');
+      this.mensagem.set('Cadastro simulado com sucesso!');
       this.enviando.set(false);
       this.router.navigate(['/']);
     }, 1000);

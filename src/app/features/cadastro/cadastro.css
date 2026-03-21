@@ -1,9 +1,9 @@
-.login-container {
+.cadastro-container {
     display: flex;
     height: 100vh;
 }
 
-.login-left {
+.cadastro-left {
     width: 50%;
     background-image: url('../../../../public/assets/fundoleft.png');
     background-size: cover;
@@ -16,12 +16,12 @@
 }
 
 
-.login-left img {
+.cadastro-left img {
     width: 90%;
     max-width: 650px;
 }
 
-.login-right {
+.cadastro-right {
     width: 50%;
     background-image: url('../../../../public/assets/fundoRight.png');
     background-size: cover;
@@ -39,7 +39,8 @@ form {
 
 form h2 {
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 8px;
+
 }
 
 .campo {
@@ -75,6 +76,14 @@ a {
     margin-left: 5px;
 }
 
+h3 {
+    color: var(--verde-escuro);
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin-bottom: 22px;
+}
+
 p {
     font-size: 14px;
     margin-top: 15px;
@@ -89,5 +98,5 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 35px;
+    margin-top: 25px;
 }
