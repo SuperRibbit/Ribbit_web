@@ -1,0 +1,62 @@
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--amarelo-escuro);
+  border-radius: 16px 16px 0 0;
+  padding: 40px 48px;
+  margin: 40px auto;
+  max-width: 900px;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer-content {
+  max-width: 55%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--branco);
+  line-height: 1.3;
+}
+
+.footer-text {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--branco);
+  line-height: 1.5;
+}
+
+.footer-email {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--branco);
+  text-decoration: underline;
+  margin-top: 8px;
+}
+
+.footer-frogs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.frog {
+  width: 90px;
+  height: auto;
+  margin-top: -10px;
+}
+
+.frog:first-child {
+  margin-top: 0;
+}
+
+.frog-middle {
+  transform: translateX(20px);
+}
