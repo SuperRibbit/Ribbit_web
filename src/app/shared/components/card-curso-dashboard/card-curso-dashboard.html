@@ -1,0 +1,20 @@
+<section class="card-container">
+    <div class="card-image-area">
+        <img [src]="imageUrl" [alt]="description" class="card-image">
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-bar-fill" [style.width.%]="progress"></div>
+        
+        <span class="progress-text">{{ progress }}%</span>
+
+        <div class="progress-bar-bg"></div>
+    </div>
+
+    <div class="card-text-area">
+        <p class="card-description">{{ description }}</p>
+    </div>
+
+    <app-custom-button variant="blue" label="RETOMAR"></app-custom-button>
+
+</section>
