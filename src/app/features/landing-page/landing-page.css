@@ -1,0 +1,64 @@
+.hero {
+    min-height: 100vh;
+    padding: 80px 80px 80px 80px;
+    background-color: var(--azul);
+    background-image: url('/assets/CloudBGLow.svg');
+    background-repeat: repeat;
+    background-size: cover;
+
+    display: flex;
+    flex-direction: column;
+    
+    /* border-radius: 0 0 60px 60px;  */
+}
+
+header {
+    display: flex;
+    color: var(--verde-escuro);
+    align-items: center;
+    height: auto;
+
+    justify-content: space-between;
+}
+
+header h1 {
+    font-size: 60px;
+}
+
+.left {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    gap: 16px;
+}
+
+.right {
+ align-content: center;
+ justify-content: center;
+}
+
+.right img {
+    max-width: 100%;
+    height: auto;
+}
+
+.note {
+    background-color: var(--branco);
+    padding: 10px 25px;
+    width: max-content;
+    border-radius: 10px;
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+.content {
+    background-color: var(--branco);
+    border-radius: 20px;
+    padding: 40px;
+    
+    color: var(--verde-escuro);
+    gap: 16px;
+
+    display: flex;
+    flex-direction: column;
+}

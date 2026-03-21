@@ -12,6 +12,6 @@ export class Navbar {
   //constructor(private auth: AuthService) {}
 
   get isLogged() {
-    return true;
+    return false;
   }
 }
