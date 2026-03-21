@@ -1,0 +1,48 @@
+.btn-base {
+    padding: 12px 32px;
+    border-radius: 12px;
+    border: none;
+    font-family: 'Raleway', sans-serif; 
+    font-weight: 700;
+    cursor: pointer;
+    width: 129px;
+    height: 40px;
+    transition: opacity 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-base:hover { 
+    opacity: 0.85; 
+}
+
+.btn-base:disabled { 
+    cursor: not-allowed; 
+    opacity: 0.5; 
+}
+
+.btn-yellow { 
+    background-color: var(--amarelo); 
+    color: var(--vermelho); 
+}
+
+.btn-green { 
+    background-color: var(--verde-escuro); 
+    color: var(--branco); 
+}
+
+.btn-white { 
+    background-color: var(--branco); 
+    color: var(--verde-escuro); 
+}
+
+.btn-blue { 
+    background-color: var(--azul-escuro); 
+    color: var(--branco); 
+}
+
+.btn-light-blue { 
+    background-color: var(--azul); 
+    color: var(--branco); 
+}
