@@ -1,0 +1,42 @@
+nav, .logo, .button-row {
+    display: flex;
+    align-items: center;
+}
+
+nav {
+    width: 100%;
+    justify-content: space-between;
+    position: absolute;
+    padding: 12px 60px;
+    gap: 32px;
+
+    z-index: 10;
+}
+
+img#logo {
+    height: 55px;
+    margin-right: 16px;
+}
+
+img#text {
+    height: 45px;
+}
+
+.button-row {
+    gap: 24px;
+}
+
+.menu-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1;
+
+    font-weight: bold;
+    color: var(--verde-escuro);
+}
+
+.menu-row img {
+    height: 55px;
+    width: 55px;
+}
