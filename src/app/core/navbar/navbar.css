@@ -9,10 +9,13 @@ nav {
     position: absolute;
     padding: 12px 60px;
     gap: 32px;
+
+    z-index: 10;
 }
 
 img#logo {
     height: 55px;
+    margin-right: 16px;
 }
 
 img#text {
