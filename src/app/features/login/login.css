@@ -100,6 +100,14 @@ p {
 
 }
 
+h3 {
+    color: var(--verde-escuro);
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin-bottom: 22px;
+}
+
 .button {
     display: flex;
     justify-content: center;
