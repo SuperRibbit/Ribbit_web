@@ -2,11 +2,8 @@ import { Component, inject, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CustomButton } from '../../shared/components/custom-button/custom-button';
 import { CardCursoHome } from '../../shared/components/card-curso-home/card-curso-home';
-
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { PerfilService } from './service/perfil.service';
-import { perfilUsuario } from '../../model/perfilUsuario';
 
 @Component({
   selector: 'app-perfil',
@@ -15,16 +12,6 @@ import { perfilUsuario } from '../../model/perfilUsuario';
   styleUrl: './perfil.css',
 })
 export class Perfil {private router = inject(Router);
-
-  private perfilService = inject(PerfilService);
-
-  userPerfil: perfilUsuario = {
-    nome: '',
-    email: '',
-    senha: '',
-    confirmacaoSenha: '',
-    avatarUrl: ''
-  };
 
   enviando = signal(false);
   mensagem = signal('');

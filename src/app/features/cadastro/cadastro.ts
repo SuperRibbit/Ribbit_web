@@ -3,8 +3,6 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { CustomButton } from '../../shared/components/custom-button/custom-button';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { CadastroService } from './service/cadastro.service';
-import { cadastroUsuario } from '../../model/cadastroUsuario';
 
 @Component({
   selector: 'app-cadastro',
@@ -14,14 +12,6 @@ import { cadastroUsuario } from '../../model/cadastroUsuario';
 })
 export class Cadastro {
   private router = inject(Router);
-  private cadastroService = inject(CadastroService);
-
-  userCadastro: cadastroUsuario = {
-    nome: '',
-    email: '',
-    senha: '',
-    confirmacaoSenha: ''
-  };
 
   enviando = signal(false);
   mensagem = signal('');
