@@ -6,8 +6,8 @@ import { Perfil } from './features/perfil/perfil';
 
 export const routes: Routes = [
   { path: '', component: LandingPage },
-  { path: 'login', component: Login },
-  { path: 'cadastro', component: Cadastro },
+  { path: 'login', component: Login, data: { hideNavbar: true }},
+  { path: 'cadastro', component: Cadastro, data: { hideNavbar: true } },
   { path: 'perfil', component: Perfil },
   { path: '**', redirectTo: '' } 
 ];
