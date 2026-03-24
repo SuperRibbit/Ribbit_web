@@ -40,3 +40,13 @@ img#text {
     height: 55px;
     width: 55px;
 }
+
+@media (max-width: 768px) { 
+    nav {
+        padding: 12px 20px;
+    }
+    
+    .button-row {
+        display: none;
+    }
+ }
