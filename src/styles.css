@@ -28,6 +28,7 @@ html, body {
     height: 100%;
     font-family: "Raleway", sans-serif;
     background-color: var(--branco);
+    color: var(--text-dark);
 }
 
 img, picture, video, canvas {
