@@ -3,10 +3,10 @@
   align-items: center;
   justify-content: space-between;
   background-color: var(--amarelo-escuro);
-  border-radius: 16px 16px 0 0;
+  border-radius: 0;
   padding: 40px 48px;
-  margin: 40px auto;
-  max-width: 900px;
+  width: 100%;
+  box-sizing: border-box;
   position: relative;
   overflow: hidden;
 }
