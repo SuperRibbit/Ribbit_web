@@ -1,4 +1,4 @@
-.home-container {
+.container {
     flex: 1;
     min-height: 100vh;
     padding: 0;
@@ -27,7 +27,7 @@
 
 .activities-grid, .cursos-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); 
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 32px;
     justify-items: center;
     width: 100%;
@@ -71,3 +71,27 @@ app-footer ::ng-deep .footer {
     background-color: var(--verde-claro);
 }
 
+@media (max-width: 1200px) {
+    .recent-activities { 
+        margin: 100px 10px 80px 10px;
+        width: 100%;
+    }
+    .cursos-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .catalog-section{
+        margin: 0 5px;
+    }
+}
+
+@media (max-width: 768px) {
+    .activities-grid,
+    .cursos-grid {
+        grid-template-columns: 1fr;
+        justify-items: stretch;
+    }
+    .card-container {
+        width: 100%;
+        max-width: 100%;
+    }
+}
