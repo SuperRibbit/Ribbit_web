@@ -11,7 +11,7 @@ footer {
 }
 
 .green {
-  background-color: var(--verde);
+  background-color: var(--verde-claro);
   color: var(--text-dark);
 }
 
