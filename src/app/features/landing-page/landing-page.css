@@ -1,4 +1,4 @@
-.hero {
+.hero-temp {
     min-height: 100vh;
     padding: 80px 80px 80px 80px;
     background-color: var(--azul);
@@ -12,11 +12,25 @@
     /* border-radius: 0 0 60px 60px;  */
 }
 
+.hero {
+    padding: 80px 80px 80px 80px;
+    background-color: var(--azul);
+    background-image: url('/assets/CloudBGLow.svg');
+    background-repeat: repeat;
+    background-size: cover;
+
+    display: flex;
+    flex-direction: column;
+    
+    border-radius: 0 0 60px 60px;
+}
+
 header {
     display: flex;
     color: var(--verde-escuro);
     align-items: center;
     height: auto;
+    padding-top: 80px;
 
     justify-content: space-between;
 }
@@ -33,13 +47,15 @@ header h1 {
 }
 
 .right {
- align-content: center;
- justify-content: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .right img {
-    max-width: 100%;
-    height: auto;
+    max-width: 300px;
 }
 
 .note {
@@ -51,7 +67,7 @@ header h1 {
     font-weight: 500;
 }
 
-.content {
+.content-temp {
     background-color: var(--branco);
     border-radius: 20px;
     padding: 40px;
@@ -61,6 +77,47 @@ header h1 {
 
     display: flex;
     flex-direction: column;
+}
+
+.content {
+    background-color: var(--branco);
+    padding: 60px;
+    color: var(--verde-escuro);
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.first, .second {
+    padding: 32px 80px;
+    display: flex;
+    border-radius: 30px;
+    gap: 32px;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-dark);
+}
+
+h2 {
+    color: var(--verde-escuro);
+}
+
+.first {
+    background-color: var(--verde-claro);
+}
+
+.text {
+    gap: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.second {
+    background-color: var(--amarelo);
+}
+
+.second .text h2, .second .text p{
+    text-align: right;
 }
 
 @media (max-width: 768px) {
