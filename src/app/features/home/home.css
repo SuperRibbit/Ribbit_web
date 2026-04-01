@@ -25,12 +25,16 @@
     margin-top: 40px;
 }
 
-.activities-grid, .cursos-grid {
+.cursos-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); 
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+}
+
+.activities-grid {
+    display: flex;
+    flex-wrap: nowrap;
     gap: 32px;
-    justify-items: center;
-    width: 100%;
 }
 
 .section-header {
@@ -54,20 +58,3 @@
     display: flex;
     flex-direction: column;
 }
-
-app-card-curso-dashboard {
-    display: flex;
-    flex-direction: column;
-}
-
-app-card-curso-dashboard ::ng-deep .card-container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-app-footer ::ng-deep .footer {
-    background-color: var(--verde-claro);
-}
-
