@@ -27,7 +27,7 @@
 html, body {
     height: 100%;
     font-family: "Raleway", sans-serif;
-    background-color: var(--branco);
+    background-color: var(--branco); 
     color: var(--text-dark);
 }
 
