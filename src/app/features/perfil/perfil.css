@@ -1,9 +1,6 @@
 .perfil-container {
-    background-color: var(--azul);
-    background-image: url('/assets/CloudBGLow.svg');
+    background: var(--azul) url('/assets/CloudBGLow.svg') no-repeat center;
     background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
     top: 0;
     padding-top: 80px;
 }
