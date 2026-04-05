@@ -7,43 +7,35 @@
     </div>
 
     <div class="login-right">
-        <form #formulario="ngForm" (ngSubmit)="onSubmit(formulario)" novalidate>
+        <form [formGroup]="loginForm" (ngSubmit)="onLogin()" novalidate>
 
             <h2>Entre em sua conta</h2>
             <div class="campo">
                 <label for="email">E-mail</label>
-                <input type="email" id="email" name="email" required minlength="10"
-                    placeholder="Digite seu e-mail...">
+                <input type="email" id="email" name="email" required minlength="10" formControlName="email" placeholder="Digite seu e-mail...">
 
-                <small class="erro"
-                    [hidden]="!(formulario.controls['email']?.dirty && formulario.controls['email'].invalid)">
-                    Informe um e-mail válido.
-                </small>
+                 @if (f['email'].invalid && (f['email'].dirty || f['email'].touched)) {
+                    <small class="erro">E-mail inválido.</small>
+                }
             </div>
 
             <div class="campo">
                 <label for="senha">Senha</label>
-                <input type="password" id="senha" name="senha" required minlength="6"
-                    placeholder="Digite sua senha...">
+                <input type="password" id="senha" name="senha" required minlength="6" formControlName="password" placeholder="Digite sua senha...">
 
-                <small class="erro"
-                    [hidden]="!(formulario.controls['senha']?.dirty && formulario.controls['senha'].invalid)">
-                    A senha deve ter ao menos 6 caracteres.
-                </small>
+                @if (f['password'].invalid && (f['password'].dirty || f['password'].touched)) {
+                    <small class="erro">A senha deve ter ao menos 6 caracteres.</small>
+                }
             </div>
-
-            @if (mensagem()) {
-            <p class="mensagem">{{ mensagem() }}</p>
-            }
 
             <a href="">Esqueceu sua senha?</a>
 
 
             <div class="button">
-                <app-custom-button variant="blue" label="Entrar"></app-custom-button>
+                <app-custom-button variant="blue" label="Entrar" [disabled]="loginForm.invalid"></app-custom-button>
             </div>
 
-            <p>Ainda não possui uma conta? <a href="">Cadastre-se</a></p>
+            <p>Ainda não possui uma conta? <a routerLink="/cadastro">Cadastre-se</a></p>
         </form>
     </div>
 </div>

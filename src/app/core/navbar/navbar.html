@@ -5,13 +5,13 @@
     </div>
     @if (!isLogged) {
         <div class="button-row">
-            <app-custom-button variant="white" label="LOGIN" routerLink="/"></app-custom-button>
-            <app-custom-button variant="green" label="CADASTRO" routerLink="/"></app-custom-button>
+            <app-custom-button variant="white" label="LOGIN" routerLink="/login"></app-custom-button>
+            <app-custom-button variant="green" label="CADASTRO" routerLink="/cadastro"></app-custom-button>
         </div>
     } @else {
         <div class="menu-row">
-            <a routerLink="/">Página Inicial</a>
-            <a routerLink="/">
+            <a routerLink="/home">Página Inicial</a>
+            <a routerLink="/perfil">
                 <img src="/assets/GenericAvatar.png" alt="Perfil">
             </a>
         </div>

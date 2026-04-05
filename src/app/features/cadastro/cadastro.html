@@ -8,61 +8,49 @@
     </div>
 
     <div class="login-right">
-        <form #formulario="ngForm" (ngSubmit)="onSubmit(formulario)" novalidate>
+        <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
 
             <h2>Crie sua conta</h2>
             <h3>É grátis, simples e rápido</h3>
 
             <div class="campo">
                 <label for="nome">Nome Completo:</label>
-                <input type="nome" id="nome" name="nome" required minlength="10"
-                    placeholder="Digite seu nome...">
+                <input type="nome" id="nome" name="nome" required minlength="10" formControlName="full_name" placeholder="Digite seu nome...">
 
-                <small class="erro"
-                    [hidden]="!(formulario.controls['nome']?.dirty && formulario.controls['nome'].invalid)">
-                    Informe um nome válido.
-                </small>
+                @if (f['full_name'].invalid && (f['full_name'].dirty || f['full_name'].touched)) {
+                    <small class="erro">Informe um nome válido (min. 10 caracteres).</small>
+                }
             </div>
             <div class="campo">
                 <label for="email">E-mail</label>
-                <input type="email" id="email" name="email" required minlength="10"
-                    placeholder="Digite seu e-mail...">
+                <input type="email" id="email" name="email" required minlength="10" formControlName="email" placeholder="Digite seu e-mail...">
 
-                <small class="erro"
-                    [hidden]="!(formulario.controls['email']?.dirty && formulario.controls['email'].invalid)">
-                    Informe um e-mail válido.
-                </small>
+                @if (f['email'].invalid && (f['email'].dirty || f['email'].touched)) {
+                    <small class="erro">E-mail inválido.</small>
+                }
             </div>
 
             <div class="campo">
                 <label for="senha">Senha</label>
-                <input type="password" id="senha" name="senha" required minlength="6"
-                    placeholder="Digite sua senha...">
+                <input type="password" id="senha" name="senha" required minlength="6" formControlName="password" placeholder="Digite sua senha...">
 
-                <small class="erro"
-                    [hidden]="!(formulario.controls['senha']?.dirty && formulario.controls['senha'].invalid)">
-                    A senha deve ter ao menos 6 caracteres.
-                </small>
+               @if (f['password'].invalid && (f['password'].dirty || f['password'].touched)) {
+                    <small class="erro">A senha deve ter ao menos 6 caracteres.</small>
+                }
             </div>
 
             <div class="campo">
                 <label for="senha">Confirme a senha:</label>
-                <input type="password" id="confirmacaoSenha" name="confirmacaoSenha" required minlength="6"
-                    placeholder="Repita sua senha...">
+                <input type="password" id="confirmacaoSenha" name="confirmacaoSenha" required minlength="6" formControlName="confirmPassword" placeholder="Repita sua senha...">
 
-                <small class="erro"
-                    [hidden]="!(formulario.controls['senha']?.dirty && formulario.controls['senha'].invalid)">
-                    A senha deve ter ao menos 6 caracteres.
-                </small>
+                @if (f['confirmPassword'].invalid && (f['confirmPassword'].dirty || f['confirmPassword'].touched)) {
+                    <small class="erro">Confirme sua senha.</small>
+                }
             </div>
 
-            @if (mensagem()) {
-            <p class="mensagem">{{ mensagem() }}</p>
-            }
-
-
             <div class="button">
-                <app-custom-button variant="blue" label="Continuar"></app-custom-button>
+                <app-custom-button variant="blue" label="Cadastrar" [disabled]="registerForm.invalid">
+                </app-custom-button>
             </div>
 
             <p>Já possui uma conta? <a href="">Faça login</a></p>
