@@ -120,6 +120,10 @@ h2 {
     text-align: right;
 }
 
+app-custom-button {
+    width: max-content;
+}
+
 @media (max-width: 768px) {
     
     .hero {

@@ -4,12 +4,13 @@ import { Login } from './features/login/login';
 import { LandingPage } from './features/landing-page/landing-page';
 import { Perfil } from './features/perfil/perfil';
 import { Home } from './features/home/home';
+import { authGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
   { path: '', component: LandingPage },
   { path: 'login', component: Login, data: { hideNavbar: true }},
   { path: 'cadastro', component: Cadastro, data: { hideNavbar: true } },
-  { path: 'perfil', component: Perfil },
-  { path: 'home', component: Home },
+  { path: 'perfil', component: Perfil, canActivate: [authGuard] },
+  { path: 'home', component: Home, canActivate: [authGuard] },
   { path: '**', redirectTo: '' } 
 ];
