@@ -9,7 +9,8 @@ export const authGuard: CanActivateFn = (route, state) => {
   if (authService.isLoggedIn()) {
     return true
   } else {
-    router.navigate(['/cadastro']); 
+    router.navigate(['/cadastro'])
+    alert('Você precisa possuir uma conta...')
     return false
   }
 };
