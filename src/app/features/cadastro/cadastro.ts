@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CustomButton } from '../../shared/components/custom-button/custom-button';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../../services/auth';
 
 @Component({
   selector: 'app-cadastro',
-  imports: [FormsModule, CommonModule, CustomButton, ReactiveFormsModule],
+  imports: [FormsModule, CommonModule, CustomButton, ReactiveFormsModule, RouterLink],
   templateUrl: './cadastro.html',
   styleUrl: '../login/login.css',
 })
