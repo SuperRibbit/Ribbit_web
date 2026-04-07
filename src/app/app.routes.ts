@@ -1,16 +1,16 @@
 import { Routes } from '@angular/router';
-import { Cadastro } from './features/cadastro/cadastro';
-import { Login } from './features/login/login';
+import { Register } from './features/auth/register/register';
+import { Login } from './features/auth/login/login';
 import { LandingPage } from './features/landing-page/landing-page';
-import { Perfil } from './features/perfil/perfil';
 import { Home } from './features/home/home';
 import { authGuard } from './guards/auth-guard';
+import { Profile } from './features/profile/profile';
 
 export const routes: Routes = [
   { path: '', component: LandingPage },
   { path: 'login', component: Login, data: { hideNavbar: true }},
-  { path: 'cadastro', component: Cadastro, data: { hideNavbar: true } },
-  { path: 'perfil', component: Perfil, canActivate: [authGuard] },
+  { path: 'register', component: Register, data: { hideNavbar: true } },
+  { path: 'profile', component: Profile, canActivate: [authGuard] },
   { path: 'home', component: Home, canActivate: [authGuard] },
   { path: '**', redirectTo: '' } 
 ];

@@ -2,14 +2,14 @@ import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { CustomButton } from '../../shared/components/custom-button/custom-button';
-import { Auth } from '../../services/auth';
+import { CustomButton } from '../../../shared/components/custom-button/custom-button';
+import { Auth } from '../../../services/auth';
 
 @Component({
   selector: 'app-login',
   imports: [CommonModule, FormsModule, CustomButton, ReactiveFormsModule, RouterLink],
   templateUrl: './login.html',
-  styleUrl: './login.css'
+  styleUrl: '../auth.css'
 })
 export class Login {
   loginForm: FormGroup

@@ -6,12 +6,12 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-perfil',
+  selector: 'app-profile',
   imports:[FormsModule, CommonModule, CustomButton, CardCursoHome],
-  templateUrl: './perfil.html',
-  styleUrl: './perfil.css',
+  templateUrl: './profile.html',
+  styleUrl: './profile.css',
 })
-export class Perfil {private router = inject(Router);
+export class Profile {private router = inject(Router);
 
   enviando = signal(false);
   mensagem = signal('');

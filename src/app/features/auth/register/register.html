@@ -1,27 +1,27 @@
 
-<div class="login-container">
+<div class="container">
 
-    <div class="login-left">
+    <div class="left">
         <img src="/assets/RibbitLogo.png" alt="Logo Ribbit" style="margin-bottom: 12px; max-width: 200px;">
         <img src="/assets/RibbitText.png" alt="Ribbit">
         <img src="/assets/IconsRibbit.png" alt="">
     </div>
 
-    <div class="login-right">
+    <div class="right">
         <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
 
             <h2>Crie sua conta</h2>
             <h3>É grátis, simples e rápido</h3>
 
-            <div class="campo">
-                <label for="nome">Nome Completo:</label>
-                <input type="nome" id="nome" name="nome" required minlength="10" formControlName="full_name" placeholder="Digite seu nome...">
+            <div class="field">
+                <label for="name">Nome Completo:</label>
+                <input type="name" id="name" name="name" required minlength="10" formControlName="full_name" placeholder="Digite seu nome...">
 
                 @if (f['full_name'].invalid && (f['full_name'].dirty || f['full_name'].touched)) {
                     <small class="erro">Informe um nome válido (min. 10 caracteres).</small>
                 }
             </div>
-            <div class="campo">
+            <div class="field">
                 <label for="email">E-mail</label>
                 <input type="email" id="email" name="email" required minlength="10" formControlName="email" placeholder="Digite seu e-mail...">
 
@@ -30,18 +30,18 @@
                 }
             </div>
 
-            <div class="campo">
-                <label for="senha">Senha</label>
-                <input type="password" id="senha" name="senha" required minlength="6" formControlName="password" placeholder="Digite sua senha...">
+            <div class="field">
+                <label for="password">Senha</label>
+                <input type="password" id="password" name="password" required minlength="6" formControlName="password" placeholder="Digite sua senha...">
 
                @if (f['password'].invalid && (f['password'].dirty || f['password'].touched)) {
                     <small class="erro">A senha deve ter ao menos 6 caracteres.</small>
                 }
             </div>
 
-            <div class="campo">
-                <label for="senha">Confirme a senha:</label>
-                <input type="password" id="confirmacaoSenha" name="confirmacaoSenha" required minlength="6" formControlName="confirmPassword" placeholder="Repita sua senha...">
+            <div class="field">
+                <label for="confirmPassword">Confirme a senha:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required minlength="6" formControlName="confirmPassword" placeholder="Repita sua senha...">
 
                 @if (f['confirmPassword'].invalid && (f['confirmPassword'].dirty || f['confirmPassword'].touched)) {
                     <small class="erro">Confirme sua senha.</small>

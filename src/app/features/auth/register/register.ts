@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CustomButton } from '../../shared/components/custom-button/custom-button';
+import { CustomButton } from '../../../shared/components/custom-button/custom-button';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { Auth } from '../../services/auth';
+import { Auth } from '../../../services/auth';
 
 @Component({
-  selector: 'app-cadastro',
+  selector: 'app-register',
   imports: [FormsModule, CommonModule, CustomButton, ReactiveFormsModule, RouterLink],
-  templateUrl: './cadastro.html',
-  styleUrl: '../login/login.css',
+  templateUrl: './register.html',
+  styleUrl: '../auth.css',
 })
-export class Cadastro {
+export class Register {
   registerForm: FormGroup
 
   constructor( private fb: FormBuilder, private authService: Auth, private router: Router ) {
