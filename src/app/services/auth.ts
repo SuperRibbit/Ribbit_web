@@ -12,13 +12,13 @@ export class Auth {
   private http = inject(HttpClient)
 
   login(credentials: {email: string, password: string}): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials)
+    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials) //irá mudar para /auth/login
       .pipe(
         tap(response => {
           localStorage.setItem('token', response.token)
           localStorage.setItem('user_data', JSON.stringify({
-            id: response.userId, 
-            name: response.userName
+            id: response.user.user_uuid, 
+            name: response.user.full_name
           }));
         })
       );
