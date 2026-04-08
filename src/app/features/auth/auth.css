@@ -1,6 +1,6 @@
 .container {
     display: flex;
-    height: 100vh;
+    min-height: 100vh;
     overflow: hidden;
 }
 
@@ -97,4 +97,85 @@ h3 {
     align-items: center;
     display: flex;
     margin-bottom: 22px;
+}
+
+@media (max-width: 1024px) {
+
+    .left {
+        padding: 80px 40px;
+    }
+
+    .right {
+        padding: 40px;
+    }
+
+    form {
+        width: 100%;
+        max-width: 400px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .container {
+        flex-direction: column;
+    }
+
+    .left {
+        width: 100%;
+        padding: 40px 20px;
+        order: 1; 
+    }
+
+    .left img {
+        max-width: 200px;
+    }
+
+    .right {
+        width: 100%;
+        padding: 40px 20px;
+        order: 2;
+    }
+
+    .right::before {
+        display: none; 
+    }
+
+    form {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    form h2 {
+        font-size: 20px;
+    }
+
+    .field input {
+        height: 45px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .left {
+        padding: 30px 15px;
+    }
+
+    .right {
+        padding: 30px 15px;
+    }
+
+    .left img {
+        width: 150px;
+    }
+
+    form h2 {
+        font-size: 18px;
+    }
+
+    p {
+        font-size: 13px;
+        text-align: center;
+    }
 }
