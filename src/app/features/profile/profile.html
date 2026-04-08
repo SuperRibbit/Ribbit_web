@@ -3,19 +3,18 @@
         <form #formulario="ngForm" (ngSubmit)="onSubmit(formulario)" novalidate>
             <header class="perfil">
                 <div class="perfil-left">
-                    <img src="assets/GenericAvatar.png" alt="Avatar">
-                    <app-custom-button variant="blue" label="Trocar avatar"></app-custom-button>
+                    <img [src]="userData.avatar_url" alt="Avatar">
                 </div>
 
                 <div class="perfil-right">
-                    <h3>Perfil do Professor</h3>
+                    <h3>Meu Perfil</h3>
                 </div>
             </header>
 
             <div class="campo">
                 <label for="nome">Nome Completo:</label>
-                <input type="text" id="nome" name="nome" required minlength="10"
-                    placeholder="Digite um novo nome...">
+                <input type="text" id="nome" name="nome" required minlength="10" [(ngModel)]="userData.nome"
+                    [disabled]="!isEditing()" placeholder="Digite seu nome...">
                 <small class="erro"
                     [hidden]="!(formulario.controls['nome']?.dirty && formulario.controls['nome'].invalid)">
                     Informe um nome válido.
@@ -24,43 +23,50 @@
 
             <div class="campo">
                 <label for="email">E-mail:</label>
-                <input type="email" id="email" name="email" required minlength="10"
-                    placeholder="Digite um novo e-mail...">
+                <input type="email" id="email" name="email" required minlength="10" [(ngModel)]="userData.email"
+                    [disabled]="!isEditing()" placeholder="Digite seu e-mail...">
                 <small class="erro"
                     [hidden]="!(formulario.controls['email']?.dirty && formulario.controls['email'].invalid)">
                     Informe um e-mail válido.
                 </small>
             </div>
 
+            @if (isEditing()) {
             <div class="senha-group">
                 <div class="campo">
-                    <label for="senha">Senha:</label>
-                    <input type="password" id="senha" name="senha" required minlength="6"
+                    <label for="senha">Nova Senha:</label>
+                    <input type="password" id="senha" name="senha" required minlength="6" [(ngModel)]="userData.senha"
                         placeholder="Digite uma nova senha...">
-                    <small class="erro"
-                        [hidden]="!(formulario.controls['senha']?.dirty && formulario.controls['senha'].invalid)">
-                        A senha deve ter ao menos 6 caracteres.
-                    </small>
                 </div>
 
                 <div class="campo">
                     <label for="confirmacaoSenha">Confirme a senha:</label>
-                    <input type="password" id="confirmacaoSenha" name="confirmacaoSenha" required minlength="6" placeholder="Repita sua nova senha...">
-                    <small class="erro"
-                        [hidden]="!(formulario.controls['confirmacaoSenha']?.dirty && formulario.controls['confirmacaoSenha'].invalid)">
-                        A senha deve ter ao menos 6 caracteres.
-                    </small>
+                    <input type="password" id="confirmacaoSenha" name="confirmacaoSenha" required minlength="6"
+                        [(ngModel)]="userData.confirmacaoSenha" placeholder="Repita sua nova senha...">
                 </div>
             </div>
+            }
 
             @if (mensagem()) {
             <p class="mensagem">{{ mensagem() }}</p>
             }
 
             <div class="confirmar">
-                <app-custom-button variant="blue" label="Confirmar alterações"></app-custom-button>
+                @if (isEditing()) {
+                <app-custom-button variant="green" [label]="enviando() ? 'Salvando...' : 'Salvar Alterações'"
+                    [disabled]="enviando()"></app-custom-button>
+                }
             </div>
         </form>
+
+        <div class="confirmar">
+            @if (!isEditing()) {
+            <app-custom-button variant="blue" label="Editar Perfil" (click)="toggleEdit()"></app-custom-button>
+            } @else {
+            <app-custom-button variant="white" label="Cancelar" (click)="toggleEdit()"
+                [disabled]="enviando()"></app-custom-button>
+            }
+        </div>
     </div>
 
 

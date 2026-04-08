@@ -75,11 +75,18 @@ form input {
     display: flex;
     justify-content: center;
     align-items: center;
-
+    gap: 15px;
 }
 
 .confirmar app-custom-button {
-    width: 50%;
+    width: auto;
+    min-width: 150px;
+}
+
+input:disabled {
+    background-color: #f0f0f0;
+    color: #666;
+    cursor: not-allowed;
 }
 
 .perfil-left app-custom-button {
