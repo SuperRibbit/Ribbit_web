@@ -1,0 +1,128 @@
+.perfil-container {
+    background: var(--azul) url('/assets/CloudBGLow.svg') no-repeat center;
+    background-size: cover;
+    top: 0;
+    padding-top: 80px;
+}
+
+.perfil-card {
+    background: var(--branco);
+    border-radius: 15px;
+    padding: 30px;
+    margin: 20px auto;
+    text-align: left;
+    width: 100%;
+    max-width: 700px;
+}
+
+.perfil {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.perfil-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.perfil-right {
+    margin-left: auto;
+}
+
+.perfil-left img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+form input {
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.senha-group {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.senha-group .campo {
+    flex: 1;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.confirmar {
+    width: 100%;
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.confirmar app-custom-button {
+    width: 50%;
+}
+
+.perfil-left app-custom-button {
+    width: 90%;    
+    max-width: 200px;
+}
+
+.campo label {
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.cursos-section {
+    margin-top: 100px;
+    background: white;
+    border-radius: 25px 25px 0 0;
+    padding: 60px;
+    width: 100%;
+    max-width: 1500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cursos-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cursos-header h2 {
+    color: var(--verde-escuro);
+}
+
+.cursos-grid {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.curso-card {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 15px;
+    width: 180px;
+}

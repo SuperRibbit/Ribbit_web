@@ -1,0 +1,41 @@
+<div class="container">
+
+    <div class="left">
+        <img src="/assets/RibbitLogo.png" alt="Logo Ribbit" style="margin-bottom: 12px; max-width: 200px;">
+        <img src="/assets/RibbitText.png" alt="Ribbit">
+        <img src="/assets/IconsRibbit.png" alt="">
+    </div>
+
+    <div class="right">
+        <form [formGroup]="loginForm" (ngSubmit)="onLogin()" novalidate>
+
+            <h2>Entre em sua conta</h2>
+            <div class="field">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" required minlength="10" formControlName="email" placeholder="Digite seu e-mail...">
+
+                 @if (f['email'].invalid && (f['email'].dirty || f['email'].touched)) {
+                    <small class="erro">E-mail inválido.</small>
+                }
+            </div>
+
+            <div class="field">
+                <label for="password">Senha</label>
+                <input type="password" id="password" name="password" required minlength="6" formControlName="password" placeholder="Digite sua senha...">
+
+                @if (f['password'].invalid && (f['password'].dirty || f['password'].touched)) {
+                    <small class="erro">A senha deve ter ao menos 6 caracteres.</small>
+                }
+            </div>
+
+            <!--<a href="">Esqueceu sua senha?</a>-->
+
+
+            <div class="button">
+                <app-custom-button variant="blue" label="Entrar" [disabled]="loginForm.invalid"></app-custom-button>
+            </div>
+
+            <p>Ainda não possui uma conta? <a routerLink="/register">Cadastre-se</a></p>
+        </form>
+    </div>
+</div>
