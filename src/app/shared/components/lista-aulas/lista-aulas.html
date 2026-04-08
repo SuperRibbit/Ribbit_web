@@ -1,0 +1,18 @@
+<div class="lista-aulas">
+    @for (aula of aulas; track aula.class_id) {
+        <div class="aula-item">
+            <div class="aula-info-esquerda">
+                <button class="btn-play">
+                    <i class="ph-fill ph-play"></i>
+                </button>
+                <div class="aula-detalhes">
+                    <span class="aula-nome">{{ aula.title }}</span>
+                    <span class="aula-tempo">04:28 min</span>
+                </div>
+            </div>
+                <i class="ph ph-caret-right seta-item"></i>
+        </div>
+    } @empty {
+        <p>Nenhum módulo encontrado para este curso.</p>
+    }
+</div>
