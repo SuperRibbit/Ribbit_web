@@ -7,7 +7,11 @@
                 </div>
 
                 <div class="perfil-right">
-                    <h3>Meu Perfil</h3>
+
+                    @if (userData) {
+                    <h3>Perfil do {{userData.role}}</h3>
+                    }
+
                 </div>
             </header>
 
@@ -63,7 +67,7 @@
             @if (!isEditing()) {
             <app-custom-button variant="blue" label="Editar Perfil" (click)="toggleEdit()"></app-custom-button>
             } @else {
-            <app-custom-button variant="white" label="Cancelar" (click)="toggleEdit()"
+            <app-custom-button variant="yellow" label="Cancelar" (click)="toggleEdit()"
                 [disabled]="enviando()"></app-custom-button>
             }
         </div>
