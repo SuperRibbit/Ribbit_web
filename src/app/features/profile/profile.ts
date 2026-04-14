@@ -23,6 +23,7 @@ export class Profile implements OnInit {
   enviando = signal(false);
   mensagem = signal('');
   editandoAvatar = signal(false);
+  avatarPreviewValida = signal(false);
   avatarUrlInput = '';
 
   userData = {
@@ -68,7 +69,16 @@ export class Profile implements OnInit {
     this.editandoAvatar.set(!this.editandoAvatar());
     if (this.editandoAvatar()) {
       this.avatarUrlInput = this.userData.avatar_url !== 'assets/GenericAvatar.png' ? this.userData.avatar_url : '';
+      this.avatarPreviewValida.set(false);
     }
+  }
+
+  onAvatarPreviewLoad() {
+    this.avatarPreviewValida.set(true);
+  }
+
+  onAvatarPreviewError() {
+    this.avatarPreviewValida.set(false);
   }
 
   salvarAvatar() {
