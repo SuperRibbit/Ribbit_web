@@ -4,16 +4,31 @@
             <header class="perfil">
                 <div class="perfil-left">
                     <img [src]="userData.avatar_url" alt="Avatar">
+                    @if (!editandoAvatar()) {
+                    <app-custom-button variant="blue" label="Trocar avatar"
+                        (click)="toggleAvatarEdit()"></app-custom-button>
+                    }
                 </div>
 
                 <div class="perfil-right">
-
                     @if (userData) {
                     <h3>Perfil do {{userData.role}}</h3>
                     }
-
                 </div>
             </header>
+
+            @if (editandoAvatar()) {
+            <div class="avatar-url-row">
+                <input type="text" [(ngModel)]="avatarUrlInput" name="avatarUrl" placeholder="Cole a URL da imagem..."
+                    class="input-avatar-url">
+                <div class="avatar-url-actions">
+                    <app-custom-button variant="blue" [label]="enviando() ? 'Salvando...' : 'Salvar'"
+                        [disabled]="enviando()" (click)="salvarAvatar()"></app-custom-button>
+                    <app-custom-button variant="yellow" label="Cancelar"
+                        (click)="toggleAvatarEdit()"></app-custom-button>
+                </div>
+            </div>
+            }
 
             <div class="campo">
                 <label for="nome">Nome Completo:</label>

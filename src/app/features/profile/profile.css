@@ -38,6 +38,28 @@
     border-radius: 50%;
 }
 
+.avatar-url-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    justify-content: flex-end;
+}
+
+.input-avatar-url {
+    flex: 1;
+    height: 40px !important;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 13px;
+}
+
+.avatar-url-actions {
+    display: flex;
+    gap: 8px;
+}
+
 .logo {
     display: flex;
     align-items: center;

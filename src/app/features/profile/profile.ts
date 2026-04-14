@@ -22,6 +22,8 @@ export class Profile implements OnInit {
   isEditing = signal(false);
   enviando = signal(false);
   mensagem = signal('');
+  editandoAvatar = signal(false);
+  avatarUrlInput = '';
 
   userData = {
     nome: '',
@@ -58,6 +60,41 @@ export class Profile implements OnInit {
       error: (err) => {
         console.error('Erro ao carregar perfil:', err);
         this.mensagem.set('Erro ao carregar dados do perfil.');
+      }
+    });
+  }
+
+  toggleAvatarEdit() {
+    this.editandoAvatar.set(!this.editandoAvatar());
+    if (this.editandoAvatar()) {
+      this.avatarUrlInput = this.userData.avatar_url !== 'assets/GenericAvatar.png' ? this.userData.avatar_url : '';
+    }
+  }
+
+  salvarAvatar() {
+    if (!this.avatarUrlInput.trim()) {
+      this.mensagem.set('Informe uma URL válida para a foto.');
+      return;
+    }
+
+    this.enviando.set(true);
+    this.userService.updateProfile({ avatar_url: this.avatarUrlInput.trim() }).subscribe({
+      next: (response: any) => {
+        const user = response.user ? response.user : response;
+        this.userData = {
+          ...this.userData,
+          avatar_url: user.avatar_url || this.avatarUrlInput.trim()
+        };
+        this.loadedUser = user;
+        this.editandoAvatar.set(false);
+        this.enviando.set(false);
+        this.mensagem.set('Foto de perfil atualizada!');
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Erro ao atualizar avatar:', err);
+        this.mensagem.set('Erro ao atualizar foto de perfil.');
+        this.enviando.set(false);
       }
     });
   }

@@ -11,13 +11,14 @@ export class User {
   private http = inject(HttpClient);
   private authService = inject(Auth);
 
-  updateProfile(data: { full_name?: string; email?: string; password?: string }): Observable<any> {
+  updateProfile(data: { full_name?: string; email?: string; password?: string; avatar_url?: string }): Observable<any> {
+    const userId = this.authService.getUserIdFromStorage();
     const token = this.authService.getToken();
     const headers = new HttpHeaders()
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json');
 
-    return this.getProfile();
+    return this.http.put(`${this.apiUrl}/users/${userId}`, data, { headers });
   }
 
   getProfile() {
