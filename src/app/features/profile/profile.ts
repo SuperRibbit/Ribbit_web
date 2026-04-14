@@ -110,13 +110,8 @@ export class Profile implements OnInit {
   }
 
   toggleEdit() {
-    /*// Bloqueia a edição se o usuário for aluno (RN temporária)
-    if (this.userData.role === 'aluno') {
-      this.mensagem.set('Alunos não podem editar o perfil no momento.');
-      return;
-    }*/
-
     this.isEditing.set(!this.isEditing());
+    this.editandoAvatar.set(false);
     if (!this.isEditing()) {
       this.loadUserData(); // Reseta se cancelado
     }
@@ -135,38 +130,15 @@ export class Profile implements OnInit {
 
     this.enviando.set(true);
 
-    const payload: any = {};
-    const localUser = this.loadedUser;
+    // A API espera: email, role, full_name, avatar_url
+    const payload: any = {
+      full_name: this.userData.nome,
+      email: this.userData.email,
+      role: this.userData.role,
+      avatar_url: this.userData.avatar_url !== 'assets/GenericAvatar.png' ? this.userData.avatar_url : ''
+    };
 
-    if (localUser) {
-      const currentName = localUser.full_name || localUser.name;
-      if (this.userData.nome && this.userData.nome !== currentName) {
-        payload.full_name = this.userData.nome;
-      }
-
-      if (this.userData.email && this.userData.email !== localUser.email) {
-        payload.email = this.userData.email;
-      }
-
-      if (this.userData.avatar_url && this.userData.avatar_url !== localUser.avatar_url && this.userData.avatar_url !== 'assets/GenericAvatar.png') {
-        payload.avatar_url = this.userData.avatar_url;
-      }
-    } else {
-      if (this.userData.nome) payload.full_name = this.userData.nome;
-      if (this.userData.email) payload.email = this.userData.email;
-    }
-
-    if (this.userData.senha) {
-      payload.password = this.userData.senha;
-    }
-
-    // Se nenhum campo foi alterado, nem tentamos chamar a API
-    if (Object.keys(payload).length === 0) {
-      this.mensagem.set("Nenhum dado foi alterado.");
-      this.enviando.set(false);
-      this.isEditing.set(false);
-      return;
-    }
+    console.log('Payload enviado:', payload);
 
     this.userService.updateProfile(payload).subscribe({
       next: (response: any) => {

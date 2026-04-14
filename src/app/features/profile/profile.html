@@ -1,50 +1,49 @@
 <div class="perfil-container">
     <div class="perfil-card">
-        <form #formulario="ngForm" (ngSubmit)="onSubmit(formulario)" novalidate>
-            <header class="perfil">
-                <div class="perfil-left">
-                    <img [src]="userData.avatar_url" alt="Avatar">
-                    @if (!editandoAvatar()) {
-                    <app-custom-button variant="blue" label="Trocar avatar"
+        <header class="perfil">
+            <div class="perfil-left">
+                <img [src]="userData.avatar_url" alt="Avatar">
+                @if (!editandoAvatar()) {
+                <app-custom-button variant="blue" label="Trocar avatar"
+                    (click)="toggleAvatarEdit()"></app-custom-button>
+                }
+            </div>
+
+            <div class="perfil-right">
+                @if (userData) {
+                <h3>Perfil do {{userData.role}}</h3>
+                }
+            </div>
+        </header>
+
+        @if (editandoAvatar()) {
+        <div class="avatar-edit-section">
+            <div class="avatar-url-row">
+                <input type="text" [(ngModel)]="avatarUrlInput" placeholder="Cole a URL da imagem..."
+                    class="input-avatar-url">
+                <div class="avatar-url-actions">
+                    <app-custom-button variant="blue" [label]="enviando() ? 'Salvando...' : 'Salvar'"
+                        [disabled]="enviando() || !avatarPreviewValida()" (click)="salvarAvatar()"></app-custom-button>
+                    <app-custom-button variant="yellow" label="Cancelar"
                         (click)="toggleAvatarEdit()"></app-custom-button>
-                    }
                 </div>
+            </div>
 
-                <div class="perfil-right">
-                    @if (userData) {
-                    <h3>Perfil do {{userData.role}}</h3>
-                    }
-                </div>
-            </header>
-
-            @if (editandoAvatar()) {
-            <div class="avatar-edit-section">
-                <div class="avatar-url-row">
-                    <input type="text" [(ngModel)]="avatarUrlInput" name="avatarUrl"
-                        placeholder="Cole a URL da imagem..." class="input-avatar-url">
-                    <div class="avatar-url-actions">
-                        <app-custom-button variant="blue" [label]="enviando() ? 'Salvando...' : 'Salvar'"
-                            [disabled]="enviando() || !avatarPreviewValida()"
-                            (click)="salvarAvatar()"></app-custom-button>
-                        <app-custom-button variant="yellow" label="Cancelar"
-                            (click)="toggleAvatarEdit()"></app-custom-button>
-                    </div>
-                </div>
-
-                @if (avatarUrlInput.trim()) {
-                <div class="avatar-preview">
-                    <img [src]="avatarUrlInput" alt="Preview do avatar" (load)="onAvatarPreviewLoad()"
-                        (error)="onAvatarPreviewError()">
-                    @if (avatarPreviewValida()) {
-                    <small class="preview-ok">✅ Imagem carregada com sucesso</small>
-                    } @else {
-                    <small class="preview-erro">❌ Não foi possível carregar a imagem</small>
-                    }
-                </div>
+            @if (avatarUrlInput.trim()) {
+            <div class="avatar-preview">
+                <img [src]="avatarUrlInput" alt="Preview do avatar" (load)="onAvatarPreviewLoad()"
+                    (error)="onAvatarPreviewError()">
+                @if (avatarPreviewValida()) {
+                <small class="preview-ok">Imagem carregada com sucesso</small>
+                } @else {
+                <small class="preview-erro">Não foi possível carregar a imagem</small>
                 }
             </div>
             }
+        </div>
+        }
 
+        <form #formulario="ngForm" (ngSubmit)="onSubmit(formulario)" novalidate>
             <div class="campo">
                 <label for="nome">Nome Completo:</label>
                 <input type="text" id="nome" name="nome" required minlength="10" [(ngModel)]="userData.nome"
@@ -65,21 +64,22 @@
                 </small>
             </div>
 
-            @if (isEditing()) {
+            <!-- TODO: Atualização de senha ainda não está disponível na API -->
+            <!--
             <div class="senha-group">
                 <div class="campo">
                     <label for="senha">Nova Senha:</label>
-                    <input type="password" id="senha" name="senha" required minlength="6" [(ngModel)]="userData.senha"
+                    <input type="password" id="senha" name="senha" minlength="6" [(ngModel)]="userData.senha"
                         placeholder="Digite uma nova senha...">
                 </div>
 
                 <div class="campo">
                     <label for="confirmacaoSenha">Confirme a senha:</label>
-                    <input type="password" id="confirmacaoSenha" name="confirmacaoSenha" required minlength="6"
+                    <input type="password" id="confirmacaoSenha" name="confirmacaoSenha" minlength="6"
                         [(ngModel)]="userData.confirmacaoSenha" placeholder="Repita sua nova senha...">
                 </div>
             </div>
-            }
+            -->
 
             @if (mensagem()) {
             <p class="mensagem">{{ mensagem() }}</p>
