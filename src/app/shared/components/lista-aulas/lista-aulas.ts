@@ -7,5 +7,5 @@ import { Component, Input } from '@angular/core';
   styleUrl: './lista-aulas.css',
 })
 export class ListaAulas {
-  @Input() aulas: any[] = [];
+  @Input() modulos: any[] = [];
 }

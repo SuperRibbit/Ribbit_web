@@ -1,18 +1,27 @@
 <div class="lista-aulas">
-    @for (aula of aulas; track aula.class_id) {
-        <div class="aula-item">
-            <div class="aula-info-esquerda">
-                <button class="btn-play">
-                    <i class="ph-fill ph-play"></i>
-                </button>
-                <div class="aula-detalhes">
-                    <span class="aula-nome">{{ aula.title }}</span>
-                    <span class="aula-tempo">04:28 min</span>
+    @for (modulo of modulos; track modulo.module_id) {
+        <h3 class="modulo-titulo">{{ modulo.title }}</h3>
+
+        @for (aula of modulo.classes; track aula.class_id) {
+            <div class="aula-item">
+                <div class="aula-info-esquerda">
+                    <button class="btn-play">
+                        <i class="ph-fill ph-play"></i>
+                    </button>
+                    <div class="aula-detalhes">
+                        <span class="aula-nome">{{ aula.title }}</span>
+
+                        @if (aula.is_completed) {
+                            <span class="aula-status">Concluída ✅</span>
+                        } @else {
+                            <span class="aula-tempo">04:28 min</span>
+                        }
+                    </div>
                 </div>
-            </div>
                 <i class="ph ph-caret-right seta-item"></i>
-        </div>
+            </div>
+        }
     } @empty {
-        <p>Nenhum módulo encontrado para este curso.</p>
+        <p>Nenhum conteúdo disponível para este curso.</p>
     }
 </div>
