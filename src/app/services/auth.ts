@@ -71,4 +71,11 @@ export class Auth {
     const token = this.getToken()
     return !!token
   }
+
+  logout(): void {
+    if (typeof localStorage !== 'undefined') {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user_data');
+    }
+  }
 }

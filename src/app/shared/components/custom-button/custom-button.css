@@ -2,7 +2,7 @@
     padding: 12px 32px;
     border-radius: 12px;
     border: none;
-    font-family: 'Raleway', sans-serif; 
+    font-family: 'Raleway', sans-serif;
     font-weight: 700;
     cursor: pointer;
     width: 100%;
@@ -13,36 +13,41 @@
     justify-content: center;
 }
 
-.btn-base:hover { 
-    opacity: 0.85; 
+.btn-base:hover {
+    opacity: 0.85;
 }
 
-.btn-base:disabled { 
-    cursor: not-allowed; 
-    opacity: 0.5; 
+.btn-base:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
 }
 
-.btn-yellow { 
-    background-color: var(--amarelo); 
-    color: var(--vermelho); 
+.btn-yellow {
+    background-color: var(--amarelo);
+    color: var(--vermelho);
 }
 
-.btn-green { 
-    background-color: var(--verde-escuro); 
-    color: var(--branco); 
+.btn-green {
+    background-color: var(--verde-escuro);
+    color: var(--branco);
 }
 
-.btn-white { 
-    background-color: var(--branco); 
-    color: var(--verde-escuro); 
+.btn-white {
+    background-color: var(--branco);
+    color: var(--verde-escuro);
 }
 
-.btn-blue { 
-    background-color: var(--azul-escuro); 
-    color: var(--branco); 
+.btn-blue {
+    background-color: var(--azul-escuro);
+    color: var(--branco);
 }
 
-.btn-light-blue { 
-    background-color: var(--azul); 
-    color: var(--branco); 
+.btn-light-blue {
+    background-color: var(--azul);
+    color: var(--branco);
+}
+
+.btn-red {
+    background-color: #c62828;
+    color: var(--branco);
 }
