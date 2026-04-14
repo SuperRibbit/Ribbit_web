@@ -19,8 +19,7 @@ export class Auth {
           // Temporário até o getme endpoint estar funcionando
           const userData = {
             id: (response.user as any).user_uuid,
-            name: response.user.full_name,
-            ...response.user
+            name: response.user.full_name
           };
           localStorage.setItem('user_data', JSON.stringify(userData));
         })

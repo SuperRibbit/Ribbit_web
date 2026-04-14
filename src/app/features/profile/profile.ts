@@ -1,4 +1,4 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CustomButton } from '../../shared/components/custom-button/custom-button';
 import { CardCursoHome } from '../../shared/components/card-curso-home/card-curso-home';
@@ -17,6 +17,7 @@ export class Profile implements OnInit {
   private router = inject(Router);
   private authService = inject(Auth);
   private userService = inject(UserService);
+  private cdr = inject(ChangeDetectorRef);
 
   isEditing = signal(false);
   enviando = signal(false);
@@ -31,18 +32,34 @@ export class Profile implements OnInit {
     avatar_url: ''
   };
 
+  private loadedUser: any = null;
+
   ngOnInit() {
     this.loadUserData();
   }
 
   loadUserData() {
-    const user = this.authService.getUserData();
-    if (user) {
-      this.userData.nome = user.full_name || user.name || '';
-      this.userData.email = user.email || '';
-      this.userData.role = user.role || '';
-      this.userData.avatar_url = user.avatar_url || 'assets/GenericAvatar.png';
-    }
+    this.userService.getProfile().subscribe({
+      next: (response: any) => {
+        const user = response.user ? response.user : response;
+
+        if (user) {
+          this.loadedUser = user;
+          this.userData = {
+            ...this.userData,
+            nome: user.full_name || user.name || '',
+            email: user.email || '',
+            role: user.role || '',
+            avatar_url: user.avatar_url || 'assets/GenericAvatar.png'
+          };
+          this.cdr.detectChanges();
+        }
+      },
+      error: (err) => {
+        console.error('Erro ao carregar perfil:', err);
+        this.mensagem.set('Erro ao carregar dados do perfil.');
+      }
+    });
   }
 
   toggleEdit() {
@@ -72,7 +89,7 @@ export class Profile implements OnInit {
     this.enviando.set(true);
 
     const payload: any = {};
-    const localUser = this.authService.getUserData();
+    const localUser = this.loadedUser;
 
     if (localUser) {
       const currentName = localUser.full_name || localUser.name;
@@ -114,6 +131,10 @@ export class Profile implements OnInit {
 
         this.enviando.set(false);
         this.isEditing.set(false);
+
+        if (response && response.user) {
+          this.loadedUser = response.user;
+        }
 
         // Atualizar localStorage com os novos dados
         if (typeof localStorage !== 'undefined' && response && response.user) {
