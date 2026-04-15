@@ -2,7 +2,7 @@
     <div class="perfil-card">
         <header class="perfil">
             <div class="perfil-left">
-                <img [src]="userData.avatar_url" alt="Avatar">
+                <img [src]="avatarUrl" alt="Avatar">
                 @if (!editandoAvatar()) {
                 <app-custom-button variant="blue" label="Trocar avatar"
                     (click)="toggleAvatarEdit()"></app-custom-button>
@@ -10,8 +10,8 @@
             </div>
 
             <div class="perfil-right">
-                @if (userData) {
-                <h3>Perfil do {{userData.role}}</h3>
+                @if (role) {
+                <h3>Perfil do {{role}}</h3>
                 }
             </div>
         </header>
@@ -43,43 +43,42 @@
         </div>
         }
 
-        <form #formulario="ngForm" (ngSubmit)="onSubmit(formulario)" novalidate>
+        <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" novalidate>
             <div class="campo">
                 <label for="nome">Nome Completo:</label>
-                <input type="text" id="nome" name="nome" required minlength="10" [(ngModel)]="userData.nome"
-                    [disabled]="!isEditing()" placeholder="Digite seu nome...">
+                <input type="text" id="nome" formControlName="nome"
+                    placeholder="Digite seu nome...">
                 <small class="erro"
-                    [hidden]="!(formulario.controls['nome']?.dirty && formulario.controls['nome'].invalid)">
+                    [hidden]="!(profileForm.get('nome')?.touched && profileForm.get('nome')?.invalid)">
                     Informe um nome válido.
                 </small>
             </div>
 
             <div class="campo">
                 <label for="email">E-mail:</label>
-                <input type="email" id="email" name="email" required minlength="10" [(ngModel)]="userData.email"
-                    [disabled]="!isEditing()" placeholder="Digite seu e-mail...">
+                <input type="email" id="email" formControlName="email"
+                    placeholder="Digite seu e-mail...">
                 <small class="erro"
-                    [hidden]="!(formulario.controls['email']?.dirty && formulario.controls['email'].invalid)">
+                    [hidden]="!(profileForm.get('email')?.touched && profileForm.get('email')?.invalid)">
                     Informe um e-mail válido.
                 </small>
             </div>
 
-            <!-- TODO: Atualização de senha ainda não está disponível na API -->
-            <!--
+            @if (isEditing()) {
             <div class="senha-group">
                 <div class="campo">
                     <label for="senha">Nova Senha:</label>
-                    <input type="password" id="senha" name="senha" minlength="6" [(ngModel)]="userData.senha"
+                    <input type="password" id="senha" formControlName="senha"
                         placeholder="Digite uma nova senha...">
                 </div>
 
                 <div class="campo">
                     <label for="confirmacaoSenha">Confirme a senha:</label>
-                    <input type="password" id="confirmacaoSenha" name="confirmacaoSenha" minlength="6"
-                        [(ngModel)]="userData.confirmacaoSenha" placeholder="Repita sua nova senha...">
+                    <input type="password" id="confirmacaoSenha" formControlName="confirmacaoSenha"
+                        placeholder="Repita sua nova senha...">
                 </div>
             </div>
-            -->
+            }
 
             @if (mensagem()) {
             <p class="mensagem">{{ mensagem() }}</p>

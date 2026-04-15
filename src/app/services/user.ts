@@ -22,12 +22,11 @@ export class User {
   }
 
   getProfile() {
-    const userId = this.authService.getUserIdFromStorage();
     const token = this.authService.getToken();
     const headers = new HttpHeaders()
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json');
 
-    return this.http.get(`${this.apiUrl}/users/${userId}`, { headers });
+    return this.http.get(`${this.apiUrl}/users/me`, { headers });
   }
 }
