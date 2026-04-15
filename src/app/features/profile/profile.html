@@ -2,7 +2,7 @@
     <div class="perfil-card">
         <header class="perfil">
             <div class="perfil-left">
-                <img [src]="avatarUrl" alt="Avatar">
+                <img [src]="avatarUrl" (error)="avatarUrl = 'assets/GenericAvatar.png'" alt="Avatar">
                 @if (!editandoAvatar()) {
                 <app-custom-button variant="blue" label="Trocar avatar"
                     (click)="toggleAvatarEdit()"></app-custom-button>

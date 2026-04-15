@@ -12,7 +12,7 @@
     <div class="menu-row">
         <a routerLink="/home">Página Inicial</a>
         <a routerLink="/profile">
-            <img src="/assets/GenericAvatar.png" alt="Perfil">
+            <img [src]="avatarUrl()" (error)="avatarUrl.set('assets/GenericAvatar.png')" alt="Perfil" class="navbar-avatar">
         </a>
     </div>
     }
