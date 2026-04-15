@@ -1,60 +1,65 @@
+:root {
+    --spacing-lg: 80px;
+    --spacing-md: 40px;
+    --spacing-sm: 20px;
+}
+
 .container {
     display: flex;
     min-height: 100vh;
-    overflow: hidden;
+    overflow-x: hidden;
+}
+
+.left,
+.right {
+    flex: 1;
 }
 
 .left {
-    width: 50%;
-    background-color: var(--azul);
-    background-image: url('/assets/CloudBGLow.svg');
+    background: var(--azul) url('/assets/CloudBGLow.svg') no-repeat center;
     background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    justify-content: center;
-    align-items: center;
+
     display: flex;
     flex-direction: column;
-    padding: 120px 160px;
+    justify-content: center;
+    align-items: center;
+
+    padding: var(--spacing-lg);
     gap: 12px;
 }
 
-
 .left img {
-    width: 90%;
-    max-width: 650px;
+    width: 100%;
+    max-width: 500px;
 }
 
 .right {
-    width: 50%;
+    display: flex;
     justify-content: center;
     align-items: center;
-    display: flex;
-    overflow: hidden;
+    padding: var(--spacing-md);
     position: relative;
 }
 
 .right::before {
     content: "";
     position: absolute;
-    top: 0;
-    left: 55%;
-    width: 100%;
-    height: 100%;
-    background: url('/assets/CloudBGLow.svg');
-    overflow: hidden;
+    inset: 0;
+    background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.05));
+    pointer-events: none;
 }
 
 form {
-    width: 70%;
-    max-width: 350px;
-    z-index: 2;
+    width: 100%;
+    max-width: 380px;
+    z-index: 1;
     color: var(--text-dark);
 }
 
 form h2 {
     text-align: center;
     margin-bottom: 25px;
+    font-size: 1.5rem;
 }
 
 .field {
@@ -69,9 +74,16 @@ form h2 {
 }
 
 .field input {
-    padding: 10px;
+    padding: 12px;
     border-radius: 6px;
     border: 1px solid #ccc;
+    transition: 0.2s ease;
+}
+
+.field input:focus {
+    outline: none;
+    border-color: var(--verde-escuro);
+    box-shadow: 0 0 0 2px rgba(0, 150, 100, 0.2);
 }
 
 a {
@@ -83,35 +95,36 @@ a {
 
 p {
     font-size: 14px;
-    margin-top: 15px;
-    margin-bottom: 10px;
-    justify-content: center;
-    align-items: center;
+    margin: 15px 0 10px;
     display: flex;
-
+    justify-content: center;
+    text-align: center;
 }
 
 h3 {
     color: var(--verde-escuro);
-    justify-content: center;
-    align-items: center;
     display: flex;
+    justify-content: center;
     margin-bottom: 22px;
+}
+
+button {
+    transition: 0.2s ease;
+}
+
+button:hover {
+    transform: scale(1.03);
+    opacity: 0.9;
 }
 
 @media (max-width: 1024px) {
 
     .left {
-        padding: 80px 40px;
+        padding: var(--spacing-md);
     }
 
     .right {
-        padding: 40px;
-    }
-
-    form {
-        width: 100%;
-        max-width: 400px;
+        padding: var(--spacing-md);
     }
 }
 
@@ -122,60 +135,30 @@ h3 {
     }
 
     .left {
+        display: flex;
         width: 100%;
-        padding: 40px 20px;
-        order: 1; 
-    }
-
-    .left img {
-        max-width: 200px;
+        order: 1;
+        padding: 10px 0px;
     }
 
     .right {
         width: 100%;
-        padding: 40px 20px;
         order: 2;
+        padding: 20px;
     }
 
-    .right::before {
-        display: none; 
-    }
-
-    form {
-        width: 100%;
-        max-width: 100%;
-    }
-
-    form h2 {
-        font-size: 20px;
-    }
-
-    .field input {
-        height: 45px;
-        font-size: 14px;
+    .left img {
+        max-width: 150px;
     }
 }
 
 @media (max-width: 480px) {
 
-    .left {
-        padding: 30px 15px;
-    }
-
-    .right {
-        padding: 30px 15px;
-    }
-
-    .left img {
-        width: 150px;
-    }
-
     form h2 {
-        font-size: 18px;
+        font-size: 1.1rem;
     }
 
     p {
         font-size: 13px;
-        text-align: center;
     }
 }
