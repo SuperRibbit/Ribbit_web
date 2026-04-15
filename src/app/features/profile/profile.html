@@ -102,9 +102,11 @@
             }
         </div>
 
+        @if (!isEditing()) {
         <div class="confirmar">
             <app-custom-button variant="red" label="Desconectar" (click)="logout()"></app-custom-button>
         </div>
+        }
     </div>
 
 
