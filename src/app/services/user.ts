@@ -18,7 +18,7 @@ export class User {
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json');
 
-    return this.http.put(`${this.apiUrl}/users/${userId}`, data, { headers });
+    return this.http.put(`${this.apiUrl}/users/me`, data, { headers });
   }
 
   getProfile() {
