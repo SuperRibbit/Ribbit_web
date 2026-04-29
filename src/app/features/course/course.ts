@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { ListaAulas } from "../../shared/components/lista-aulas/lista-aulas";
+import { Modules } from "../../shared/components/modules/modules";
 
 @Component({
   selector: 'app-course',
-  imports: [ListaAulas],
+  imports: [Modules],
   templateUrl: './course.html',
   styleUrl: './course.css',
 })
