@@ -20,7 +20,12 @@
 
     <section class="modulos-card">
         <h2 class="modulos-titulo">Módulos</h2>
-        <app-modules [modulos]="curso?.modules"></app-modules>
+        
+        @for (modulo of curso?.modules; track modulo.module_id) {
+            <app-modules [modules]="modulo"></app-modules>
+        } @empty {
+            <p>Nenhum conteúdo disponível para este curso.</p>
+        }
     </section>
 
 </div>

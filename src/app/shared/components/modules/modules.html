@@ -1,5 +1,5 @@
 <div class="container">
-    @for (modulo of modulos; track modulo.module_id) {
+    @for (modulo of modules; track modulo.module_id) {
         <h3 class="modulo-titulo">{{ modulo.title }}</h3>
 
         @for (aula of modulo.classes; track aula.class_id) {
