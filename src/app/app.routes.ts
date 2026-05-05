@@ -13,6 +13,6 @@ export const routes: Routes = [
   { path: 'register', component: Register, data: { hideNavbar: true } },
   { path: 'profile', component: Profile, canActivate: [authGuard] },
   { path: 'home', component: Home, canActivate: [authGuard] },
-  {path: 'course', component: Course},
+  { path: 'course', component: Course, canActivate: [authGuard] },
   { path: '**', redirectTo: '' } 
 ];
