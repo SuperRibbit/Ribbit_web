@@ -1,7 +1,7 @@
-<div class="perfil-container">
-    <div class="perfil-card">
-        <header class="perfil">
-            <div class="perfil-left">
+<div class="profile-container">
+    <div class="profile-card">
+        <header class="profile">
+            <div class="profile-left">
                 <img [src]="avatarUrl" (error)="avatarUrl = 'assets/GenericAvatar.png'" alt="Avatar">
                 @if (!editandoAvatar()) {
                 <app-custom-button variant="blue" label="Trocar avatar"
@@ -9,7 +9,7 @@
                 }
             </div>
 
-            <div class="perfil-right">
+            <div class="profile-right">
                 @if (role) {
                 <h3>Perfil do {{role}}</h3>
                 }
@@ -52,9 +52,9 @@
                     [hidden]="!(profileForm.get('nome')?.touched && profileForm.get('nome')?.invalid)">
                     Informe um nome válido.
                 </small>
-            </div>
+            </section>
 
-            <div class="campo">
+            <section>
                 <label for="email">E-mail:</label>
                 <input type="email" id="email" formControlName="email"
                     placeholder="Digite seu e-mail...">
@@ -62,10 +62,10 @@
                     [hidden]="!(profileForm.get('email')?.touched && profileForm.get('email')?.invalid)">
                     Informe um e-mail válido.
                 </small>
-            </div>
+            </section>
 
             @if (isEditing()) {
-            <div class="senha-group">
+            <div class="password-group">
                 <div class="campo">
                     <label for="senha">Nova Senha:</label>
                     <input type="password" id="senha" formControlName="senha"
@@ -84,7 +84,7 @@
             <p class="mensagem">{{ mensagem() }}</p>
             }
 
-            <div class="confirmar">
+            <div class="confirm">
                 @if (isEditing()) {
                 <app-custom-button variant="blue" [label]="enviando() ? 'Salvando...' : 'Confirmar Alterações'"
                     [disabled]="enviando()"></app-custom-button>
@@ -92,7 +92,7 @@
             </div>
         </form>
 
-        <div class="confirmar">
+        <div class="confirm">
             @if (!isEditing()) {
             <app-custom-button variant="blue" label="Editar Perfil" (click)="toggleEdit()"></app-custom-button>
             } @else {
@@ -102,20 +102,20 @@
         </div>
 
         @if (!isEditing()) {
-        <div class="confirmar">
+        <div class="confirm">
             <app-custom-button variant="red" label="Desconectar" (click)="logout()"></app-custom-button>
         </div>
         }
     </div>
 
 
-    <div class="cursos-section">
-        <div class="cursos-header">
+    <div class="course-section">
+        <div class="course-header">
             <h2>Meus Cursos</h2>
             <app-custom-button variant="green" label="Cadastrar novo curso"></app-custom-button>
         </div>
 
-        <div class="cursos-grid">
+        <div class="course-grid">
             <app-card-curso-home></app-card-curso-home>
             <app-card-curso-home></app-card-curso-home>
             <app-card-curso-home></app-card-curso-home>
