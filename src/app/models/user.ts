@@ -1,5 +1,5 @@
 export interface User {
-    id?: string;
+    user_uuid?: string;
     full_name: string;
     email: string;
     password?: string;
@@ -9,7 +9,6 @@ export interface User {
 }
 
 export interface LoginResponse {
-    message: string;
     token: string;
     user: User;
 }

@@ -1,0 +1,68 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.aula-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-radius: 15px;
+    transition: background 0.2s;
+    cursor: pointer;
+}
+
+.aula-item:hover {
+    background-color: #F8FAFF;
+}
+
+.aula-info-esquerda {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.btn-play {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--branco);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.08);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--azul-escuro);
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.btn-play:hover {
+    transform: scale(1.1);
+}
+
+.btn-play i {
+    font-size: 1.2rem;
+}
+
+.aula-detalhes {
+    display: flex;
+    flex-direction: column;
+}
+
+.aula-nome {
+    font-weight: 600;
+    color: #333;
+}
+
+.aula-tempo {
+    font-size: 0.85rem;
+    color: #999;
+}
+
+.seta-item {
+    color: var(--azul-escuro);
+    font-size: 1.2rem;
+}
