@@ -30,7 +30,11 @@
 
 .left img {
     width: 100%;
-    max-width: 500px;
+    max-width: 400px;
+} 
+
+#ribbit-logo {
+    max-width: 200px;
 }
 
 .right {

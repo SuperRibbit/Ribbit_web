@@ -44,7 +44,7 @@
         }
 
         <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" novalidate>
-            <div class="campo">
+            <section>
                 <label for="nome">Nome Completo:</label>
                 <input type="text" id="nome" formControlName="nome"
                     placeholder="Digite seu nome...">
@@ -66,17 +66,17 @@
 
             @if (isEditing()) {
             <div class="password-group">
-                <div class="campo">
+                <section>
                     <label for="senha">Nova Senha:</label>
                     <input type="password" id="senha" formControlName="senha"
                         placeholder="Digite uma nova senha...">
-                </div>
+                </section>
 
-                <div class="campo">
+                <section>
                     <label for="confirmacaoSenha">Confirme a senha:</label>
                     <input type="password" id="confirmacaoSenha" formControlName="confirmacaoSenha"
                         placeholder="Repita sua nova senha...">
-                </div>
+                </section>
             </div>
             }
 
