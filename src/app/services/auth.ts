@@ -11,30 +11,32 @@ export class Auth {
 
   private http = inject(HttpClient)
 
-  login(credentials: {email: string, password: string}): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials) //irá mudar para /auth/login
+  login(credentials: { email: string, password: string }): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.apiUrl}/auth/login`, credentials)
       .pipe(
         tap(response => {
-          localStorage.setItem('token', response.token)
-          localStorage.setItem('user_data', JSON.stringify({
-            id: response.user.user_uuid, 
+          localStorage.setItem('token', response.token);
+          // Temporário até o getme endpoint estar funcionando
+          const userData = {
+            id: (response.user as any).user_uuid,
             name: response.user.full_name
-          }));
+          };
+          localStorage.setItem('user_data', JSON.stringify(userData));
         })
       );
   }
 
   register(userData: User): Observable<LoginResponse> {
-    return this.http.post<{message: string, user: User}>(`${this.apiUrl}/users`, userData)
+    return this.http.post<{ message: string, user: User }>(`${this.apiUrl}/users`, userData)
       .pipe(
         switchMap(() => {
-            if (!userData.password) {
-                throw new Error("Senha necessária para auto-login");
-            }
-            return this.login({ 
-                email: userData.email, 
-                password: userData.password 
-            });
+          if (!userData.password) {
+            throw new Error("Senha necessária para auto-login");
+          }
+          return this.login({
+            email: userData.email,
+            password: userData.password
+          });
         })
       );
   }
@@ -47,12 +49,16 @@ export class Auth {
   }
 
   getUserIdFromStorage(): string | null {
+    const userData = this.getUserData();
+    return userData ? userData.id : null;
+  }
+
+  getUserData(): any | null {
     if (typeof localStorage !== 'undefined') {
       const userDataStr = localStorage.getItem('user_data');
       if (userDataStr) {
         try {
-          const userData = JSON.parse(userDataStr);
-          return userData.id;
+          return JSON.parse(userDataStr);
         } catch (e) {
           return null;
         }
@@ -64,5 +70,12 @@ export class Auth {
   isLoggedIn(): boolean {
     const token = this.getToken()
     return !!token
+  }
+
+  logout(): void {
+    if (typeof localStorage !== 'undefined') {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user_data');
+    }
   }
 }

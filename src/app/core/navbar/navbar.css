@@ -1,4 +1,6 @@
-nav, .logo, .button-row {
+nav,
+.logo,
+.button-row {
     display: flex;
     align-items: center;
 }
@@ -39,14 +41,17 @@ img#text {
 .menu-row img {
     height: 55px;
     width: 55px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--verde-escuro);
 }
 
-@media (max-width: 768px) { 
+@media (max-width: 768px) {
     nav {
         padding: 12px 20px;
     }
-    
+
     .button-row {
         display: none;
     }
- }
+}
