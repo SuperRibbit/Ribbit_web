@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './custom-button.css',
 })
 export class CustomButton {
-  @Input() variant: 'yellow' | 'green' | 'white' | 'blue' | 'light-blue' = 'blue';
+  @Input() variant: 'yellow' | 'green' | 'white' | 'blue' | 'light-blue' | 'red' = 'blue';
   @Input() label: string = 'BUTTON';
   @Input() disabled: boolean = false;
 }
