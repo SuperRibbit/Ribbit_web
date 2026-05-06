@@ -1,0 +1,30 @@
+<div class="player-layout">
+
+    <aside class="sidebar-container">
+        <div class="card-modulos">
+            <h2 class="titulo-sidebar">Módulos</h2>
+            @for (item of curso.modules; track item.id_module) {
+                <app-modules [modules]="item"></app-modules>
+            }
+        </div>
+    </aside>
+
+    <main class="video-main">
+        <div class="card-video">
+            <div class="video-placeholder">
+                <p>PLAYER DE VÍDEO</p>
+            </div>
+
+            <div class="video-footer">
+                <div class="info-aula">
+                    <h3>{{ curso.title }}</h3>
+                    <p>INFORMAÇÕES DA AULA</p>
+                </div>
+        
+                <button class="btn-completar">
+                    <i class="ph ph-check"></i> COMPLETAR AULA
+                </button>
+            </div>
+        </div>
+    </main>
+</div>
