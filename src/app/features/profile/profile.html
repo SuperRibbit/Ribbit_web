@@ -52,7 +52,6 @@
                     [hidden]="!(profileForm.get('nome')?.touched && profileForm.get('nome')?.invalid)">
                     Informe um nome válido.
                 </small>
-            </section>
 
             <section>
                 <label for="email">E-mail:</label>
@@ -90,7 +89,6 @@
                     [disabled]="enviando()"></app-custom-button>
                 }
             </div>
-        </form>
 
         <div class="confirm">
             @if (!isEditing()) {
@@ -121,4 +119,3 @@
             <app-card-curso-home></app-card-curso-home>
         </div>
     </div>
-</div>
