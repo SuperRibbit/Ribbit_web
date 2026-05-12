@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CustomButton } from "../../../../shared/components/custom-button/custom-button";
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Auth } from '../../../../services/auth';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-reset',
@@ -14,6 +14,7 @@ export class Reset {
   private fb = inject(FormBuilder);
   private authService = inject(Auth);
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
   successMessage = '';
   errorMessage = '';
@@ -52,6 +53,10 @@ export class Reset {
         this.successMessage =
           'Sua senha foi redefinida com sucesso.';
         this.resetForm.reset();
+
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 3000);
       },
       error: () => {
         this.errorMessage =
