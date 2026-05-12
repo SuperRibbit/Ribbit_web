@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { CustomButton } from "../../../../shared/components/custom-button/custom-button";
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Auth } from '../../../../services/auth';
@@ -15,6 +15,7 @@ export class Reset {
   private authService = inject(Auth);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
 
   successMessage = '';
   errorMessage = '';
@@ -53,7 +54,7 @@ export class Reset {
         this.successMessage =
           'Sua senha foi redefinida com sucesso.';
         this.resetForm.reset();
-
+        this.cdr.detectChanges();
         setTimeout(() => {
           this.router.navigate(['/login']);
         }, 3000);
@@ -61,6 +62,7 @@ export class Reset {
       error: () => {
         this.errorMessage =
           'Não foi possível redefinir sua senha.';
+        this.cdr.detectChanges();
       }
     });
   }

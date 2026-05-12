@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { CustomButton } from "../../../../shared/components/custom-button/custom-button";
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Auth } from '../../../../services/auth';
@@ -12,6 +12,7 @@ import { Auth } from '../../../../services/auth';
 export class Mail {
   private fb = inject(FormBuilder);
   private authService = inject(Auth);
+  private cdr = inject(ChangeDetectorRef);
 
   successMessage = '';
   errorMessage = '';
@@ -33,14 +34,14 @@ export class Mail {
     const email = this.mailForm.value.email;
 
     this.authService.forgotPassword(email).subscribe({
-      next: () => {
-        this.successMessage =
-          'O link de recuperação foi enviado para seu email.';
+      next: (response) => {
+        this.successMessage = response.message;
+        this.cdr.detectChanges();
       },
-
       error: () => {
         this.errorMessage =
           'Não foi possível enviar o email de recuperação.';
+          this.cdr.detectChanges();
       }
     });
   }
