@@ -1,27 +1,30 @@
-<div class="container">
-    @for (modulo of modules; track modulo.module_id) {
-        <h3 class="modulo-titulo">{{ modulo.title }}</h3>
-
-        @for (aula of modulo.classes; track aula.class_id) {
-            <div class="aula-item">
-                <div class="aula-info-esquerda">
-                    <button class="btn-play">
-                        <i class="ph-fill ph-play"></i>
-                    </button>
-                    <div class="aula-detalhes">
-                        <span class="aula-nome">{{ aula.title }}</span>
-
-                        @if (aula.is_completed) {
-                            <span class="aula-status">Concluída ✅</span>
-                        } @else {
-                            <span class="aula-tempo">04:28 min</span>
-                        }
-                    </div>
-                </div>
-                <i class="ph ph-caret-right seta-item"></i>
+<div class="container" [class.selecionado]="estaExpandido">
+    
+    <div class="modulo-header" (click)="toggleModulo()">
+        <div class="header-info">
+            <div class="icon-play-main">
+                <i class="ph-fill ph-play"></i>
             </div>
-        }
-    } @empty {
-        <p>Nenhum conteúdo disponível para este curso.</p>
+            
+            <div class="textos">
+                <h3 class="modulo-titulo">{{ modules.title }}</h3>
+                <span class="modulo-tempo">04:28 min</span>
+            </div>
+        </div>
+        
+        <i class="ph icon-arrow {{ estaExpandido ? 'ph-caret-up' : 'ph-caret-down' }}"></i>
+    </div>
+
+    @if (estaExpandido) {
+        <div class="lista-aulas">
+            @for (aula of modules.classes; track aula.class_id) {
+                <div class="aula-item">
+                    <input type="checkbox" [checked]="aula.is_completed" class="check-aula">
+                    <span class="aula-nome">{{ aula.title }}</span>
+                </div>
+            } @empty {
+                <p class="modulo-tempo">Nenhuma aula cadastrada.</p>
+            }
+        </div>
     }
 </div>
