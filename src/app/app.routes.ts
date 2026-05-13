@@ -12,7 +12,7 @@ export const routes: Routes = [
   { path: '', component: LandingPage },
   { path: 'login', component: Login, data: { hideNavbar: true }},
   { path: 'logon', component: Logon, data: { hideNavbar: true } },
-  { path: 'password-reset', component: Mail, data: { hideNavbar: true }},
+  { path: 'forgot-password', component: Mail, data: { hideNavbar: true }},
   { path: 'profile', component: Profile, canActivate: [authGuard] },
   { path: 'home', component: Home, canActivate: [authGuard] },
   { path: 'course', component: Course, canActivate: [authGuard] },
