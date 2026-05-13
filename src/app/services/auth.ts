@@ -80,13 +80,13 @@ export class Auth {
   }
 
   forgotPassword(email: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/forgot-password`, {
+    return this.http.post(`${this.apiUrl}/auth/forgot-password`, {
       email
     });
   }
 
   resetPassword(token: string, newPassword: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/reset-password`, {
+    return this.http.post(`${this.apiUrl}/auth/reset-password`, {
       token,
       new_password: newPassword
     });
