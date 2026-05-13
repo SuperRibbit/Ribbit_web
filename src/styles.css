@@ -22,6 +22,9 @@
     --branco: #FCFFFE;
     --vermelho: #E7655F;
 
+    --spacing-lg: 80px;
+    --spacing-md: 40px;
+    --spacing-sm: 20px;
 }
 
 html, body {
