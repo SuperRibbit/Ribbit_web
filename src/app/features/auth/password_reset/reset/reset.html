@@ -1,0 +1,60 @@
+<div class="container">
+    <div class="card">
+
+        <h2>Redefinir senha</h2>
+
+        <form [formGroup]="resetForm" (ngSubmit)="onSubmit()">
+            <div class="field">
+                <label for="password">Digite sua nova senha</label>
+                <input type="password" id="password" formControlName="password" placeholder="Digite sua senha...">
+
+                @if(
+                    resetForm.get('password')?.invalid &&
+                    (
+                        resetForm.get('password')?.dirty ||
+                        resetForm.get('password')?.touched
+                    )
+                ) {
+
+                    <small class="erro">
+                        A senha deve ter ao menos 6 caracteres.
+                    </small>
+                }
+
+            </div>
+
+            <div class="field">
+                <label for="confirmPassword">Confirme a nova senha</label>
+                <input type="password" id="confirmPassword" formControlName="confirmPassword" placeholder="Repita sua senha...">
+
+                @if(
+                    resetForm.get('confirmPassword')?.invalid &&
+                    (
+                        resetForm.get('confirmPassword')?.dirty ||
+                        resetForm.get('confirmPassword')?.touched
+                    )
+                ) {
+
+                    <small class="erro">
+                        Confirme sua senha.
+                    </small>
+                }
+
+            </div>
+
+            @if(successMessage) {
+                <div class="success-message">
+                    {{ successMessage }}
+                </div>
+            }
+
+            @if(errorMessage) {
+                <div class="error-message">
+                    {{ errorMessage }}
+                </div>
+            }
+
+            <app-custom-button variant="blue" label="Redefinir Senha"/>
+        </form>
+    </div>
+</div>

@@ -26,9 +26,11 @@
                 @if (f['password'].invalid && (f['password'].dirty || f['password'].touched)) {
                     <small class="erro">A senha deve ter ao menos 6 caracteres.</small>
                 }
-            </div>
 
-            <!--<a href="">Esqueceu sua senha?</a>-->
+                <small>
+                    <a routerLink="/forgot-password">Esqueceu sua senha?</a>
+                </small>
+            </div>
 
 
             <div class="button">

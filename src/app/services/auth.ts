@@ -84,5 +84,12 @@ export class Auth {
       email
     });
   }
+
+  resetPassword(token: string, newPassword: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/reset-password`, {
+      token,
+      new_password: newPassword
+    });
+  }
   
 }
