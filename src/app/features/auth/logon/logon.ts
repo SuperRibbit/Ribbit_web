@@ -6,12 +6,12 @@ import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../../../services/auth';
 
 @Component({
-  selector: 'app-register',
+  selector: 'app-logon',
   imports: [FormsModule, CommonModule, CustomButton, ReactiveFormsModule, RouterLink],
-  templateUrl: './register.html',
+  templateUrl: './logon.html',
   styleUrl: '../auth.css',
 })
-export class Register {
+export class Logon {
   registerForm: FormGroup
 
   constructor( private fb: FormBuilder, private authService: Auth, private router: Router ) {
