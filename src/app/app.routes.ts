@@ -16,7 +16,7 @@ export const routes: Routes = [
   { path: 'logon', component: Logon, data: { hideNavbar: true } },
   { path: 'forgot-password', component: Mail, data: { hideNavbar: true }},
   { path: 'reset-password', component: Reset, data: { hideNavbar: true }},
-  { path: 'profile', component: Profile },
+  { path: 'profile', component: Profile, canActivate: [authGuard] },
   { path: 'home', component: Home, canActivate: [authGuard] },
   { path: 'course', component: Course, canActivate: [authGuard] },
   { path: 'player-course', component: PlayerCourse, canActivate: [authGuard] },
