@@ -52,9 +52,8 @@
                     [hidden]="!(profileForm.get('nome')?.touched && profileForm.get('nome')?.invalid)">
                     Informe um nome válido.
                 </small>
-            </section>
-
-            <section>
+            </div>
+            <div>
                 <label for="email">E-mail:</label>
                 <input type="email" id="email" formControlName="email"
                     placeholder="Digite seu e-mail...">
@@ -62,7 +61,7 @@
                     [hidden]="!(profileForm.get('email')?.touched && profileForm.get('email')?.invalid)">
                     Informe um e-mail válido.
                 </small>
-            </section>
+            </div>
 
             @if (isEditing()) {
             <div class="password-group">
@@ -90,7 +89,6 @@
                     [disabled]="enviando()"></app-custom-button>
                 }
             </div>
-        </form>
 
         <div class="confirm">
             @if (!isEditing()) {

@@ -6,6 +6,7 @@ import { Home } from './features/home/home';
 import { authGuard } from './guards/auth-guard';
 import { Profile } from './features/profile/profile';
 import { Course } from './features/course/course';  
+import { PlayerCourse } from './features/player-course/player-course';
 import { Mail } from './features/auth/password_reset/mail/mail';
 import { Reset } from './features/auth/password_reset/reset/reset';
 
@@ -18,5 +19,6 @@ export const routes: Routes = [
   { path: 'profile', component: Profile, canActivate: [authGuard] },
   { path: 'home', component: Home, canActivate: [authGuard] },
   { path: 'course', component: Course, canActivate: [authGuard] },
+  { path: 'player-course', component: PlayerCourse, canActivate: [authGuard] },
   { path: '**', redirectTo: '' } 
 ];
