@@ -52,8 +52,8 @@
                     [hidden]="!(profileForm.get('nome')?.touched && profileForm.get('nome')?.invalid)">
                     Informe um nome válido.
                 </small>
-            </div>
-            <div>
+            </section>
+            <section>
                 <label for="email">E-mail:</label>
                 <input type="email" id="email" formControlName="email"
                     placeholder="Digite seu e-mail...">
@@ -61,10 +61,10 @@
                     [hidden]="!(profileForm.get('email')?.touched && profileForm.get('email')?.invalid)">
                     Informe um e-mail válido.
                 </small>
-            </div>
+            </section>
 
             @if (isEditing()) {
-            <div class="password-group">
+            <section class="password-group">
                 <section>
                     <label for="senha">Nova Senha:</label>
                     <input type="password" id="senha" formControlName="senha"
@@ -76,7 +76,7 @@
                     <input type="password" id="confirmacaoSenha" formControlName="confirmacaoSenha"
                         placeholder="Repita sua nova senha...">
                 </section>
-            </div>
+            </section>
             }
 
             @if (mensagem()) {
@@ -90,23 +90,23 @@
                 }
             </div>
 
-        <div class="confirm">
+            <div class="confirm">
+                @if (!isEditing()) {
+                <app-custom-button variant="blue" label="Editar Perfil" (click)="toggleEdit()"></app-custom-button>
+                } @else {
+                <app-custom-button variant="yellow" label="Cancelar" (click)="toggleEdit()"
+                    [disabled]="enviando()"></app-custom-button>
+                }
+            </div>
+
             @if (!isEditing()) {
-            <app-custom-button variant="blue" label="Editar Perfil" (click)="toggleEdit()"></app-custom-button>
-            } @else {
-            <app-custom-button variant="yellow" label="Cancelar" (click)="toggleEdit()"
-                [disabled]="enviando()"></app-custom-button>
+            <div class="confirm">
+                <app-custom-button variant="red" label="Desconectar" (click)="logout()"></app-custom-button>
+            </div>
             }
-        </div>
+        </form>
 
-        @if (!isEditing()) {
-        <div class="confirm">
-            <app-custom-button variant="red" label="Desconectar" (click)="logout()"></app-custom-button>
-        </div>
-        }
     </div>
-
-
     <div class="course-section">
         <div class="course-header">
             <h2>Meus Cursos</h2>
