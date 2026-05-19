@@ -111,12 +111,17 @@ form input {
 
 .password-group {
     display: flex;
+    flex-direction: row;
     gap: 15px;
-    flex-wrap: wrap;
+    width: 100%;
 }
+
 
 .password-group section {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
 }
 
 section {
@@ -134,15 +139,9 @@ section {
     gap: 15px;
 }
 
-.confirmar app-custom-button {
+.confirm app-custom-button {
     width: auto;
-    width: 250px;
-}
-
-input:disabled {
-    background-color: #f0f0f0;
-    color: #666;
-    cursor: not-allowed;
+    max-width: 250px;
 }
 
 .perfil-left app-custom-button {
@@ -188,6 +187,12 @@ section label {
     padding: 15px;
     border-radius: 15px;
     width: 180px;
+}
+
+.btn-row {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
 }
 
 @media (max-width: 1024px) {

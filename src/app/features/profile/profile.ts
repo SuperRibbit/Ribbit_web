@@ -20,7 +20,6 @@ export class Profile implements OnInit {
   private cdr = inject(ChangeDetectorRef);
   private fb = inject(FormBuilder);
 
-  isEditing = signal(false);
   enviando = signal(false);
   mensagem = signal('');
   editandoAvatar = signal(false);
@@ -28,10 +27,10 @@ export class Profile implements OnInit {
   avatarUrlInput = '';
 
   profileForm: FormGroup = this.fb.group({
-    nome: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(10)]],
-    email: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(10), Validators.email]],
-    senha: [{ value: '', disabled: true }, [Validators.minLength(6)]],
-    confirmacaoSenha: [{ value: '', disabled: true }, [Validators.minLength(6)]],
+    nome: ['', [Validators.required, Validators.minLength(10)]],
+    email: ['', [Validators.required, Validators.minLength(10), Validators.email]],
+    senha: ['', [Validators.minLength(6)]],
+    confirmacaoSenha: ['', [Validators.minLength(6)]],
   });
 
   avatarUrl = '';
@@ -43,6 +42,15 @@ export class Profile implements OnInit {
     this.loadUserData();
   }
 
+  formSemAlteracoes(): boolean {
+    if (this.profileForm.invalid) return true;
+
+    const formModificado = this.profileForm.dirty;
+    const avatarOriginal = this.loadedUser?.avatar_url || 'assets/GenericAvatar.png';
+    const avatarModificado = this.avatarUrl !== avatarOriginal;
+    return !formModificado && !avatarModificado;
+  }
+
   loadUserData() {
     this.userService.getProfile().subscribe({
       next: (response: any) => {
@@ -50,20 +58,17 @@ export class Profile implements OnInit {
 
         if (user) {
           this.loadedUser = user;
-          this.avatarUrl = user.avatar_url || 'assets/GenericAvatar.png';;
-          this.role = user.role == 'aluno' ?'Aluno' : 'Professor';
-
-          this.profileForm.enable();
+          this.avatarUrl = user.avatar_url || 'assets/GenericAvatar.png';
+          this.role = user.role == 'aluno' ? 'Aluno' : 'Professor';
 
           this.profileForm.patchValue({
             nome: user.full_name || user.name || '',
             email: user.email || '',
+            senha: '',
+            confirmacaoSenha: ''
           });
 
-          if (!this.isEditing()) {
-            this.profileForm.disable();
-          }
-
+          this.profileForm.markAsPristine();
           this.cdr.detectChanges();
         }
       },
@@ -115,19 +120,6 @@ export class Profile implements OnInit {
     });
   }
 
-  toggleEdit() {
-    const editing = !this.isEditing();
-    this.isEditing.set(editing);
-    this.editandoAvatar.set(false);
-
-    if (editing) {
-      this.profileForm.enable();
-    } else {
-      this.profileForm.disable();
-      this.loadUserData(); // Reseta se cancelado
-    }
-  }
-
   onSubmit() {
     if (this.profileForm.invalid) {
       this.profileForm.markAllAsTouched();
@@ -137,21 +129,23 @@ export class Profile implements OnInit {
 
     const formValues = this.profileForm.getRawValue();
 
-    // TODO: Validação de senha quando a API suportar
-    // if (formValues.senha && formValues.senha !== formValues.confirmacaoSenha) {
-    //   this.mensagem.set("As senhas não coincidem.");
-    //   return;
-    // }
+    if (formValues.senha && formValues.senha !== formValues.confirmacaoSenha) {
+      this.mensagem.set("As senhas não coincidem.");
+      return;
+    }
 
     this.enviando.set(true);
 
-    // A API espera: email, role, full_name, avatar_url
     const payload: any = {
       full_name: formValues.nome,
       email: formValues.email,
       role: this.role,
       avatar_url: this.avatarUrl !== 'assets/GenericAvatar.png' ? this.avatarUrl : ''
     };
+
+    if (formValues.senha) {
+      payload.password = formValues.senha;
+    }
 
     console.log('Payload enviado:', payload);
 
@@ -164,14 +158,11 @@ export class Profile implements OnInit {
         }
 
         this.enviando.set(false);
-        this.isEditing.set(false);
-        this.profileForm.disable();
 
         if (response && response.user) {
           this.loadedUser = response.user;
         }
 
-        // Atualizar localStorage com os novos dados
         if (typeof localStorage !== 'undefined' && response && response.user) {
           const user = response.user;
           const updatedUser = {
@@ -181,6 +172,8 @@ export class Profile implements OnInit {
           };
           localStorage.setItem('user_data', JSON.stringify(updatedUser));
         }
+        
+        this.profileForm.markAsPristine();
       },
       error: (err) => {
         console.error('Erro ao atualizar perfil', err);

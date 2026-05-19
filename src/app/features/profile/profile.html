@@ -63,12 +63,15 @@
                 </small>
             </section>
 
-            @if (isEditing()) {
             <section class="password-group">
                 <section>
                     <label for="senha">Nova Senha:</label>
                     <input type="password" id="senha" formControlName="senha"
                         placeholder="Digite uma nova senha...">
+                    <small class="erro"
+                        [hidden]="!(profileForm.get('senha')?.touched && profileForm.get('senha')?.invalid)">
+                        A senha precisa ter no mínimo 6 caracteres.
+                    </small>
                 </section>
 
                 <section>
@@ -77,33 +80,21 @@
                         placeholder="Repita sua nova senha...">
                 </section>
             </section>
-            }
 
             @if (mensagem()) {
             <p class="mensagem">{{ mensagem() }}</p>
             }
 
-            <div class="confirm">
-                @if (isEditing()) {
-                <app-custom-button variant="blue" [label]="enviando() ? 'Salvando...' : 'Confirmar Alterações'"
-                    [disabled]="enviando()"></app-custom-button>
-                }
-            </div>
+            <div class="btn-row">
+                <div class="confirm">
+                    <app-custom-button variant="blue" [label]="enviando() ? 'Salvando...' : 'Confirmar Alterações'"
+                        [disabled]="enviando() || formSemAlteracoes()"></app-custom-button>
+                </div>
 
-            <div class="confirm">
-                @if (!isEditing()) {
-                <app-custom-button variant="blue" label="Editar Perfil" (click)="toggleEdit()"></app-custom-button>
-                } @else {
-                <app-custom-button variant="yellow" label="Cancelar" (click)="toggleEdit()"
-                    [disabled]="enviando()"></app-custom-button>
-                }
+                <div class="confirm">
+                    <app-custom-button variant="red" label="Desconectar" (click)="logout()"></app-custom-button>
+                </div>
             </div>
-
-            @if (!isEditing()) {
-            <div class="confirm">
-                <app-custom-button variant="red" label="Desconectar" (click)="logout()"></app-custom-button>
-            </div>
-            }
         </form>
 
     </div>
