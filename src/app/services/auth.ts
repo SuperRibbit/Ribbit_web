@@ -78,4 +78,18 @@ export class Auth {
       localStorage.removeItem('user_data');
     }
   }
+
+  forgotPassword(email: string): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.apiUrl}/auth/forgot-password`, {
+      email 
+    });
+  }
+
+  resetPassword(token: string, newPassword: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/auth/reset-password`, {
+      token,
+      new_password: newPassword
+    });
+  }
+  
 }
