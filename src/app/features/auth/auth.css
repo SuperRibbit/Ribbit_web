@@ -30,7 +30,11 @@
 
 .left img {
     width: 100%;
-    max-width: 500px;
+    max-width: 400px;
+} 
+
+#ribbit-logo {
+    max-width: 200px;
 }
 
 .right {
@@ -93,6 +97,12 @@ a {
     margin-left: 5px;
 }
 
+small a {
+    font-size: 12px;
+    color: var(--verde-escuro);
+    font-weight: normal;
+}
+
 p {
     font-size: 14px;
     margin: 15px 0 10px;
@@ -115,6 +125,14 @@ button {
 button:hover {
     transform: scale(1.03);
     opacity: 0.9;
+}
+
+.error {
+    background-color: var(--vermelho);
+    color: var(--branco);
+    padding: 10px;
+    margin-top: 16px;
+    margin-bottom: 16px;
 }
 
 @media (max-width: 1024px) {

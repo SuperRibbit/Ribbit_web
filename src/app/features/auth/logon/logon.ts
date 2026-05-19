@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CustomButton } from '../../../shared/components/custom-button/custom-button';
 import { CommonModule } from '@angular/common';
@@ -6,13 +6,14 @@ import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../../../services/auth';
 
 @Component({
-  selector: 'app-register',
+  selector: 'app-logon',
   imports: [FormsModule, CommonModule, CustomButton, ReactiveFormsModule, RouterLink],
-  templateUrl: './register.html',
+  templateUrl: './logon.html',
   styleUrl: '../auth.css',
 })
-export class Register {
+export class Logon {
   registerForm: FormGroup
+  errorMessage = signal<string | null>(null);
 
   constructor( private fb: FormBuilder, private authService: Auth, private router: Router ) {
     this.registerForm = this.fb.group({
@@ -29,14 +30,16 @@ export class Register {
 
   onRegister() {
     if (this.registerForm.invalid) {
-      alert('Preencha todos os campos corretamente.')
+      this.errorMessage.set('Preencha todos os campos corretamente.');
       return
     }
+
+    this.errorMessage.set(null);
 
     const { full_name, email, password, confirmPassword, role, avatar_url } = this.registerForm.value
 
     if (password !== confirmPassword) {
-      alert('As senhas não coincidem!')
+      this.errorMessage.set('As senhas não coincidem!');
       return;
     }
 
@@ -51,7 +54,11 @@ export class Register {
       },
       error: (err) => {
         console.error('Erro ao criar conta', err)
-        alert('Erro ao criar conta.')
+        if (err.error && err.error.message) {
+          this.errorMessage.set(err.error.message);
+        } else {
+          this.errorMessage.set('Não foi possível conectar ao servidor.');
+        }
       }
     })
   }

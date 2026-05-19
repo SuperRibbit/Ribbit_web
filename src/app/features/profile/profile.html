@@ -44,7 +44,7 @@
         }
 
         <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" novalidate>
-            <div class="campo">
+            <section>
                 <label for="nome">Nome Completo:</label>
                 <input type="text" id="nome" formControlName="nome"
                     placeholder="Digite seu nome...">
@@ -52,8 +52,8 @@
                     [hidden]="!(profileForm.get('nome')?.touched && profileForm.get('nome')?.invalid)">
                     Informe um nome válido.
                 </small>
-
-            <section>
+            </div>
+            <div>
                 <label for="email">E-mail:</label>
                 <input type="email" id="email" formControlName="email"
                     placeholder="Digite seu e-mail...">
@@ -61,21 +61,21 @@
                     [hidden]="!(profileForm.get('email')?.touched && profileForm.get('email')?.invalid)">
                     Informe um e-mail válido.
                 </small>
-            </section>
+            </div>
 
             @if (isEditing()) {
             <div class="password-group">
-                <div class="campo">
+                <section>
                     <label for="senha">Nova Senha:</label>
                     <input type="password" id="senha" formControlName="senha"
                         placeholder="Digite uma nova senha...">
-                </div>
+                </section>
 
-                <div class="campo">
+                <section>
                     <label for="confirmacaoSenha">Confirme a senha:</label>
                     <input type="password" id="confirmacaoSenha" formControlName="confirmacaoSenha"
                         placeholder="Repita sua nova senha...">
-                </div>
+                </section>
             </div>
             }
 
@@ -119,3 +119,4 @@
             <app-card-curso-home></app-card-curso-home>
         </div>
     </div>
+</div>

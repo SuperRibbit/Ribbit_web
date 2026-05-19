@@ -12,6 +12,7 @@ import { Auth } from '../../../services/auth';
   styleUrl: '../auth.css'
 })
 export class Login {
+  errorMessage = signal<string | null>(null);
   loginForm: FormGroup
 
   constructor( private fb: FormBuilder, private authService: Auth, private router: Router ) {
@@ -25,9 +26,11 @@ export class Login {
 
   onLogin() {
     if (this.loginForm.invalid) {
-      alert('Por favor, preencha os campos corretamente.')
+      this.errorMessage.set('Por favor, preencha os campos corretamente.');
       return
     }
+
+    this.errorMessage.set(null);
 
     this.authService.login(this.loginForm.value).subscribe({
       next: (response) => {
@@ -36,7 +39,11 @@ export class Login {
       },
       error: (err) => {
         console.error('Erro no login', err)
-        alert('Email ou senha inválidos!')
+        if (err.error && err.error.message) {
+          this.errorMessage.set(err.error.message);
+        } else {
+          this.errorMessage.set('Não foi possível conectar ao servidor.');
+        }
       }
     });
   }
