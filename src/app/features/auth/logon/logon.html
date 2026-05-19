@@ -48,6 +48,12 @@
                 }
             </div>
 
+            @if(errorMessage()) {
+                <div class="error">
+                    <small>{{ errorMessage() }}</small>
+                </div>
+            }
+
             <div class="button">
                 <app-custom-button variant="blue" label="Cadastrar" [disabled]="registerForm.invalid">
                 </app-custom-button>

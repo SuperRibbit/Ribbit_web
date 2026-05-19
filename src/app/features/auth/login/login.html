@@ -32,6 +32,12 @@
                 </small>
             </div>
 
+            @if(errorMessage()) {
+                <div class="error">
+                    <small>{{ errorMessage() }}</small>
+                </div>    
+            }
+
 
             <div class="button">
                 <app-custom-button variant="blue" label="Entrar" [disabled]="loginForm.invalid"></app-custom-button>
