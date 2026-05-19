@@ -50,8 +50,8 @@ export class Profile implements OnInit {
 
         if (user) {
           this.loadedUser = user;
-          this.avatarUrl = user.avatar_url || 'assets/GenericAvatar.png';
-          this.role = user.role || '';
+          this.avatarUrl = user.avatar_url || 'assets/GenericAvatar.png';;
+          this.role = user.role == 'aluno' ?'Aluno' : 'Professor';
 
           this.profileForm.enable();
 
