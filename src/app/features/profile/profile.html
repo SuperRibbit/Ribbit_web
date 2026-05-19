@@ -63,24 +63,6 @@
                 </small>
             </section>
 
-            <section class="password-group">
-                <section>
-                    <label for="senha">Nova Senha:</label>
-                    <input type="password" id="senha" formControlName="senha"
-                        placeholder="Digite uma nova senha...">
-                    <small class="erro"
-                        [hidden]="!(profileForm.get('senha')?.touched && profileForm.get('senha')?.invalid)">
-                        A senha precisa ter no mínimo 6 caracteres.
-                    </small>
-                </section>
-
-                <section>
-                    <label for="confirmacaoSenha">Confirme a senha:</label>
-                    <input type="password" id="confirmacaoSenha" formControlName="confirmacaoSenha"
-                        placeholder="Repita sua nova senha...">
-                </section>
-            </section>
-
             @if (mensagem()) {
             <p class="mensagem">{{ mensagem() }}</p>
             }

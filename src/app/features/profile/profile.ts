@@ -29,8 +29,6 @@ export class Profile implements OnInit {
   profileForm: FormGroup = this.fb.group({
     nome: ['', [Validators.required, Validators.minLength(10)]],
     email: ['', [Validators.required, Validators.minLength(10), Validators.email]],
-    senha: ['', [Validators.minLength(6)]],
-    confirmacaoSenha: ['', [Validators.minLength(6)]],
   });
 
   avatarUrl = '';
@@ -63,9 +61,7 @@ export class Profile implements OnInit {
 
           this.profileForm.patchValue({
             nome: user.full_name || user.name || '',
-            email: user.email || '',
-            senha: '',
-            confirmacaoSenha: ''
+            email: user.email || ''
           });
 
           this.profileForm.markAsPristine();
@@ -128,12 +124,6 @@ export class Profile implements OnInit {
     }
 
     const formValues = this.profileForm.getRawValue();
-
-    if (formValues.senha && formValues.senha !== formValues.confirmacaoSenha) {
-      this.mensagem.set("As senhas não coincidem.");
-      return;
-    }
-
     this.enviando.set(true);
 
     const payload: any = {
@@ -142,10 +132,6 @@ export class Profile implements OnInit {
       role: this.role,
       avatar_url: this.avatarUrl !== 'assets/GenericAvatar.png' ? this.avatarUrl : ''
     };
-
-    if (formValues.senha) {
-      payload.password = formValues.senha;
-    }
 
     console.log('Payload enviado:', payload);
 
