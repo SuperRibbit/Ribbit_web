@@ -100,3 +100,58 @@
 .btn-completar i {
     font-size: 1.2rem;
 }
+
+@media (max-width: 1024px) {
+    .container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .video-main {
+        order: 1;
+    }
+    
+    .sidebar-container {
+        order: 2;
+        position: static;
+        margin-top: 20px;
+    }
+
+    
+    .card-video, .sidebar-container {
+        padding: 20px;
+        border-radius: 20px;
+    }
+
+    .card-video {
+        margin-top: 60px;
+    }
+
+    .card-modulos {
+        max-height: none;
+        overflow-y: visible;
+        padding: 10px;
+    }
+
+    .video-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .btn-completar {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .titulo-sidebar {
+        font-size: 1.2rem;
+    }
+    
+    .info-aula h3 {
+        font-size: 1.1rem;
+    }
+}
