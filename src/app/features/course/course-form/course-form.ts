@@ -26,11 +26,16 @@ export class CourseForm {
   expandedModules = signal<Set<number>>(new Set());
   isSaving = signal(false);
 
+  errorMessage = signal<string | null>(null);
+  successMessage = signal<string | null>(null);
+
   courseForm: FormGroup = this.fb.group({
     title: ['', Validators.required],
     description: ['', Validators.required],
     banner_url: ['']
   });
+
+  get f() { return this.courseForm.controls; }
 
   onAddModuleDraft(data: { title: string }) {
     const newModule: DraftModule = {
@@ -51,10 +56,10 @@ export class CourseForm {
       ...data
     };
 
-    this.modulesDraft.update(modules => 
-      modules.map(mod => 
-        mod.tempId === targetModuleId 
-          ? { ...mod, classes: [...mod.classes, newClass] } 
+    this.modulesDraft.update(modules =>
+      modules.map(mod =>
+        mod.tempId === targetModuleId
+          ? { ...mod, classes: [...mod.classes, newClass] }
           : mod
       )
     );
@@ -62,8 +67,11 @@ export class CourseForm {
   }
 
   async saveEverything() {
+    this.errorMessage.set(null);
+    this.successMessage.set(null);
+
     if (this.courseForm.invalid) {
-      alert("Preencha os dados básicos do curso!");
+      this.errorMessage.set('Preencha os dados básicos do curso antes de salvar.');
       return;
     }
 
@@ -86,7 +94,7 @@ export class CourseForm {
 
         const modulePayload: CreateModulePayload = {
           title: draftMod.title,
-          description: '',     
+          description: '',
           index_order: moduleIndex++,
           fk_course: realCourseId
         };
@@ -113,12 +121,12 @@ export class CourseForm {
         }
       }
 
-      alert('Curso salvo com sucesso!');
+      this.successMessage.set('Curso salvo com sucesso!');
 
     } catch (error: any) {
       const msg = error?.error?.message ?? 'Erro desconhecido. Verifique o console.';
       console.error('Erro ao salvar:', error);
-      alert(`Erro: ${msg}`);
+      this.errorMessage.set(msg);
     } finally {
       this.isSaving.set(false);
     }

@@ -5,14 +5,20 @@
         <section>
           <label>Nome do Curso:</label>
           <input type="text" formControlName="title" placeholder="Digite o nome do curso...">
+          @if (f['title'].invalid && (f['title'].dirty || f['title'].touched)) {
+            <small class="erro">Informe o nome do curso.</small>
+          }
         </section>
-        
+
         <app-custom-button variant="blue" label="Anexar Imagem de Banner"></app-custom-button>
       </div>
 
       <section>
         <label>Descrição do Curso:</label>
         <textarea formControlName="description" placeholder="Digite a descrição geral do curso..." rows="4"></textarea>
+        @if (f['description'].invalid && (f['description'].dirty || f['description'].touched)) {
+          <small class="erro">Informe a descrição do curso.</small>
+        }
       </section>
     </form>
 
@@ -56,35 +62,47 @@
         </button>
       </aside>
 
-    <main class="editor-content">
-      
-      @if (currentView() === 'module') {
-        <app-module-form 
-          (saveModule)="onAddModuleDraft($event)">
-        </app-module-form>
-      }
+      <main class="editor-content">
 
-      @if (currentView() === 'class') {
-        <app-class-form 
-          (saveClass)="onAddClassDraft($event)">
-        </app-class-form>
-      }
+        @if (currentView() === 'module') {
+          <app-module-form
+            (saveModule)="onAddModuleDraft($event)">
+          </app-module-form>
+        }
 
-      @if (currentView() === 'empty') {
-        <div class="empty-state">
-          <img src="assets/placeholder-curriculum.svg" alt="Nenhum item selecionado" class="empty-img" onerror="this.style.display='none'">
-          <p>Utilize o menu lateral para adicionar novos módulos ou aulas à estrutura do seu curso.</p>
-        </div>
-      }
+        @if (currentView() === 'class') {
+          <app-class-form
+            (saveClass)="onAddClassDraft($event)">
+          </app-class-form>
+        }
 
-    </main>
+        @if (currentView() === 'empty') {
+          <div class="empty-state">
+            <img src="assets/placeholder-curriculum.svg" alt="Nenhum item selecionado" class="empty-img" onerror="this.style.display='none'">
+            <p>Utilize o menu lateral para adicionar novos módulos ou aulas à estrutura do seu curso.</p>
+          </div>
+        }
 
+      </main>
     </div>
-    <app-custom-button 
-      variant="green" 
-      [label]="isSaving() ? 'Checando tudo...' : 'Finalizar e Salvar Curso'" 
+
+    @if (errorMessage()) {
+      <div class="error">
+        <small>{{ errorMessage() }}</small>
+      </div>
+    }
+
+    @if (successMessage()) {
+      <div class="success">
+        <small>{{ successMessage() }}</small>
+      </div>
+    }
+
+    <app-custom-button
+      variant="green"
+      [label]="isSaving() ? 'Checando tudo...' : 'Finalizar e Salvar Curso'"
       [disabled]="isSaving() || courseForm.invalid || modulesDraft().length === 0"
-      (click)="saveEverything()" 
+      (click)="saveEverything()"
       class="final-btn">
     </app-custom-button>
   </div>

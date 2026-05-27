@@ -11,7 +11,7 @@ import { CustomButton } from '../../../../shared/components/custom-button/custom
 })
 export class ClassForm {
   private fb = inject(FormBuilder);
-  
+
   @Output() saveClass = new EventEmitter<{ title: string, description: string, file_url: string }>();
 
   classForm: FormGroup = this.fb.group({
@@ -19,6 +19,8 @@ export class ClassForm {
     description: ['', Validators.required],
     file_url: ['']
   });
+
+  get f() { return this.classForm.controls; }
 
   onSubmit() {
     if (this.classForm.valid) {

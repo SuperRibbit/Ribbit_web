@@ -7,16 +7,22 @@
   <section class="input-section">
     <label>Nome da Aula:</label>
     <input type="text" formControlName="title" placeholder="Ex: Instalando o ambiente...">
+    @if (f['title'].invalid && (f['title'].dirty || f['title'].touched)) {
+      <small class="erro">Informe o nome da aula.</small>
+    }
   </section>
-  
+
   <section class="input-section">
     <label>Descrição da Aula:</label>
     <textarea formControlName="description" placeholder="Descreva os tópicos abordados nesta aula..." rows="5"></textarea>
+    @if (f['description'].invalid && (f['description'].dirty || f['description'].touched)) {
+      <small class="erro">Informe a descrição da aula.</small>
+    }
   </section>
-  
+
   <div class="file-upload-row">
-     <input type="text" readonly placeholder="Nenhum arquivo selecionado..." formControlName="file_url">
-     <app-custom-button variant="blue" label="Anexar Arquivo"></app-custom-button>
+    <input type="text" readonly placeholder="Nenhum arquivo selecionado..." formControlName="file_url">
+    <app-custom-button variant="blue" label="Anexar Arquivo"></app-custom-button>
   </div>
 
   <div class="action-row">

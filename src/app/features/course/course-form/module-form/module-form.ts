@@ -11,12 +11,14 @@ import { CustomButton } from '../../../../shared/components/custom-button/custom
 })
 export class ModuleForm {
   private fb = inject(FormBuilder);
-  
+
   @Output() saveModule = new EventEmitter<{ title: string }>();
 
   moduleForm: FormGroup = this.fb.group({
     title: ['', Validators.required]
   });
+
+  get f() { return this.moduleForm.controls; }
 
   onSubmit() {
     if (this.moduleForm.valid) {

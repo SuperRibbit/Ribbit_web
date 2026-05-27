@@ -7,8 +7,11 @@
   <section>
     <label>Nome do Módulo:</label>
     <input type="text" formControlName="title" placeholder="Ex: Introdução ao Docker...">
+    @if (f['title'].invalid && (f['title'].dirty || f['title'].touched)) {
+      <small class="erro">Informe o nome do módulo.</small>
+    }
   </section>
-  
+
   <div class="action-row">
     <app-custom-button variant="blue" label="Adicionar Módulo ao Rascunho"></app-custom-button>
   </div>
