@@ -9,6 +9,8 @@ import { Course } from './features/course/course';
 import { PlayerCourse } from './features/player-course/player-course';
 import { Mail } from './features/auth/password_reset/mail/mail';
 import { Reset } from './features/auth/password_reset/reset/reset';
+import { CourseForm } from './features/course/course-form/course-form';
+import { roleGuard } from './guards/role-guard';
 
 export const routes: Routes = [
   { path: '', component: LandingPage, data: { publicRoute: true } },
@@ -21,5 +23,6 @@ export const routes: Routes = [
   { path: 'home', component: Home, canActivate: [authGuard] },
   { path: 'courses/:id', component: Course, canActivate: [authGuard] },
   { path: 'player-course', component: PlayerCourse, canActivate: [authGuard] },
+  { path: 'course-form', component: CourseForm, canActivate: [authGuard, roleGuard] },
   { path: '**', redirectTo: '' } 
 ];
