@@ -1,0 +1,15 @@
+<div class="editor-header">
+  <h3>Novo Módulo</h3>
+  <p class="subtitle">Adicione um módulo à estrutura do seu curso.</p>
+</div>
+
+<form [formGroup]="moduleForm" (ngSubmit)="onSubmit()">
+  <section>
+    <label>Nome do Módulo:</label>
+    <input type="text" formControlName="title" placeholder="Ex: Introdução ao Docker...">
+  </section>
+  
+  <div class="action-row">
+    <app-custom-button variant="blue" label="Adicionar Módulo ao Rascunho"></app-custom-button>
+  </div>
+</form>

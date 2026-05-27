@@ -1,0 +1,25 @@
+<div class="editor-header">
+  <h3>Nova Aula</h3>
+  <p class="subtitle">Cadastre os detalhes e materiais da aula.</p>
+</div>
+
+<form [formGroup]="classForm" (ngSubmit)="onSubmit()">
+  <section class="input-section">
+    <label>Nome da Aula:</label>
+    <input type="text" formControlName="title" placeholder="Ex: Instalando o ambiente...">
+  </section>
+  
+  <section class="input-section">
+    <label>Descrição da Aula:</label>
+    <textarea formControlName="description" placeholder="Descreva os tópicos abordados nesta aula..." rows="5"></textarea>
+  </section>
+  
+  <div class="file-upload-row">
+     <input type="text" readonly placeholder="Nenhum arquivo selecionado..." formControlName="file_url">
+     <app-custom-button variant="blue" label="Anexar Arquivo"></app-custom-button>
+  </div>
+
+  <div class="action-row">
+    <app-custom-button variant="blue" label="Adicionar Aula"></app-custom-button>
+  </div>
+</form>

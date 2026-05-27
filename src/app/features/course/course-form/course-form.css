@@ -1,0 +1,221 @@
+.course-container {
+  background: var(--azul) url('/assets/CloudBGLow.svg') no-repeat center;
+  background-size: cover;
+  padding: 80px;
+  min-height: 100vh;
+  align-items: center;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--branco);
+  border-radius: 16px;
+  padding: 30px;
+  width: 100%;
+  gap: 20px;
+  align-items: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+form input {
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+}
+
+label {
+  font-weight: 500;
+}
+
+textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.header-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.btn-banner, .final-btn {
+  width: max-content;
+}
+
+/* Layout Inferior: Sidebar e Main */
+.curriculum-card {
+  display: flex;
+  padding: 0;
+  overflow: hidden;
+  min-height: 400px;
+  width: 100%;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+}
+
+.sidebar-modules {
+  width: 250px;
+  min-width: 250px;
+  background-color: #e5e5e5;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.editor-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+  padding: 16px;
+  background: var(--branco);
+}
+
+.editor-header h3 {
+  text-align: center;
+  color: var(--azul-escuro);
+  margin-bottom: 25px;
+}
+
+.action-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.btn-add-text {
+  border: none;
+  background: none;
+  color: var(--azul-escuro, --azul);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 0;
+  justify-content: center;
+  border-radius: 8px;
+}
+
+.btn-add-text:hover {
+  background-color: rgba(0, 0, 0, 0.062);
+}
+
+.primary {
+  font-size: 18px;
+}
+
+.file-upload-row {
+  display: flex;
+  gap: 10px;
+}
+
+.file-upload-row input {
+  flex: 1;
+}
+
+.accordion-item {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.accordion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 4px;
+  cursor: pointer;
+  user-select: none;
+  background: transparent;
+  border-radius: 8px;
+}
+
+.accordion-header:hover {
+  background: #00000023;
+}
+
+.accordion-header strong {
+  font-size: 18px;
+  color: var(--azul-escuro);
+  flex: 1;
+}
+
+.accordion-arrow {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+.accordion-arrow img {
+  width: 14px;
+  height: 14px;
+  opacity: 0.5;
+}
+
+.accordion-item.is-open .accordion-arrow {
+  transform: rotate(90deg);
+}
+
+.accordion-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.25s ease;
+}
+
+.accordion-item.is-open .accordion-body {
+  grid-template-rows: 1fr;
+}
+
+.accordion-body-inner {
+  overflow: hidden;
+  background: #fff;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.accordion-body-inner .btn-add-text {
+  margin: 8px;
+}
+
+.class-item {
+  margin: 6px;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #4a5568;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.class-item:hover {
+  background: #e8f0fe;
+  color: var(--azul-escuro);
+}
+
+.class-item:hover {
+  background: #00000023;
+}

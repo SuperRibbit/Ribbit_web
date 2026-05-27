@@ -1,0 +1,91 @@
+<div class="course-container">
+  <div class="card">
+    <form [formGroup]="courseForm">
+      <div class="header-row">
+        <section>
+          <label>Nome do Curso:</label>
+          <input type="text" formControlName="title" placeholder="Digite o nome do curso...">
+        </section>
+        
+        <app-custom-button variant="blue" label="Anexar Imagem de Banner"></app-custom-button>
+      </div>
+
+      <section>
+        <label>Descrição do Curso:</label>
+        <textarea formControlName="description" placeholder="Digite a descrição geral do curso..." rows="4"></textarea>
+      </section>
+    </form>
+
+    <div class="curriculum-card">
+      <aside class="sidebar-modules">
+        @for (modulo of modulesDraft(); track modulo.tempId) {
+          <div class="accordion-item" [class.is-open]="isExpanded(modulo.tempId)">
+
+            <div class="accordion-header" (click)="toggleModule(modulo.tempId)">
+              <strong (click)="openModuleFormForEdit(modulo); $event.stopPropagation()">
+                {{ modulo.title }}
+              </strong>
+              <span class="accordion-arrow">
+                <img src="/assets/chevron_right.svg" alt="">
+              </span>
+            </div>
+
+            <div class="accordion-body">
+              <div class="accordion-body-inner">
+
+                @for (aula of modulo.classes; track aula.tempId) {
+                  <div class="class-item" (click)="openClassFormForEdit(aula, modulo.tempId)">
+                    {{ aula.title }}
+                  </div>
+                }
+
+                <button class="btn-add-text" (click)="openClassForm(modulo.tempId)">
+                  <img src="/assets/add_circle.svg" alt="">
+                  Adicionar Aula
+                </button>
+
+              </div>
+            </div>
+
+          </div>
+        }
+
+        <button class="btn-add-text primary" (click)="openModuleForm()">
+          <img src="/assets/add_circle.svg" alt="">
+          Adicionar Módulo
+        </button>
+      </aside>
+
+    <main class="editor-content">
+      
+      @if (currentView() === 'module') {
+        <app-module-form 
+          (saveModule)="onAddModuleDraft($event)">
+        </app-module-form>
+      }
+
+      @if (currentView() === 'class') {
+        <app-class-form 
+          (saveClass)="onAddClassDraft($event)">
+        </app-class-form>
+      }
+
+      @if (currentView() === 'empty') {
+        <div class="empty-state">
+          <img src="assets/placeholder-curriculum.svg" alt="Nenhum item selecionado" class="empty-img" onerror="this.style.display='none'">
+          <p>Utilize o menu lateral para adicionar novos módulos ou aulas à estrutura do seu curso.</p>
+        </div>
+      }
+
+    </main>
+
+    </div>
+    <app-custom-button 
+      variant="green" 
+      [label]="isSaving() ? 'Checando tudo...' : 'Finalizar e Salvar Curso'" 
+      [disabled]="isSaving() || courseForm.invalid || modulesDraft().length === 0"
+      (click)="saveEverything()" 
+      class="final-btn">
+    </app-custom-button>
+  </div>
+</div>
