@@ -84,7 +84,9 @@
     <div class="course-section">
         <div class="course-header">
             <h2>Meus Cursos</h2>
-            <app-custom-button variant="green" label="Cadastrar novo curso"></app-custom-button>
+            @if (role == 'Professor') {
+                <app-custom-button variant="green" label="Cadastrar novo curso" routerLink="/course-form"></app-custom-button>
+            }
         </div>
 
         <div class="course-grid">
