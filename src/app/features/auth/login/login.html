@@ -40,7 +40,7 @@
 
 
             <div class="button">
-                <app-custom-button variant="blue" label="Entrar" [disabled]="loginForm.invalid"></app-custom-button>
+                <app-custom-button variant="blue" [label]="loading() ? 'Entrando...' : 'Entrar'" [disabled]="loginForm.invalid || loading()"></app-custom-button>
             </div>
 
             <p>Ainda não possui uma conta? <a routerLink="/logon">Cadastre-se</a></p>

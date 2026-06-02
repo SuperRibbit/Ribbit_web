@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { Observable, switchMap, tap } from 'rxjs';
 import { LoginResponse, User } from '../models/user';
 
@@ -7,9 +7,11 @@ import { LoginResponse, User } from '../models/user';
   providedIn: 'root',
 })
 export class Auth {
-  private readonly apiUrl = 'https://ribbit-api.onrender.com/ribbit'
+  private readonly apiUrl = 'https://ribbit-api-kf5q.onrender.com/ribbit';
 
   private http = inject(HttpClient)
+
+  avatarUrl = signal<string>('assets/GenericAvatar.png');
 
   login(credentials: { email: string, password: string }): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/auth/login`, credentials)
@@ -22,6 +24,9 @@ export class Auth {
             name: response.user.full_name
           };
           localStorage.setItem('user_data', JSON.stringify(userData));
+          if (response.user && (response.user as any).avatar_url) {
+            this.avatarUrl.set((response.user as any).avatar_url);
+          }
         })
       );
   }
@@ -77,6 +82,11 @@ export class Auth {
       localStorage.removeItem('token');
       localStorage.removeItem('user_data');
     }
+    this.avatarUrl.set('assets/GenericAvatar.png');
+  }
+
+  setAvatar(url: string): void {
+    this.avatarUrl.set(url || 'assets/GenericAvatar.png');
   }
 
   forgotPassword(email: string): Observable<{ message: string }> {

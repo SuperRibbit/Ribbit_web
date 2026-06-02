@@ -32,11 +32,12 @@
     margin-left: auto;
 }
 
-.perfil-left img {
-    width: 100px;
-    height: 100px;
+.profile-left img {
+    width: 140px;
+    height: 140px;
     border-radius: 50%;
-    object-fit: cover;
+    object-fit: contain;
+    background: #f5f5f5;
     border: 1px solid var(--verde-escuro);
 }
 
@@ -129,7 +130,7 @@ section {
     max-width: 250px;
 }
 
-.perfil-left app-custom-button {
+.profile-left app-custom-button {
     width: 90%;
     max-width: 200px;
 }
