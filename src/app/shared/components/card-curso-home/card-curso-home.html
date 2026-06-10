@@ -1,9 +1,11 @@
 <section class="card-container">
     <div class="card-image-area">
-        <img [src]="imageUrl" [alt]="description" class="card-image">
+        <img [src]="curso?.banner_url || 'assets/imageScratch.png'" [alt]="curso?.title" class="card-image">
     </div>
 
     <div class="card-text-area">
-        <p class="card-description">{{ description }}</p>
+        <h3 class="card-titulo">{{ curso?.title }}</h3>
+        
+        <p class="card-description">{{ curso?.description }}</p>
     </div>
 </section>

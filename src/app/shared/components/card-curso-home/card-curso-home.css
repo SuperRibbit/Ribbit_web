@@ -44,3 +44,13 @@
     text-align: left;
     margin: 0;
 }
+
+.card-titulo {
+    font-size: 1.1rem;
+    color: #333333;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

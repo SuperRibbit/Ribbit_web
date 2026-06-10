@@ -9,6 +9,5 @@ import { CommonModule } from '@angular/common';
   styleUrl: './card-curso-home.css',
 })
 export class CardCursoHome {
-  @Input() imageUrl: string = 'assets/imageScratch.png';
-  @Input() description: string = 'Lorem ipsum dolor sit amet, consectetur.'; 
+  @Input() curso: any;
 }
