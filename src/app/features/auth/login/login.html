@@ -21,8 +21,16 @@
 
             <div class="field">
                 <label for="password">Senha</label>
-                <input type="password" id="password" name="password" required minlength="6" formControlName="password" placeholder="Digite sua senha...">
+                
+                <div>
+                    <input [type]="showPassword ? 'text' : 'password'"
+                     id="password" name="password" required minlength="6" formControlName="password" placeholder="Digite sua senha...">
 
+                    <button type="button" (click)="showPassword = !showPassword">
+                        <i [class]="showPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"></i>
+                    </button>   
+                </div>
+                
                 @if (f['password'].invalid && (f['password'].dirty || f['password'].touched)) {
                     <small class="erro">A senha deve ter ao menos 6 caracteres.</small>
                 }

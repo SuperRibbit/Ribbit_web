@@ -14,7 +14,8 @@ import { Auth } from '../../../services/auth';
 export class Login {
   errorMessage = signal<string | null>(null);
   loading = signal(false);
-  loginForm: FormGroup
+  loginForm: FormGroup;
+  showPassword = false;
 
   constructor( private fb: FormBuilder, private authService: Auth, private router: Router ) {
     this.loginForm = this.fb.group({
