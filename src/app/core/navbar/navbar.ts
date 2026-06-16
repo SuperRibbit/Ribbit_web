@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CustomButton } from "../../shared/components/custom-button/custom-button";
 import { RouterLink } from "@angular/router";
 import { Auth } from '../../services/auth';
@@ -15,9 +15,18 @@ export class Navbar implements OnInit {
   private userService = inject(UserService);
 
   avatarUrl = this.auth.avatarUrl;
+  menuOpen = signal(false);
 
   get isLogged() {
     return this.auth.isLoggedIn();
+  }
+
+  toggleMenu() {
+    this.menuOpen.update(v => !v);
+  }
+
+  closeMenu() {
+    this.menuOpen.set(false);
   }
 
   ngOnInit() {

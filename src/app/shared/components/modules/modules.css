@@ -90,3 +90,36 @@
     accent-color: var(--azul-escuro);
     cursor: pointer;
 }
+
+@media (max-width: 480px) {
+    .modulo-header {
+        padding: 10px 8px;
+    }
+
+    .header-info {
+        gap: 10px;
+    }
+
+    .icon-play-main {
+        width: 36px;
+        height: 36px;
+        flex-shrink: 0;
+    }
+
+    .icon-play-main i {
+        font-size: 0.9rem;
+    }
+
+    .modulo-titulo {
+        font-size: 0.9rem;
+    }
+
+    .lista-aulas {
+        padding-left: 20px;
+    }
+
+    .aula-item {
+        font-size: 0.85rem;
+        gap: 8px;
+    }
+}
