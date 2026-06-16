@@ -11,9 +11,10 @@ import { Mail } from './features/auth/password_reset/mail/mail';
 import { Reset } from './features/auth/password_reset/reset/reset';
 
 export const routes: Routes = [
-  { path: '', component: LandingPage },
+  { path: '', component: LandingPage, data: { publicRoute: true } },
   { path: 'login', component: Login, data: { hideNavbar: true }},
   { path: 'logon', component: Logon, data: { hideNavbar: true } },
+  { path: 'register', redirectTo: '/logon' },
   { path: 'forgot-password', component: Mail, data: { hideNavbar: true }},
   { path: 'reset-password', component: Reset, data: { hideNavbar: true }},
   { path: 'profile', component: Profile, canActivate: [authGuard] },
