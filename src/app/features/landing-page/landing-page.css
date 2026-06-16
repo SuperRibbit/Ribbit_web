@@ -154,11 +154,60 @@ app-custom-button {
         display: none;
     }
 
+    .first, .second {
+        flex-direction: column;
+        padding: 24px;
+        text-align: center;
+    }
+
+    .first img, .second img {
+        max-width: 200px;
+    }
+
+    .second .text h2, .second .text p {
+        text-align: center;
+    }
+
     .content {
         padding: 20px;
+        gap: 20px;
     }
 
     .content iframe {
         height: 400px;
+    }
+
+    app-custom-button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-temp,
+    .hero {
+        padding: 60px 16px;
+    }
+
+    header h1 {
+        font-size: 26px;
+    }
+
+    .note {
+        width: auto;
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+
+    .first, .second {
+        padding: 20px 16px;
+        gap: 16px;
+    }
+
+    .first img, .second img {
+        max-width: 140px;
+    }
+
+    .content {
+        padding: 16px;
     }
 }

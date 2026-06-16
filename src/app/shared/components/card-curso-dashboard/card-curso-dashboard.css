@@ -116,5 +116,26 @@ app-custom-button {
 @media (max-width: 768px) { 
     .container {
         width: 100%;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 12px;
+        gap: 8px;
+    }
+
+    .card-image-area {
+        height: 120px;
+    }
+
+    .card-title {
+        font-size: 14px;
+    }
+
+    .card-container ::ng-deep .btn-base {
+        padding: 12px 0;
+        font-size: 15px;
     }
 }

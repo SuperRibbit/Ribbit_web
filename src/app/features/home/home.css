@@ -94,10 +94,22 @@ app-footer ::ng-deep .footer {
 }
 
 @media (max-width: 768px) {
-    .activities-grid,
+    .activities-grid {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 16px;
+    }
     .cursos-grid {
         grid-template-columns: 1fr;
         justify-items: center;
+    }
+    .home-section {
+        padding: 20px;
+        margin-top: 24px;
+        border-radius: 20px;
+    }
+    .catalog-section {
+        padding: 20px;
     }
     .card-container {
         width: 100%;
@@ -106,5 +118,25 @@ app-footer ::ng-deep .footer {
     }
     .section-header h2{
         font-size: larger;
+    }
+}
+
+@media (max-width: 480px) {
+    .home-section {
+        padding: 16px;
+        margin-top: 16px;
+        border-radius: 16px;
+    }
+
+    .recent-activities {
+        margin: 80px 8px 0 8px;
+    }
+
+    .catalog-section {
+        padding: 16px;
+    }
+
+    .activities-grid {
+        gap: 12px;
     }
 }

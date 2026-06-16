@@ -6,12 +6,17 @@
     @if (!isLogged) {
     <div class="button-row">
         <app-custom-button variant="white" label="LOGIN" routerLink="/login"></app-custom-button>
-        <app-custom-button variant="green" label="CADASTRO" routerLink="/logon"></app-custom-button>
+        <app-custom-button variant="green" label="CADASTRO" routerLink="/register"></app-custom-button>
     </div>
     } @else {
-    <div class="menu-row">
-        <a routerLink="/home">Página Inicial</a>
-        <a routerLink="/profile">
+    <button class="hamburger" (click)="toggleMenu()" [class.active]="menuOpen()" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <div class="menu-row" [class.open]="menuOpen()">
+        <a routerLink="/home" (click)="closeMenu()">Página Inicial</a>
+        <a routerLink="/profile" (click)="closeMenu()">
             <img [src]="avatarUrl()" (error)="avatarUrl.set('assets/GenericAvatar.png')" alt="Perfil" class="navbar-avatar">
         </a>
     </div>
