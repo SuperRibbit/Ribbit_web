@@ -7,7 +7,7 @@ import { LoginResponse, User } from '../models/user';
   providedIn: 'root',
 })
 export class Auth {
-  private readonly apiUrl = 'https://ribbit-api.onrender.com/ribbit'
+  private readonly apiUrl = 'https://ribbit-api-kf5q.onrender.com/ribbit'
 
   private http = inject(HttpClient)
 

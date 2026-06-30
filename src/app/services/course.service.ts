@@ -7,7 +7,7 @@ import { Auth } from './auth';
   providedIn: 'root',
 })
 export class CourseService {
-  private readonly apiUrl = 'https://ribbit-api.onrender.com/ribbit/courses';
+  private readonly apiUrl = 'https://ribbit-api-kf5q.onrender.com/ribbit/courses';
   private http = inject(HttpClient);
   private authService = inject(Auth);
 
