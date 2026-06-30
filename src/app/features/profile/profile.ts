@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Auth } from '../../services/auth';
 import { User as UserService } from '../../services/user';
+import { EnrollmentsService } from '../../services/enrollments.service';
 
 @Component({
   selector: 'app-profile',
@@ -17,6 +18,7 @@ export class Profile implements OnInit {
   private router = inject(Router);
   private authService = inject(Auth);
   private userService = inject(UserService);
+  private enrollmentsService = inject(EnrollmentsService);
   private cdr = inject(ChangeDetectorRef);
   private fb = inject(FormBuilder);
 
@@ -25,6 +27,8 @@ export class Profile implements OnInit {
   editandoAvatar = signal(false);
   avatarPreviewValida = signal(false);
   avatarUrlInput = '';
+
+  listaMeusCursos = signal<any[]>([]);
 
   profileForm: FormGroup = this.fb.group({
     nome: ['', [Validators.required, Validators.minLength(10)]],
@@ -38,6 +42,20 @@ export class Profile implements OnInit {
 
   ngOnInit() {
     this.loadUserData();
+    this.loadUserCourses();
+  }
+
+  loadUserCourses() {
+    this.enrollmentsService.getMyCourses().subscribe({
+      next: (response: any) => {
+        if (response && response.courses) {
+          this.listaMeusCursos.set(response.courses);
+        }
+      },
+      error: (err) => {
+        console.error('Erro ao buscar cursos do perfil:', err);
+      }
+    });
   }
 
   formSemAlteracoes(): boolean {
