@@ -4,11 +4,13 @@
     </div>
 
     <div class="progress-container">
-        <div class="progress-bar-fill" [style.width.%]="progress"></div>
+        <div class="progress-header">
+            <span class="progress-text">{{ progress }}% concluído</span>
+        </div>
         
-        <span class="progress-text">{{ progress }}%</span>
-
-        <div class="progress-bar-bg"></div>
+        <div class="progress-bar-track">
+            <div class="progress-bar-fill" [style.width.%]="progress"></div>
+        </div>
     </div>
 
     <div class="card-text-area">
@@ -16,5 +18,4 @@
     </div>
 
     <app-custom-button variant="blue" label="RETOMAR"></app-custom-button>
-
 </section>

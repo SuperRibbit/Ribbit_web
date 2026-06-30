@@ -5,14 +5,15 @@
             <h2>Atividades Recentes</h2>
         </div>
         <div class="activities-grid">
-            <app-card-curso-dashboard 
-                [progress]="75" 
-                description="Scratch: introdução a programação de forma gamificada">
-            </app-card-curso-dashboard>
-            <app-card-curso-dashboard 
-                [progress]="35" 
-                description="Javascript, Html e Css">
-            </app-card-curso-dashboard>
+            @for (item of listaAtividadesRecentes(); track item.enrollment_id) {
+                <app-card-curso-dashboard 
+                    [progress]="item.progress" 
+                    [description]="item.course.title"
+                    [imageUrl]="item.course.banner_url || 'assets/imageScratch.png'">
+                </app-card-curso-dashboard>
+            } @empty {
+                <p>Você ainda não iniciou nenhum curso.</p>
+            }
         </div>
     </section>
 
