@@ -55,7 +55,7 @@
             }
 
             <div class="button">
-                <app-custom-button variant="blue" label="Cadastrar" [disabled]="registerForm.invalid">
+                <app-custom-button variant="blue" [label]="loading() ? 'Cadastrando...' : 'Cadastrar'" [disabled]="registerForm.invalid || loading()">
                 </app-custom-button>
             </div>
 

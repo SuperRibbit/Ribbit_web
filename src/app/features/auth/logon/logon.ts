@@ -14,6 +14,7 @@ import { Auth } from '../../../services/auth';
 export class Logon {
   registerForm: FormGroup
   errorMessage = signal<string | null>(null);
+  loading = signal(false);
 
   constructor( private fb: FormBuilder, private authService: Auth, private router: Router ) {
     this.registerForm = this.fb.group({
@@ -35,11 +36,13 @@ export class Logon {
     }
 
     this.errorMessage.set(null);
+    this.loading.set(true);
 
     const { full_name, email, password, confirmPassword, role, avatar_url } = this.registerForm.value
 
     if (password !== confirmPassword) {
       this.errorMessage.set('As senhas não coincidem!');
+      this.loading.set(false);
       return;
     }
 
@@ -49,6 +52,7 @@ export class Logon {
       next: (response) => {
         console.log('Usuário criado!', response)
         alert('Conta criada com sucesso!')
+        this.loading.set(false);
         this.router.navigate(['/home'])
         this.registerForm.reset()
       },
@@ -59,6 +63,7 @@ export class Logon {
         } else {
           this.errorMessage.set('Não foi possível conectar ao servidor.');
         }
+        this.loading.set(false);
       }
     })
   }

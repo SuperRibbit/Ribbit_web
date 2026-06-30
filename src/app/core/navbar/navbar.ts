@@ -1,8 +1,9 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CustomButton } from "../../shared/components/custom-button/custom-button";
-import { RouterLink } from "@angular/router";
+import { NavigationEnd, Router, RouterLink } from "@angular/router";
 import { Auth } from '../../services/auth';
 import { User as UserService } from '../../services/user';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -13,27 +14,40 @@ import { User as UserService } from '../../services/user';
 export class Navbar implements OnInit {
   private auth = inject(Auth);
   private userService = inject(UserService);
+  private router = inject(Router);
 
-  avatarUrl = signal<string>('assets/GenericAvatar.png');
+  avatarUrl = this.auth.avatarUrl;
+  isPublicRoute = false;
 
   get isLogged() {
     return this.auth.isLoggedIn();
   }
 
+  get showPublic() {
+    return this.isPublicRoute || !this.isLogged;
+  }
+
+  private updatePublicRoute() {
+    const rotaAtual = this.router.routerState.root.firstChild;
+    this.isPublicRoute = rotaAtual?.snapshot.data['publicRoute'] ?? false;
+  }
+
+  constructor() {
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => this.updatePublicRoute());
+  }
+
   ngOnInit() {
-    if (this.isLogged) {
+    this.updatePublicRoute();
+
+    if (this.isLogged && !this.isPublicRoute) {
       this.loadUserAvatar();
     }
   }
 
   loadUserAvatar() {
     this.userService.getProfile().subscribe({
-      next: (response: any) => {
-        const user = response.user ? response.user : response;
-        if (user && user.avatar_url) {
-          this.avatarUrl.set(user.avatar_url);
-        }
-      },
       error: (err) => {
         console.error('Erro ao carregar avatar na navbar:', err);
       }
