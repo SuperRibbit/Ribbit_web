@@ -1,31 +1,35 @@
 <div class="container">
+    @if (curso()) {
+        <section class="curso-header-card">
+            <h1 class="titulo-curso">{{ curso().title }}</h1>
+            
+            <div class="header-content">
+                <div class="banner-placeholder">
+                    <img [src]="curso().banner_url || 'assets/imageScratch.png'" alt="Banner do Curso">
+                </div>
 
-    <section class="curso-header-card">
-        <h1 class="titulo-curso">Nome do Curso</h1>
-    
-        <div class="header-content">
-            <div class="banner-placeholder">
-                <img src="assets/imageScratch.png" alt="Banner do Curso">
+                <div class="texto-informativo">
+                    <p>{{ curso().description }}</p>
+                    @if (curso().teacher_name) {
+                        <small class="professor-nome">Instrutor: {{ curso().teacher_name }}</small>
+                    }
+                </div>
             </div>
+        </section>
 
-            <div class="texto-informativo">
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam dignissim 
-                    condimentum risus non lacinia. Mauris varius, felis vitae tempor vulputate, 
-                    mi ligula pulvinar leo, in pulvinar magna felis eu sapien.
-                </p>
-            </div>
+        <section class="modulos-card">
+            <h2 class="modulos-titulo">Módulos</h2>
+            
+            @for (modulo of curso().modules; track modulo.module_id) {
+                <app-modules [modules]="modulo"></app-modules>
+            } @empty {
+                <p>Nenhum conteúdo disponível para este curso.</p>
+            }
+        </section>
+    } @else {
+        <div class="loading-state">
+            <p>Carregando estrutura do curso...</p>
         </div>
-    </section>
-
-    <section class="modulos-card">
-        <h2 class="modulos-titulo">Módulos</h2>
-        
-        @for (modulo of curso?.modules; track modulo.module_id) {
-            <app-modules [modules]="modulo"></app-modules>
-        } @empty {
-            <p>Nenhum conteúdo disponível para este curso.</p>
-        }
-    </section>
+    }
 
 </div>
