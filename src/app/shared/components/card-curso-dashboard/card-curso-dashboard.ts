@@ -9,14 +9,9 @@ import { CustomButton } from '../custom-button/custom-button';
   templateUrl: './card-curso-dashboard.html',
   styleUrl: './card-curso-dashboard.css',
 })
-export class CardCursoDashboard {
+
+export class CardCursoDashboard{
   @Input() imageUrl: string = 'assets/imageScratch.png';
   @Input() description: string = 'Lorem ipsum dolor sit amet, consectetur.';
-  @Input() progress: number = 75;
-
-  getProgressStyle() {
-    return {
-      width: `${this.progress}%`
-    };
-  }
+  @Input() progress: number = 0;
 }

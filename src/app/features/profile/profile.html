@@ -80,6 +80,7 @@
         </form>
 
     </div>
+    
     <div class="course-section">
         <div class="course-header">
             <h2>Meus Cursos</h2>
@@ -87,9 +88,11 @@
         </div>
 
         <div class="course-grid">
-            <app-card-curso-home></app-card-curso-home>
-            <app-card-curso-home></app-card-curso-home>
-            <app-card-curso-home></app-card-curso-home>
+            @for (item of listaMeusCursos(); track item.enrollment_id) {
+                <app-card-curso-home [curso]="item.course"></app-card-curso-home>
+            } @empty {
+                <p class="carregando-aviso">Nenhum curso iniciado no momento.</p>
+            }
         </div>
     </div>
 </div>

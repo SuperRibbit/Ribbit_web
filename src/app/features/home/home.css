@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 .container {
     flex: 1;
     min-height: 100vh;
@@ -9,15 +13,17 @@
     background: var(--azul) url('/assets/CloudBGLow.svg') no-repeat center;
     background-size: cover;
     overflow-x: hidden;
+    width: 100%;
 }
 
 .content-wrapper {
     display: flex;
     flex-direction: column;
     gap: 32px;
+    width: 100%;
 }
 
-.home-section{
+.home-section {
     background-color: var(--branco);
     border-radius: 30px;
     padding: 32px;
@@ -27,12 +33,76 @@
 
 .cursos-grid {
     display: grid;
-    gap: 32px;
-    justify-items: center;
-    justify-content: center;
     width: 100%;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(4, minmax(160px, 1fr));
+    gap: 16px; 
+    justify-content: center;
+}
+
+app-card-curso-home ::ng-deep .card-container {
+    width: 100% !important;
+    max-width: 250px;
+    min-height: 250px !important; 
+    height: auto !important;
+    background-color: var(--branco);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    box-sizing: border-box;
+    margin: 0 auto;
+    justify-content: space-between;
+}
+
+app-card-curso-home ::ng-deep .card-image-area {
+    width: 100% !important;
+    height: 140px !important;
+    background-color: #4C96FF;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    flex-shrink: 0;
+}
+
+app-card-curso-home ::ng-deep .card-image {
+    max-width: 85%;
+    max-height: 85%;
+    object-fit: contain;
+}
+
+app-card-curso-home ::ng-deep .card-text-area {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: auto;
+}
+
+app-card-curso-home ::ng-deep .card-titulo {
+    font-size: 1.1rem;
+    color: #333333;
+    font-weight: 700;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+app-card-curso-home ::ng-deep .card-description {
+    font-family: 'Raleway', sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--text-dark);
+    line-height: 1.3;
+    margin: 0;
+    width: 100%;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important; 
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
 }
 
 .activities-grid {
@@ -47,7 +117,7 @@
     color: var(--verde-escuro);
 }
 
-.recent-activities{
+.recent-activities {
     margin: 100px 80px 0px 80px;
     align-items: stretch;
 }
@@ -57,7 +127,7 @@
     width: 100%; 
     background-color: var(--branco);
     border-radius: 30px 30px 0 0;
-    padding: 60px;
+    padding: 60px 24px;
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.05);
     display: flex;
     flex-direction: column;
@@ -79,32 +149,18 @@ app-footer ::ng-deep .footer {
     background-color: var(--verde-claro);
 }
 
-@media (max-width: 1200px) {
-    .recent-activities { 
-        margin: 100px 10px 80px 10px;
-        width: auto;
-        padding: auto;
-    }
+@media (max-width: 992px) {
     .cursos-grid {
         grid-template-columns: repeat(2, 1fr);
     }
-    .catalog-section{
-        margin: 0 5px;
+    .catalog-section {
+        padding: 40px 16px;
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 600px) {
     .activities-grid,
     .cursos-grid {
         grid-template-columns: 1fr;
-        justify-items: center;
-    }
-    .card-container {
-        width: 100%;
-        max-width: 420px;
-        margin: 0 auto;
-    }
-    .section-header h2{
-        font-size: larger;
     }
 }
