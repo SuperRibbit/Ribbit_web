@@ -1,167 +1,172 @@
-import { Component, inject, signal } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { lastValueFrom } from 'rxjs';
-import { ModuleForm } from './module-form/module-form';
-import { ClassForm } from './class-form/class-form';
+import { Component, signal, inject } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { CourseModule } from '../../../models/course';
 import { CourseService } from '../../../services/course_service';
-import { Course, CreateClassPayload, CreateModulePayload, DraftClass, DraftModule } from '../../../models/course';
 import { CustomButton } from "../../../shared/components/custom-button/custom-button";
+import { ClassForm } from "./class-form/class-form";
+import { ModuleForm } from "./module-form/module-form";
 
 @Component({
-  selector: 'app-course-editor',
-  standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, ModuleForm, ClassForm, CustomButton],
+  selector: 'app-course-form',
   templateUrl: './course-form.html',
-  styleUrl: './course-form.css'
+  styleUrls: ['./course-form.css'],
+  standalone: true,
+  imports: [ReactiveFormsModule, CustomButton, ClassForm, ModuleForm, ClassForm]
 })
 export class CourseForm {
   private fb = inject(FormBuilder);
   private courseService = inject(CourseService);
 
-  modulesDraft = signal<DraftModule[]>([]);
+  courseForm: FormGroup = this.fb.group({
+    title: ['', [Validators.required, Validators.minLength(3)]],
+    description: ['', [Validators.required]]
+  });
 
-  currentView = signal<'module' | 'class' | 'empty'>('empty');
-  selectedModuleTempId = signal<number | null>(null);
-  expandedModules = signal<Set<number>>(new Set());
-  isSaving = signal(false);
-
+  bannerPreviewUrl = signal<string | ArrayBuffer | null>(null);
+  isSaving = signal<boolean>(false);
+  savedCourseId = signal<number | null>(null);
+  savedModules = signal<CourseModule[]>([]);
+  currentView = signal<'empty' | 'module' | 'class'>('empty');
+  
   errorMessage = signal<string | null>(null);
   successMessage = signal<string | null>(null);
-
-  courseForm: FormGroup = this.fb.group({
-    title: ['', Validators.required],
-    description: ['', Validators.required],
-    banner_url: ['']
-  });
+  
+  selectedClassForEdit = signal<any | null>(null);
+  expandedModules = signal<Set<number>>(new Set());
+  
+  private bannerFile: File | null = null;
+  private targetModuleIdForClass: number | null = null;
 
   get f() { return this.courseForm.controls; }
 
-  onAddModuleDraft(data: { title: string }) {
-    const newModule: DraftModule = {
-      tempId: Date.now(),
-      title: data.title,
-      classes: []
-    };
-    this.modulesDraft.update(modules => [...modules, newModule]);
-    this.currentView.set('empty');
-  }
-
-  onAddClassDraft(data: { title: string, description: string, file_url: string }) {
-    const targetModuleId = this.selectedModuleTempId();
-    if (!targetModuleId) return;
-
-    const newClass: DraftClass = {
-      tempId: Date.now(),
-      ...data
-    };
-
-    this.modulesDraft.update(modules =>
-      modules.map(mod =>
-        mod.tempId === targetModuleId
-          ? { ...mod, classes: [...mod.classes, newClass] }
-          : mod
-      )
-    );
-    this.currentView.set('empty');
-  }
-
-  async saveEverything() {
-    this.errorMessage.set(null);
-    this.successMessage.set(null);
-
-    if (this.courseForm.invalid) {
-      this.errorMessage.set('Preencha os dados básicos do curso antes de salvar.');
-      return;
+  onBannerFileChange(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      this.bannerFile = file;
+      const reader = new FileReader();
+      reader.onload = () => this.bannerPreviewUrl.set(reader.result);
+      reader.readAsDataURL(file);
     }
+  }
+
+  removeBanner(): void {
+    this.bannerFile = null;
+    this.bannerPreviewUrl.set(null);
+  }
+
+  createCourse(): void {
+    if (this.courseForm.invalid) return;
 
     this.isSaving.set(true);
+    this.errorMessage.set(null);
 
-    try {
-      const courseData: Course = {
-        ...this.courseForm.value,
-        slug: this.courseForm.value.title.toLowerCase().replace(/ /g, '-')
-      };
+    const formValue = this.courseForm.value;
+    const slug = formValue.title.toLowerCase().replace(/[\s\W-]+/g, '-');
 
-      const courseResponse = await lastValueFrom(
-        this.courseService.createCourse(courseData)
-      );
+    const payload = { ...formValue, slug };
 
-      const realCourseId = courseResponse.course_id;
-
-      let moduleIndex = 1;
-      for (const draftMod of this.modulesDraft()) {
-
-        const modulePayload: CreateModulePayload = {
-          title: draftMod.title,
-          description: '',
-          index_order: moduleIndex++,
-          fk_course: realCourseId
-        };
-
-        const moduleResponse = await lastValueFrom(
-          this.courseService.createModule(modulePayload)
-        );
-
-        const realModuleId = moduleResponse.moduleId;
-
-        let classIndex = 1;
-        for (const draftClass of draftMod.classes) {
-
-          const classPayload: CreateClassPayload = {
-            title: draftClass.title,
-            description: draftClass.description,
-            index_order: classIndex++,
-            fk_module: realModuleId
-          };
-
-          await lastValueFrom(
-            this.courseService.createClass(classPayload)
-          );
-        }
+    this.courseService.createCourse(payload, this.bannerFile || undefined).subscribe({
+      next: (res) => {
+        this.savedCourseId.set(res.course_id);
+        this.successMessage.set(res.message);
+        this.isSaving.set(false);
+      },
+      error: (err) => {
+        this.errorMessage.set(err.error?.message || 'Erro ao criar curso.');
+        this.isSaving.set(false);
       }
-
-      this.successMessage.set('Curso salvo com sucesso!');
-
-    } catch (error: any) {
-      const msg = error?.error?.message ?? 'Erro desconhecido. Verifique o console.';
-      console.error('Erro ao salvar:', error);
-      this.errorMessage.set(msg);
-    } finally {
-      this.isSaving.set(false);
-    }
-  }
-
-  openModuleForm() {
-    this.currentView.set('module');
-  }
-
-  openClassForm(moduleTempId: number) {
-    this.selectedModuleTempId.set(moduleTempId);
-    this.currentView.set('class');
-  }
-
-  toggleModule(tempId: number) {
-    this.expandedModules.update(current => {
-      const next = new Set(current);
-      next.has(tempId) ? next.delete(tempId) : next.add(tempId);
-      return next;
     });
   }
 
-  isExpanded(tempId: number): boolean {
-    return this.expandedModules().has(tempId);
+  toggleModule(moduleId: number): void {
+    const currentSet = new Set(this.expandedModules());
+    if (currentSet.has(moduleId)) {
+      currentSet.delete(moduleId);
+    } else {
+      currentSet.add(moduleId);
+    }
+    this.expandedModules.set(currentSet);
   }
 
-  openModuleFormForEdit(modulo: DraftModule) {
-    // futuramente: pré-preencher o form com os dados do módulo
-    this.selectedModuleTempId.set(modulo.tempId);
+  isExpanded(moduleId: number): boolean {
+    return this.expandedModules().has(moduleId);
+  }
+
+  openModuleForm(): void {
     this.currentView.set('module');
   }
 
-  openClassFormForEdit(aula: DraftClass, moduleTempId: number) {
-    // futuramente: pré-preencher o form com os dados da aula
-    this.selectedModuleTempId.set(moduleTempId);
+  openClassForm(moduleId: number): void {
+    this.targetModuleIdForClass = moduleId;
+    this.selectedClassForEdit.set(null);
     this.currentView.set('class');
+    this.toggleModule(moduleId);
+  }
+
+  openClassFormForEdit(aula: any, moduleId: number): void {
+    this.targetModuleIdForClass = moduleId;
+    this.selectedClassForEdit.set(aula);
+    this.currentView.set('class');
+  }
+
+  onSaveModule(moduleData: any): void {
+    const courseId = this.savedCourseId();
+    if (!courseId) return;
+
+    const payload = {
+      ...moduleData,
+      fk_course: courseId,
+      index_order: this.savedModules().length + 1
+    };
+
+    this.courseService.createModule(payload).subscribe({
+      next: (newModule) => {
+        this.savedModules.update(modules => [...modules, { ...newModule, classes: [] }]);
+        this.currentView.set('empty');
+        this.successMessage.set('Módulo criado com sucesso!');
+      },
+      error: (err) => this.errorMessage.set(err.error?.message || 'Erro ao criar módulo.')
+    });
+  }
+
+  onSaveClass(classData: { form: any, file: File | null }): void {
+    if (!this.targetModuleIdForClass) return;
+
+    const targetModule = this.savedModules().find(m => m.module_id === this.targetModuleIdForClass);
+    const orderIndex = targetModule ? targetModule.classes.length + 1 : 1;
+
+    const payload = {
+      ...classData.form,
+      fk_module: this.targetModuleIdForClass,
+      index_order: orderIndex
+    };
+
+    this.courseService.createClass(payload).subscribe({
+      next: (newClass) => {
+        if (classData.file) {
+           this.courseService.uploadClassFile(newClass.class_id, classData.file).subscribe({
+             next: () => this.finalizeClassCreation(newClass),
+             error: (err) => this.errorMessage.set(err.error?.message || 'Erro ao enviar o arquivo da aula.')
+           });
+        } else {
+           this.finalizeClassCreation(newClass);
+        }
+      },
+      error: (err) => this.errorMessage.set(err.error?.message || 'Erro ao criar aula.')
+    });
+  }
+
+  private finalizeClassCreation(newClass: any): void {
+    this.savedModules.update(modules => {
+      return modules.map(m => {
+        if (m.module_id === this.targetModuleIdForClass) {
+          return { ...m, classes: [...m.classes, newClass] };
+        }
+        return m;
+      });
+    });
+    
+    this.currentView.set('empty');
+    this.successMessage.set('Aula criada com sucesso!');
   }
 }

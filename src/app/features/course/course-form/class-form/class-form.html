@@ -1,5 +1,5 @@
 <div class="editor-header">
-  <h3>Nova Aula</h3>
+  <h3>{{ editData ? 'Editar Aula' : 'Nova Aula' }}</h3>
   <p class="subtitle">Cadastre os detalhes e materiais da aula.</p>
 </div>
 
@@ -20,12 +20,48 @@
     }
   </section>
 
-  <div class="file-upload-row">
-    <input type="text" readonly placeholder="Nenhum arquivo selecionado..." formControlName="file_url">
-    <app-custom-button variant="blue" label="Anexar Arquivo"></app-custom-button>
-  </div>
+  <section class="input-section">
+    <label>Material da Aula:</label>
+
+    <input
+      #fileInput
+      type="file"
+      accept=".pdf,video/*"
+      style="display: none"
+      (change)="onFileChange($event)"
+    />
+
+    @if (!selectedFile) {
+      <div class="file-row">
+        <app-custom-button
+          variant="blue"
+          label="Adicionar Arquivo"
+          (click)="$event.preventDefault(); fileInput.click()"
+        ></app-custom-button>
+      </div>
+    }
+
+    @if (selectedFile) {
+      <div class="file-row">
+        <span class="file-name">{{ selectedFile.name }}</span>
+        <app-custom-button
+          variant="blue"
+          label="Trocar"
+          (click)="$event.preventDefault(); fileInput.click()"
+        ></app-custom-button>
+        <app-custom-button
+          variant="red"
+          label="Remover"
+          (click)="$event.preventDefault(); removeFile()"
+        ></app-custom-button>
+      </div>
+    }
+  </section>
 
   <div class="action-row">
-    <app-custom-button variant="blue" label="Adicionar Aula"></app-custom-button>
+    <app-custom-button
+      variant="green"
+      [label]="editData ? 'Salvar Alterações' : 'Adicionar Aula'"
+    ></app-custom-button>
   </div>
 </form>

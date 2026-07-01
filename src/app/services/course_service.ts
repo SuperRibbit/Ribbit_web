@@ -1,47 +1,61 @@
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ClassPayload, CoursePayload, ModulePayload } from '../models/course';
 import { Auth } from './auth';
-import {
-  Course,
-  CreateModulePayload,
-  CreateClassPayload,
-  CreateCourseResponse,
-  CreateModuleResponse
-} from '../models/course';
 
 @Injectable({ providedIn: 'root' })
 export class CourseService {
-  private readonly apiUrl = 'https://ribbit-api-kf5q.onrender.com/ribbit';
   private http = inject(HttpClient);
   private authService = inject(Auth);
+  private readonly apiUrl = 'https://ribbit-api-kf5q.onrender.com/ribbit';
 
-  private getHeaders(): HttpHeaders {
+  private getHeaders(isFormData = false): HttpHeaders {
     const token = this.authService.getToken();
-    return new HttpHeaders({ Authorization: `Bearer ${token}` });
+    let headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    
+    if (!isFormData) {
+      headers = headers.set('Content-Type', 'application/json');
+    }
+    
+    return headers;
   }
 
-  createCourse(course: Course): Observable<CreateCourseResponse> {
-    return this.http.post<CreateCourseResponse>(
-      `${this.apiUrl}/courses`,
-      course,
-      { headers: this.getHeaders() }
-    );
+  createCourse(courseData: CoursePayload, bannerFile?: File): Observable<{ message: string, course_id: number }> {
+    const formData = new FormData();
+    formData.append('title', courseData.title);
+    formData.append('slug', courseData.slug);
+    formData.append('description', courseData.description);
+    
+    if (bannerFile) {
+      formData.append('banner', bannerFile);
+    }
+
+    return this.http.post<{ message: string, course_id: number }>(`${this.apiUrl}/courses`, formData, {
+      headers: this.getHeaders(true)
+    });
   }
 
-  createModule(module: CreateModulePayload): Observable<CreateModuleResponse> {
-    return this.http.post<CreateModuleResponse>(
-      `${this.apiUrl}/modules`,
-      module,
-      { headers: this.getHeaders() }
-    );
+  createModule(moduleData: ModulePayload): Observable<any> {
+    return this.http.post(`${this.apiUrl}/modules`, moduleData, {
+      headers: this.getHeaders(false)
+    });
   }
 
-  createClass(classItem: CreateClassPayload): Observable<any> {
-    return this.http.post(
-      `${this.apiUrl}/classes`,
-      classItem,
-      { headers: this.getHeaders() }
-    );
+  createClass(classData: ClassPayload): Observable<any> {
+    return this.http.post(`${this.apiUrl}/classes`, classData, {
+      headers: this.getHeaders(false)
+    });
+  }
+
+  uploadClassFile(classId: number, file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('class_id', classId.toString());
+    formData.append('display_name', file.name);
+    
+    return this.http.post(`${this.apiUrl}/files/pdf`, formData, {
+      headers: this.getHeaders(true)
+    });
   }
 }

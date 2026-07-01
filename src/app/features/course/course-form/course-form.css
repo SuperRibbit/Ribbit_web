@@ -25,18 +25,18 @@ form {
 }
 
 form input {
-    width: 100%;
-    height: 40px;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
+  width: 100%;
+  height: 40px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
 }
 
 section {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
 }
 
 label {
@@ -48,15 +48,70 @@ textarea {
   padding: 12px;
   border-radius: 8px;
   border: 1px solid #ccc;
+  resize: none;
 }
 
 .header-row {
   display: flex;
-  align-items: flex-end;
-  gap: 12px;
+  align-items: stretch;
+  gap: 24px;
 }
 
-.btn-banner, .final-btn {
+.course-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+}
+
+.banner-upload {
+  flex: 0 0 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.banner-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 100%;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  color: #888;
+  font-size: 12px;
+  text-align: center;
+  padding: 12px;
+}
+
+.banner-placeholder p {
+  margin: 0;
+}
+
+.banner-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+}
+
+.banner-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  min-height: 0;
+  flex: 1;
+}
+
+.banner-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.final-btn {
   width: max-content;
 }
 
@@ -96,12 +151,6 @@ textarea {
   margin-bottom: 25px;
 }
 
-.action-row {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-
 .btn-add-text {
   border: none;
   background: none;
@@ -123,15 +172,6 @@ textarea {
 
 .primary {
   font-size: 18px;
-}
-
-.file-upload-row {
-  display: flex;
-  gap: 10px;
-}
-
-.file-upload-row input {
-  flex: 1;
 }
 
 .accordion-item {
@@ -212,12 +252,8 @@ textarea {
 }
 
 .class-item:hover {
-  background: #e8f0fe;
-  color: var(--azul-escuro);
-}
-
-.class-item:hover {
   background: #00000023;
+  color: var(--azul-escuro);
 }
 
 .error {
@@ -238,8 +274,25 @@ textarea {
   text-align: center;
 }
 
-app-module-form, app-class-form {
+app-module-form,
+app-class-form {
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+.file-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.file-name {
+  flex: 1;
+  font-size: 13px;
+  color: #4a5568;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

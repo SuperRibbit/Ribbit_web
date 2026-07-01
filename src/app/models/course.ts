@@ -1,47 +1,32 @@
-export interface Course {
-  id?: string | number;
+export interface CoursePayload {
   title: string;
-  description: string;
-  banner_url: string;
   slug: string;
+  description: string;
 }
 
-export interface CreateModulePayload {
+export interface ModulePayload {
   title: string;
-  description: string;
+  description?: string;
   index_order: number;
   fk_course: number;
 }
 
-export interface CreateClassPayload {
+export interface ClassPayload {
   title: string;
   description: string;
   index_order: number;
   fk_module: number;
 }
 
-export interface CreateCourseResponse {
-  message: string;
-  course_id: number;
-}
-
-export interface CreateModuleResponse {
-  moduleId: number; 
+export interface CourseModule {
+  module_id: number;
   title: string;
-  description: string;
   index_order: number;
-  fk_course: number;
+  classes: CourseClass[];
 }
 
-export interface DraftClass {
-  tempId: number;
+export interface CourseClass {
+  class_id: number;
   title: string;
-  description: string;
-  file_url: string;
-}
-
-export interface DraftModule {
-  tempId: number;
-  title: string;
-  classes: DraftClass[];
+  is_completed?: boolean;
 }
