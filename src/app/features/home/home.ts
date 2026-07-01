@@ -2,10 +2,10 @@ import { Component, inject, signal } from '@angular/core';
 import { CardCursoHome } from "../../shared/components/card-curso-home/card-curso-home";
 import { CardCursoDashboard } from "../../shared/components/card-curso-dashboard/card-curso-dashboard";
 import { Footer } from "../../core/footer/footer";
-import { CourseService } from '../../services/course.service';
+import { CourseService } from '../../services/course_service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
-import { EnrollmentsService } from '../../services/enrollments.service';
+import { EnrollmentsService } from '../../services/enrollments_service';
 
 @Component({
   selector: 'app-home',

@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../../services/auth';
 import { User as UserService } from '../../services/user';
-import { EnrollmentsService } from '../../services/enrollments.service';
+import { EnrollmentsService } from '../../services/enrollments_service';
 
 @Component({
   selector: 'app-profile',

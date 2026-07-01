@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { Modules } from "../../shared/components/modules/modules";
-import { CourseService } from '../../services/course.service';
 import { ActivatedRoute } from '@angular/router';
+import { CourseService } from '../../services/course_service';
 
 @Component({
   selector: 'app-course',
