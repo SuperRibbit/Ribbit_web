@@ -56,14 +56,14 @@ export class CourseService {
   }
 
   getCourses(search?: string): Observable<any> {
+    const headers = this.getHeaders();
     const url = search ? `${this.apiUrl}/courses?search=${search}` : `${this.apiUrl}/courses`;
-    return this.http.get<any>(url, { headers: this.getHeaders() });
+    return this.http.get<any>(url, { headers });
   }
 
-  getCourseById(courseId: number): Observable<CourseFull> {
-    return this.http.get<CourseFull>(`${this.apiUrl}/courses/${courseId}`, {
-      headers: this.getHeaders()
-    });
+  getCourseById(courseId: number): Observable<any> {
+    const headers = this.getHeaders();
+    return this.http.get<any>(`${this.apiUrl}/courses/${courseId}`, { headers });
   }
 
   createModule(moduleData: ModulePayload): Observable<CreateModuleResponse> {

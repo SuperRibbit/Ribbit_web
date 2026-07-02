@@ -1,172 +1,391 @@
-import { Component, signal, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { CourseModule } from '../../../models/course';
+import { Component, ElementRef, OnInit, ViewChild, inject, signal } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Observable, forkJoin } from 'rxjs';
+import { ModuleForm, ModuleFormValue } from './module-form/module-form';
+import { ClassForm, ClassFormValue } from './class-form/class-form';
+import { CustomButton } from '../../../shared/components/custom-button/custom-button';
 import { CourseService } from '../../../services/course_service';
-import { CustomButton } from "../../../shared/components/custom-button/custom-button";
-import { ClassForm } from "./class-form/class-form";
-import { ModuleForm } from "./module-form/module-form";
+import { ClassPayload, CourseClass, CourseClassDetail, CourseFull, CourseModule, ModulePayload } from '../../../models/course';
+
+type CurriculumView = 'empty' | 'module' | 'class';
+
+function slugify(text: string): string {
+  return text
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+}
 
 @Component({
   selector: 'app-course-form',
-  templateUrl: './course-form.html',
-  styleUrls: ['./course-form.css'],
   standalone: true,
-  imports: [ReactiveFormsModule, CustomButton, ClassForm, ModuleForm, ClassForm]
+  imports: [ReactiveFormsModule, CustomButton, ModuleForm, ClassForm],
+  templateUrl: './course-form.html',
+  styleUrl: './course-form.css'
 })
-export class CourseForm {
+export class CourseForm implements OnInit {
+  @ViewChild('bannerInput') bannerInputRef?: ElementRef<HTMLInputElement>;
+
   private fb = inject(FormBuilder);
   private courseService = inject(CourseService);
+  private route = inject(ActivatedRoute);
+
+  isEditMode = false;
+  private courseId: number | null = null;
+  private courseSlug = '';
+
+  isLoading = signal(false);
+  isSaving = signal(false);
+  errorMessage = signal<string | null>(null);
+  successMessage = signal<string | null>(null);
+
+  savedCourseId = signal<number | null>(null);
+  savedModules = signal<CourseModule[]>([]);
+
+  bannerFile = signal<File | null>(null);
+  bannerPreviewUrl = signal<string | null>(null);
+
+  currentView = signal<CurriculumView>('empty');
+  selectedModuleForEdit = signal<CourseModule | null>(null);
+  selectedClassForEdit = signal<CourseClassDetail | null>(null);
+  private currentModuleIdForClass = signal<number | null>(null);
+
+  private expandedModuleIds = signal<Set<number>>(new Set());
 
   courseForm: FormGroup = this.fb.group({
-    title: ['', [Validators.required, Validators.minLength(3)]],
+    title: ['', [Validators.required]],
     description: ['', [Validators.required]]
   });
 
-  bannerPreviewUrl = signal<string | ArrayBuffer | null>(null);
-  isSaving = signal<boolean>(false);
-  savedCourseId = signal<number | null>(null);
-  savedModules = signal<CourseModule[]>([]);
-  currentView = signal<'empty' | 'module' | 'class'>('empty');
-  
-  errorMessage = signal<string | null>(null);
-  successMessage = signal<string | null>(null);
-  
-  selectedClassForEdit = signal<any | null>(null);
-  expandedModules = signal<Set<number>>(new Set());
-  
-  private bannerFile: File | null = null;
-  private targetModuleIdForClass: number | null = null;
+  get f() {
+    return this.courseForm.controls;
+  }
 
-  get f() { return this.courseForm.controls; }
-
-  onBannerFileChange(event: Event): void {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (file) {
-      this.bannerFile = file;
-      const reader = new FileReader();
-      reader.onload = () => this.bannerPreviewUrl.set(reader.result);
-      reader.readAsDataURL(file);
+  ngOnInit(): void {
+    const idParam = this.route.snapshot.paramMap.get('id');
+    if (idParam) {
+      this.isEditMode = true;
+      this.courseId = Number(idParam);
+      this.loadCourse(this.courseId);
     }
   }
 
-  removeBanner(): void {
-    this.bannerFile = null;
-    this.bannerPreviewUrl.set(null);
-  }
+  private loadCourse(courseId: number): void {
+    this.isLoading.set(true);
+    this.courseService.getCourseById(courseId).subscribe({
+      next: (course: CourseFull) => {
+        this.courseSlug = course.slug;
 
-  createCourse(): void {
-    if (this.courseForm.invalid) return;
+        this.courseForm.patchValue({
+          title: course.title,
+          description: course.description
+        });
+  
+        this.bannerPreviewUrl.set(course.banner_url ?? null);
 
-    this.isSaving.set(true);
-    this.errorMessage.set(null);
+        this.savedCourseId.set(course.id_course);
+        this.savedModules.set(
+          course.modules.map(module => ({
+            module_id: module.module_id,
+            title: module.title,
+            index_order: module.index_order,
+            classes: module.classes.map(courseClass => ({
+              class_id: courseClass.class_id,
+              title: courseClass.title,
+              is_completed: courseClass.is_completed
+            }))
+          }))
+        );
 
-    const formValue = this.courseForm.value;
-    const slug = formValue.title.toLowerCase().replace(/[\s\W-]+/g, '-');
-
-    const payload = { ...formValue, slug };
-
-    this.courseService.createCourse(payload, this.bannerFile || undefined).subscribe({
-      next: (res) => {
-        this.savedCourseId.set(res.course_id);
-        this.successMessage.set(res.message);
-        this.isSaving.set(false);
+        this.isLoading.set(false);
       },
-      error: (err) => {
-        this.errorMessage.set(err.error?.message || 'Erro ao criar curso.');
-        this.isSaving.set(false);
+      error: () => {
+        this.errorMessage.set('Não foi possível carregar o curso.');
+        this.isLoading.set(false);
       }
     });
   }
 
-  toggleModule(moduleId: number): void {
-    const currentSet = new Set(this.expandedModules());
-    if (currentSet.has(moduleId)) {
-      currentSet.delete(moduleId);
-    } else {
-      currentSet.add(moduleId);
+  onBannerFileChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file) {
+      return;
     }
-    this.expandedModules.set(currentSet);
+
+    this.bannerFile.set(file);
+    this.bannerPreviewUrl.set(URL.createObjectURL(file));
+  }
+
+  removeBanner(): void {
+    this.bannerFile.set(null);
+    this.bannerPreviewUrl.set(null);
+    if (this.bannerInputRef) {
+      this.bannerInputRef.nativeElement.value = '';
+    }
+  }
+
+  saveCourse(): void {
+    if (this.courseForm.invalid) {
+      this.courseForm.markAllAsTouched();
+      return;
+    }
+
+    this.errorMessage.set(null);
+    this.successMessage.set(null);
+    this.isSaving.set(true);
+
+    const { title, description } = this.courseForm.getRawValue();
+
+    if (this.isEditMode && this.courseId) {
+      this.courseService
+        .updateCourse(this.courseId, { title, description, slug: this.courseSlug })
+        .subscribe({
+          next: () => {
+            this.isSaving.set(false);
+            this.successMessage.set('Curso atualizado com sucesso.');
+          },
+          error: () => {
+            this.isSaving.set(false);
+            this.errorMessage.set('Erro ao atualizar o curso.');
+          }
+        });
+      return;
+    }
+
+    const slug = slugify(title);
+
+    this.courseService
+      .createCourse({ title, slug, description }, this.bannerFile() ?? undefined)
+      .subscribe({
+        next: res => {
+          this.courseSlug = slug;
+          this.savedCourseId.set(res.course_id);
+          this.savedModules.set([]);
+          this.currentView.set('empty');
+          this.isSaving.set(false);
+          this.successMessage.set('Curso criado com sucesso. Agora adicione módulos e aulas.');
+        },
+        error: err => {
+          this.isSaving.set(false);
+          if (err?.status === 409) {
+            this.errorMessage.set('Já existe um curso com esse título/slug. Tente outro nome.');
+          } else {
+            this.errorMessage.set('Erro ao criar o curso.');
+          }
+        }
+      });
   }
 
   isExpanded(moduleId: number): boolean {
-    return this.expandedModules().has(moduleId);
+    return this.expandedModuleIds().has(moduleId);
+  }
+
+  toggleModule(moduleId: number): void {
+    const next = new Set(this.expandedModuleIds());
+    if (next.has(moduleId)) {
+      next.delete(moduleId);
+    } else {
+      next.add(moduleId);
+    }
+    this.expandedModuleIds.set(next);
   }
 
   openModuleForm(): void {
+    this.errorMessage.set(null);
+    this.selectedModuleForEdit.set(null);
     this.currentView.set('module');
   }
 
-  openClassForm(moduleId: number): void {
-    this.targetModuleIdForClass = moduleId;
-    this.selectedClassForEdit.set(null);
-    this.currentView.set('class');
-    this.toggleModule(moduleId);
+  openModuleFormForEdit(modulo: CourseModule, event: Event): void {
+    event.stopPropagation();
+    this.errorMessage.set(null);
+
+    this.courseService.getModuleWithClasses(modulo.module_id).subscribe({
+      next: full => {
+        this.selectedModuleForEdit.set({
+          module_id: full.module_id,
+          title: full.title,
+          description: full.description,
+          index_order: full.index_order,
+          classes: modulo.classes
+        });
+        this.currentView.set('module');
+      },
+      error: () => this.errorMessage.set('Erro ao carregar módulo para edição.')
+    });
   }
 
-  openClassFormForEdit(aula: any, moduleId: number): void {
-    this.targetModuleIdForClass = moduleId;
-    this.selectedClassForEdit.set(aula);
-    this.currentView.set('class');
-  }
-
-  onSaveModule(moduleData: any): void {
+  onSaveModule(value: ModuleFormValue): void {
+    const editing = this.selectedModuleForEdit();
     const courseId = this.savedCourseId();
-    if (!courseId) return;
 
-    const payload = {
-      ...moduleData,
-      fk_course: courseId,
-      index_order: this.savedModules().length + 1
+    this.errorMessage.set(null);
+
+    if (editing) {
+      const updatePayload: Partial<ModulePayload> = {
+        title: value.title,
+        description: value.description ?? ''
+      };
+      this.courseService.updateModule(editing.module_id, updatePayload).subscribe({
+        next: res => {
+          this.savedModules.update(modules =>
+            modules.map(m =>
+              m.module_id === editing.module_id
+                ? { ...m, title: res.module.title, description: res.module.description }
+                : m
+            )
+          );
+          this.currentView.set('empty');
+          this.selectedModuleForEdit.set(null);
+        },
+        error: () => this.errorMessage.set('Erro ao atualizar módulo.')
+      });
+      return;
+    }
+
+    if (!courseId) {
+      this.errorMessage.set('Salve o curso antes de adicionar módulos.');
+      return;
+    }
+
+    const payload: ModulePayload = {
+      title: value.title,
+      description: value.description ?? '',
+      index_order: this.savedModules().length,
+      fk_course: courseId
     };
 
     this.courseService.createModule(payload).subscribe({
-      next: (newModule) => {
-        this.savedModules.update(modules => [...modules, { ...newModule, classes: [] }]);
+      next: res => {
+        const newModule: CourseModule = {
+          module_id: res.moduleId,
+          title: value.title,
+          description: value.description,
+          index_order: payload.index_order,
+          classes: []
+        };
+        this.savedModules.update(modules => [...modules, newModule]);
         this.currentView.set('empty');
-        this.successMessage.set('Módulo criado com sucesso!');
       },
-      error: (err) => this.errorMessage.set(err.error?.message || 'Erro ao criar módulo.')
+      error: () => this.errorMessage.set('Erro ao criar módulo.')
     });
   }
 
-  onSaveClass(classData: { form: any, file: File | null }): void {
-    if (!this.targetModuleIdForClass) return;
+  openClassForm(moduleId: number): void {
+    this.errorMessage.set(null);
+    this.selectedClassForEdit.set(null);
+    this.currentModuleIdForClass.set(moduleId);
+    this.currentView.set('class');
+  }
 
-    const targetModule = this.savedModules().find(m => m.module_id === this.targetModuleIdForClass);
-    const orderIndex = targetModule ? targetModule.classes.length + 1 : 1;
+  openClassFormForEdit(aula: CourseClass, moduleId: number): void {
+    this.errorMessage.set(null);
+    this.currentModuleIdForClass.set(moduleId);
 
-    const payload = {
-      ...classData.form,
-      fk_module: this.targetModuleIdForClass,
-      index_order: orderIndex
+    this.courseService.getClassById(aula.class_id).subscribe({
+      next: full => {
+        this.selectedClassForEdit.set(full);
+        this.currentView.set('class');
+      },
+      error: () => this.errorMessage.set('Erro ao carregar aula para edição.')
+    });
+  }
+
+  onSaveClass(value: ClassFormValue): void {
+    const editing = this.selectedClassForEdit();
+    const moduleId = this.currentModuleIdForClass();
+
+    this.errorMessage.set(null);
+
+    if (editing) {
+      this.courseService
+        .updateClass(editing.class_id, { title: value.title, description: value.description })
+        .subscribe({
+          next: () => {
+            this.syncClassFile(editing.class_id, value, () => {
+              this.savedModules.update(modules =>
+                modules.map(m =>
+                  m.module_id === moduleId
+                    ? {
+                        ...m,
+                        classes: m.classes.map(c =>
+                          c.class_id === editing.class_id ? { ...c, title: value.title } : c
+                        )
+                      }
+                    : m
+                )
+              );
+              this.currentView.set('empty');
+              this.selectedClassForEdit.set(null);
+            });
+          },
+          error: () => this.errorMessage.set('Erro ao atualizar aula.')
+        });
+      return;
+    }
+
+    if (!moduleId) {
+      this.errorMessage.set('Selecione um módulo antes de adicionar a aula.');
+      return;
+    }
+
+    const targetModule = this.savedModules().find(m => m.module_id === moduleId);
+
+    const payload: ClassPayload = {
+      title: value.title,
+      description: value.description,
+      index_order: targetModule?.classes.length ?? 0,
+      fk_module: moduleId
     };
 
     this.courseService.createClass(payload).subscribe({
-      next: (newClass) => {
-        if (classData.file) {
-           this.courseService.uploadClassFile(newClass.class_id, classData.file).subscribe({
-             next: () => this.finalizeClassCreation(newClass),
-             error: (err) => this.errorMessage.set(err.error?.message || 'Erro ao enviar o arquivo da aula.')
-           });
-        } else {
-           this.finalizeClassCreation(newClass);
-        }
+      next: res => {
+        this.syncClassFile(res.class_id, value, () => {
+          const newClass: CourseClass = {
+            class_id: res.class_id,
+            title: value.title,
+            description: value.description,
+            index_order: payload.index_order
+          };
+          this.savedModules.update(modules =>
+            modules.map(m =>
+              m.module_id === moduleId ? { ...m, classes: [...m.classes, newClass] } : m
+            )
+          );
+          this.currentView.set('empty');
+        });
       },
-      error: (err) => this.errorMessage.set(err.error?.message || 'Erro ao criar aula.')
+      error: () => this.errorMessage.set('Erro ao criar aula.')
     });
   }
 
-  private finalizeClassCreation(newClass: any): void {
-    this.savedModules.update(modules => {
-      return modules.map(m => {
-        if (m.module_id === this.targetModuleIdForClass) {
-          return { ...m, classes: [...m.classes, newClass] };
-        }
-        return m;
-      });
+  private syncClassFile(classId: number, value: ClassFormValue, done: () => void): void {
+    const tasks: Observable<any>[] = [];
+
+    if (value.removedMaterialId) {
+      tasks.push(this.courseService.deleteClassFile(value.removedMaterialId));
+    }
+    if (value.file) {
+      tasks.push(this.courseService.uploadClassFile(classId, value.file));
+    }
+
+    if (tasks.length === 0) {
+      done();
+      return;
+    }
+
+    forkJoin(tasks).subscribe({
+      next: () => done(),
+      error: () => {
+        this.errorMessage.set('Aula salva, mas houve um erro ao processar o arquivo.');
+        done();
+      }
     });
-    
-    this.currentView.set('empty');
-    this.successMessage.set('Aula criada com sucesso!');
   }
 }

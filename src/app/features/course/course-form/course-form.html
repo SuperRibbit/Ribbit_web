@@ -1,5 +1,12 @@
 <div class="course-container">
   <div class="card">
+
+    @if (isLoading()) {
+      <div class="loading-state">
+        <p>Carregando curso...</p>
+      </div>
+    }
+
     <form [formGroup]="courseForm">
       <div class="header-row">
 
@@ -26,40 +33,53 @@
         </div>
 
         <div class="banner-upload">
-          <input
-            #bannerInput
-            type="file"
-            accept="image/*"
-            style="display: none"
-            (change)="onBannerFileChange($event)"
-          />
+          @if (!isEditMode) {
+            <input
+              #bannerInput
+              type="file"
+              accept="image/*"
+              style="display: none"
+              (change)="onBannerFileChange($event)"
+            />
 
-          @if (!bannerPreviewUrl()) {
-            <div class="banner-placeholder">
-              <p>Nenhum banner selecionado</p>
-              <app-custom-button
-                variant="blue"
-                label="Anexar Banner"
-                (click)="bannerInput.click()"
-              ></app-custom-button>
-            </div>
-          }
-
-          @if (bannerPreviewUrl()) {
-            <div class="banner-preview">
-              <img [src]="bannerPreviewUrl()" alt="Preview do banner" />
-              <div class="banner-actions">
+            @if (!bannerPreviewUrl()) {
+              <div class="banner-placeholder">
+                <p>Nenhum banner selecionado</p>
                 <app-custom-button
                   variant="blue"
-                  label="Trocar"
+                  label="Anexar Banner"
                   (click)="bannerInput.click()"
                 ></app-custom-button>
-                <app-custom-button
-                  variant="red"
-                  label="Remover"
-                  (click)="removeBanner()"
-                ></app-custom-button>
               </div>
+            }
+
+            @if (bannerPreviewUrl()) {
+              <div class="banner-preview">
+                <img [src]="bannerPreviewUrl()" alt="Preview do banner" />
+                <div class="banner-actions">
+                  <app-custom-button
+                    variant="blue"
+                    label="Trocar"
+                    (click)="bannerInput.click()"
+                  ></app-custom-button>
+                  <app-custom-button
+                    variant="red"
+                    label="Remover"
+                    (click)="removeBanner()"
+                  ></app-custom-button>
+                </div>
+              </div>
+            }
+          }
+
+          @if (isEditMode) {
+            <div class="banner-preview banner-readonly">
+              @if (bannerPreviewUrl()) {
+                <img [src]="bannerPreviewUrl()" alt="Banner do curso" />
+              } @else {
+                <p>Nenhum banner cadastrado</p>
+              }
+              <small class="banner-note">O banner não pode ser alterado após a criação do curso.</small>
             </div>
           }
         </div>
@@ -69,9 +89,9 @@
 
     <app-custom-button
       variant="blue"
-      [label]="isSaving() ? 'Salvando...' : savedCourseId() ? 'Curso Criado' : 'Criar Curso'"
-      [disabled]="isSaving() || courseForm.invalid || !!savedCourseId()"
-      (click)="createCourse()"
+      [label]="isSaving() ? 'Salvando...' : (isEditMode ? 'Atualizar Curso' : (savedCourseId() ? 'Curso Criado' : 'Criar Curso'))"
+      [disabled]="isSaving() || courseForm.invalid || (!!savedCourseId() && !isEditMode)"
+      (click)="saveCourse()"
       class="final-btn"
     ></app-custom-button>
 
@@ -81,9 +101,14 @@
           <div class="accordion-item" [class.is-open]="isExpanded(modulo.module_id)">
             <div class="accordion-header" (click)="toggleModule(modulo.module_id)">
               <strong>{{ modulo.title }}</strong>
-              <span class="accordion-arrow">
-                <img src="/assets/chevron_right.svg" alt="" />
-              </span>
+              <div class="accordion-header-actions">
+                <button class="btn-icon" (click)="openModuleFormForEdit(modulo, $event)" title="Editar módulo">
+                  <img src="/assets/edit.svg" alt="Editar" />
+                </button>
+                <span class="accordion-arrow">
+                  <img src="/assets/chevron_right.svg" alt="" />
+                </span>
+              </div>
             </div>
 
             <div class="accordion-body">
@@ -111,7 +136,10 @@
 
       <main class="editor-content">
         @if (currentView() === 'module') {
-          <app-module-form (saveModule)="onSaveModule($event)"></app-module-form>
+          <app-module-form
+            [editData]="selectedModuleForEdit()"
+            (saveModule)="onSaveModule($event)"
+          ></app-module-form>
         }
 
         @if (currentView() === 'class') {
