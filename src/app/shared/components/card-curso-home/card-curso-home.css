@@ -1,4 +1,5 @@
 .card-container {
+    cursor: pointer;
     width: 100%;
     max-width: 250px; 
     min-height: 260px; 
