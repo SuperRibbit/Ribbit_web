@@ -1,0 +1,67 @@
+<div class="editor-header">
+  <h3>{{ editData ? 'Editar Aula' : 'Nova Aula' }}</h3>
+  <p class="subtitle">Cadastre os detalhes e materiais da aula.</p>
+</div>
+
+<form [formGroup]="classForm" (ngSubmit)="onSubmit()">
+  <section class="input-section">
+    <label>Nome da Aula:</label>
+    <input type="text" formControlName="title" placeholder="Ex: Instalando o ambiente...">
+    @if (f['title'].invalid && (f['title'].dirty || f['title'].touched)) {
+      <small class="erro">Informe o nome da aula.</small>
+    }
+  </section>
+
+  <section class="input-section">
+    <label>Descrição da Aula:</label>
+    <textarea formControlName="description" placeholder="Descreva os tópicos abordados nesta aula..." rows="5"></textarea>
+    @if (f['description'].invalid && (f['description'].dirty || f['description'].touched)) {
+      <small class="erro">Informe a descrição da aula.</small>
+    }
+  </section>
+
+  <section class="input-section">
+    <label>Material da Aula:</label>
+
+    <input
+      #fileInput
+      type="file"
+      accept=".pdf,video/*"
+      style="display: none"
+      (change)="onFileChange($event)"
+    />
+
+    @if (!selectedFile) {
+      <div class="file-row">
+        <app-custom-button
+          variant="blue"
+          label="Adicionar Arquivo"
+          (click)="$event.preventDefault(); fileInput.click()"
+        ></app-custom-button>
+      </div>
+    }
+
+    @if (selectedFile) {
+      <div class="file-row">
+        <span class="file-name">{{ selectedFile.name }}</span>
+        <app-custom-button
+          variant="blue"
+          label="Trocar"
+          (click)="$event.preventDefault(); fileInput.click()"
+        ></app-custom-button>
+        <app-custom-button
+          variant="red"
+          label="Remover"
+          (click)="$event.preventDefault(); removeFile()"
+        ></app-custom-button>
+      </div>
+    }
+  </section>
+
+  <div class="action-row">
+    <app-custom-button
+      variant="green"
+      [label]="editData ? 'Salvar Alterações' : 'Adicionar Aula'"
+    ></app-custom-button>
+  </div>
+</form>

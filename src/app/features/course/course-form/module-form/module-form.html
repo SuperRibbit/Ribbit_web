@@ -1,0 +1,18 @@
+<div class="editor-header">
+  <h3>Novo Módulo</h3>
+  <p class="subtitle">Adicione um módulo à estrutura do seu curso.</p>
+</div>
+
+<form [formGroup]="moduleForm" (ngSubmit)="onSubmit()">
+  <section>
+    <label>Nome do Módulo:</label>
+    <input type="text" formControlName="title" placeholder="Ex: Introdução ao Docker...">
+    @if (f['title'].invalid && (f['title'].dirty || f['title'].touched)) {
+      <small class="erro">Informe o nome do módulo.</small>
+    }
+  </section>
+
+  <div class="action-row">
+    <app-custom-button variant="blue" label="Adicionar Módulo"></app-custom-button>
+  </div>
+</form>

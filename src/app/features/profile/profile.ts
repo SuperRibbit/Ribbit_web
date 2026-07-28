@@ -3,14 +3,14 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { CustomButton } from '../../shared/components/custom-button/custom-button';
 import { CardCursoHome } from '../../shared/components/card-curso-home/card-curso-home';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../../services/auth';
 import { User as UserService } from '../../services/user';
-import { EnrollmentsService } from '../../services/enrollments.service';
+import { EnrollmentsService } from '../../services/enrollments_service';
 
 @Component({
   selector: 'app-profile',
-  imports: [FormsModule, ReactiveFormsModule, CommonModule, CustomButton, CardCursoHome],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, CustomButton, CardCursoHome, RouterLink],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
