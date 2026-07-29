@@ -23,6 +23,6 @@ export const routes: Routes = [
   { path: 'courses/new', component: CourseForm, canActivate: [authGuard, roleGuard] },
   { path: 'courses/:id/edit', component: CourseForm, canActivate: [authGuard, roleGuard] },
   { path: 'courses/:id', component: Course, canActivate: [authGuard] },
-  { path: 'player-course', component: PlayerCourse, canActivate: [authGuard] },
+  { path: 'player/:id', component: PlayerCourse, canActivate: [authGuard] },
   { path: '**', redirectTo: '' } 
 ];

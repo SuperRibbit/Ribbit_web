@@ -1,11 +1,12 @@
 import { Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { DriveImgPipe } from '../../../utilities/pipes/drive-img-pipe';
 
 @Component({
   selector: 'app-card-curso-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, DriveImgPipe],
   templateUrl: './card-curso-home.html',
   styleUrl: './card-curso-home.css',
 })
