@@ -184,27 +184,38 @@ textarea {
   align-items: center;
   justify-content: space-between;
   padding: 8px 4px;
-  cursor: pointer;
   user-select: none;
   background: transparent;
   border-radius: 8px;
 }
 
-.accordion-header:hover {
-  background: #00000023;
-}
-
-.accordion-header strong {
+.accordion-title {
   font-size: 18px;
   color: var(--azul-escuro);
   flex: 1;
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 4px;
+  margin: -4px;
+}
+
+.accordion-title:hover {
+  background: #00000023;
 }
 
 .accordion-arrow {
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  transition: transform 0.25s ease;
+  cursor: pointer;
+  padding: 8px;
+  margin: -8px;
+  border-radius: 50%;
+  transition: transform 0.25s ease, background 0.15s ease;
+}
+
+.accordion-arrow:hover {
+  background: #00000023;
 }
 
 .accordion-arrow img {

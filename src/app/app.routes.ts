@@ -16,13 +16,13 @@ export const routes: Routes = [
   { path: '', component: LandingPage, data: { publicRoute: true } },
   { path: 'login', component: Login, data: { hideNavbar: true }},
   { path: 'logon', component: Logon, data: { hideNavbar: true } },
-  { path: 'register', redirectTo: '/logon' },
   { path: 'forgot-password', component: Mail, data: { hideNavbar: true }},
   { path: 'reset-password', component: Reset, data: { hideNavbar: true }},
   { path: 'profile', component: Profile, canActivate: [authGuard] },
   { path: 'home', component: Home, canActivate: [authGuard] },
+  { path: 'courses/new', component: CourseForm, canActivate: [authGuard, roleGuard] },
+  { path: 'courses/:id/edit', component: CourseForm, canActivate: [authGuard, roleGuard] },
   { path: 'courses/:id', component: Course, canActivate: [authGuard] },
   { path: 'player-course', component: PlayerCourse, canActivate: [authGuard] },
-  { path: 'course-form', component: CourseForm, canActivate: [authGuard, roleGuard] },
   { path: '**', redirectTo: '' } 
 ];

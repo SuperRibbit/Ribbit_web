@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild, inject, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Observable, forkJoin } from 'rxjs';
 import { ModuleForm, ModuleFormValue } from './module-form/module-form';
@@ -34,6 +34,7 @@ export class CourseForm implements OnInit {
   private fb = inject(FormBuilder);
   private courseService = inject(CourseService);
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
   isEditMode = false;
   private courseId: number | null = null;
@@ -71,6 +72,12 @@ export class CourseForm implements OnInit {
     if (idParam) {
       this.isEditMode = true;
       this.courseId = Number(idParam);
+
+      const navState = history.state as { justCreated?: boolean };
+      if (navState?.justCreated) {
+        this.successMessage.set('Curso criado com sucesso! Agora adicione módulos e aulas.');
+      }
+
       this.loadCourse(this.courseId);
     }
   }
@@ -164,12 +171,10 @@ export class CourseForm implements OnInit {
       .createCourse({ title, slug, description }, this.bannerFile() ?? undefined)
       .subscribe({
         next: res => {
-          this.courseSlug = slug;
-          this.savedCourseId.set(res.course_id);
-          this.savedModules.set([]);
-          this.currentView.set('empty');
-          this.isSaving.set(false);
-          this.successMessage.set('Curso criado com sucesso. Agora adicione módulos e aulas.');
+          this.router.navigate(['/courses', res.course_id, 'edit'], {
+            replaceUrl: true,
+            state: { justCreated: true }
+          });
         },
         error: err => {
           this.isSaving.set(false);
@@ -202,8 +207,7 @@ export class CourseForm implements OnInit {
     this.currentView.set('module');
   }
 
-  openModuleFormForEdit(modulo: CourseModule, event: Event): void {
-    event.stopPropagation();
+  openModuleFormForEdit(modulo: CourseModule): void {
     this.errorMessage.set(null);
 
     this.courseService.getModuleWithClasses(modulo.module_id).subscribe({
