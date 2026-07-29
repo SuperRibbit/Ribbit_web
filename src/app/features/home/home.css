@@ -34,7 +34,7 @@
 .cursos-grid {
     display: grid;
     width: 100%;
-    grid-template-columns: repeat(4, minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 16px; 
     justify-content: center;
 }
@@ -107,7 +107,7 @@ app-card-curso-home ::ng-deep .card-description {
 
 .activities-grid {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     gap: 32px;
 }
 
@@ -150,17 +150,7 @@ app-footer ::ng-deep .footer {
 }
 
 @media (max-width: 992px) {
-    .cursos-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
     .catalog-section {
         padding: 40px 16px;
-    }
-}
-
-@media (max-width: 600px) {
-    .activities-grid,
-    .cursos-grid {
-        grid-template-columns: 1fr;
     }
 }
