@@ -3,11 +3,13 @@
         <header class="profile">
             <div class="profile-left">
                 <img [src]="avatarUrl" (error)="avatarUrl = 'assets/GenericAvatar.png'" alt="Avatar">
-                @if (!editandoAvatar()) {
-                <app-custom-button variant="blue" label="Trocar avatar"
-                    (click)="toggleAvatarEdit()"></app-custom-button>
-                }
+                
+                <app-custom-button variant="blue" 
+                label="Trocar avatar" (click)="openModalAvatar()">
+                </app-custom-button>
             </div>
+
+            <app-modal-avatar></app-modal-avatar>
 
             <div class="profile-right">
                 @if (role) {
@@ -15,33 +17,6 @@
                 }
             </div>
         </header>
-
-        @if (editandoAvatar()) {
-        <div class="avatar-edit-section">
-            <div class="avatar-url-row">
-                <input type="text" [(ngModel)]="avatarUrlInput" placeholder="Cole a URL da imagem..."
-                    class="input-avatar-url">
-                <div class="avatar-url-actions">
-                    <app-custom-button variant="blue" [label]="enviando() ? 'Salvando...' : 'Salvar'"
-                        [disabled]="enviando() || !avatarPreviewValida()" (click)="salvarAvatar()"></app-custom-button>
-                    <app-custom-button variant="yellow" label="Cancelar"
-                        (click)="toggleAvatarEdit()"></app-custom-button>
-                </div>
-            </div>
-
-            @if (avatarUrlInput.trim()) {
-            <div class="avatar-preview">
-                <img [src]="avatarUrlInput" alt="Preview do avatar" (load)="onAvatarPreviewLoad()"
-                    (error)="onAvatarPreviewError()">
-                @if (avatarPreviewValida()) {
-                <small class="preview-ok">Imagem carregada com sucesso</small>
-                } @else {
-                <small class="preview-erro">Não foi possível carregar a imagem</small>
-                }
-            </div>
-            }
-        </div>
-        }
 
         <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" novalidate>
             <section>

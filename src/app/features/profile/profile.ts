@@ -7,10 +7,11 @@ import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../../services/auth';
 import { User as UserService } from '../../services/user';
 import { EnrollmentsService } from '../../services/enrollments_service';
+import { ModalAvatar } from "../../shared/components/modal-avatar/modal-avatar";
 
 @Component({
   selector: 'app-profile',
-  imports: [FormsModule, ReactiveFormsModule, CommonModule, CustomButton, CardCursoHome, RouterLink],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, CustomButton, CardCursoHome, RouterLink, ModalAvatar],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
