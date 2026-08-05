@@ -2,10 +2,11 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { Modules } from "../../shared/components/modules/modules";
 import { ActivatedRoute } from '@angular/router';
 import { CourseService } from '../../services/course_service';
+import { DriveImgPipe } from '../../utilities/pipes/drive-img-pipe';
 
 @Component({
   selector: 'app-course',
-  imports: [Modules],
+  imports: [Modules, DriveImgPipe],
   templateUrl: './course.html',
   styleUrl: './course.css',
 })
