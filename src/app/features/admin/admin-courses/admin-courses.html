@@ -1,0 +1,90 @@
+<div class="admin-page">
+    <div class="admin-container">
+        <header class="page-header">
+            <div class="header-title">
+                <h1>Gerenciamento de Cursos</h1>
+                <p class="subtitle">Visualize, edite e gerencie todos os cursos do Ribbit</p>
+            </div>
+            <button class="btn btn-primary" (click)="onCreateCourse()">
+                <i class="ph ph-plus-circle"></i> Novo Curso
+            </button>
+        </header>
+
+        <div class="table-card">
+            <div class="table-actions">
+                <div class="search-input-wrapper">
+                    <i class="ph ph-magnifying-glass search-icon"></i>
+                    <input
+                    type="text"
+                    placeholder="Buscar por título, instrutor ou slug..."
+                    [(ngModel)]="searchTerm"
+                    class="search-input"
+                    />
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Título</th>
+                            <th>Slug</th>
+                            <th>Instrutor(a)</th>
+                            <th>Módulos</th>
+                            <th class="text-right">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (course of filteredCourses; track course.id_course) {
+                            <tr>
+                                <td class="course-id">#{{ course.id_course }}</td>
+                                <td class="course-title">
+                                    <div class="title-wrapper">
+                                        @if (course.banner_url) {
+                                            <img [src]="course.banner_url" alt="Banner do curso" class="course-thumb" />
+                                        } @else {
+                                            <div class="thumb-placeholder">
+                                                <i class="ph ph-book-open"></i>
+                                            </div>
+                                        }
+                                        <span>{{ course.title }}</span>
+                                    </div>
+                                </td>
+                                <td class="course-slug"><code>{{ course.slug }}</code></td>
+                                <td>{{ course.teacher_name }}</td>
+                                <td>
+                                    <span class="badge-count">
+                                        <i class="ph ph-circles-four"></i>
+                                        {{ course.modules ? course.modules.length : 0 }} Módulo(s)
+                                    </span>
+                                </td>
+                                <td class="text-right actions-cell">
+                                    <button 
+                                        class="btn-icon" 
+                                        (click)="onViewCourse(course.id_course)" 
+                                        title="Visualizar Curso">
+                                        <i class="ph ph-eye"></i>
+                                    </button>
+                                    <button 
+                                        class="btn-icon btn-edit" 
+                                        (click)="onEditCourse(course.id_course)" 
+                                        title="Editar Curso">
+                                        <i class="ph ph-pencil-simple"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        } @empty {
+                            <tr>
+                                <td colspan="6" class="empty-state">
+                                    <i class="ph ph-folder-open empty-icon"></i>
+                                    <p>Nenhum curso encontrado.</p>
+                                </td>
+                            </tr>
+                        }   
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

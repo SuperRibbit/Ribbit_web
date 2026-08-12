@@ -1,0 +1,253 @@
+.admin-page {
+    min-height: 100vh;
+    background: var(--azul-bg) url('/assets/CloudBGLow.svg') repeat-x top;
+    background-size: contain;
+    width: 100%;
+}
+
+.admin-container {
+    padding: 110px 40px 40px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.page-header h1 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--azul-escuro);
+    margin: 0 0 0.25rem 0;
+}
+
+.page-header .subtitle {
+    color: #4A4A4A;
+    margin: 0;
+}
+
+.table-card {
+    background: var(--branco, #ffffff);
+    border-radius: 20px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e9ecef;
+    overflow: hidden;
+}
+
+.table-card .table-actions {
+    padding: 1.25rem;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.search-input-wrapper {
+    position: relative;
+    max-width: 360px;
+    width: 100%;
+}
+
+.search-input-wrapper .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #868e96;
+    font-size: 1.1rem;
+}
+
+.table-card .table-actions .search-input {
+    width: 100%;
+    padding: 0.6rem 1rem 0.6rem 2.2rem;
+    border: 1px solid #ced4da;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    outline: none;
+}
+
+.table-card .table-actions .search-input:focus {
+    border-color: #4C96FF;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 1rem 1.25rem;
+    text-align: left;
+    font-size: 0.9rem;
+}
+
+.admin-table th {
+    background-color: #f8f9fa;
+    color: var(--azul-escuro, #495057);
+    font-weight: 700;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.admin-table tbody tr {
+    border-bottom: 1px solid #f1f3f5;
+    transition: background-color 0.15s ease;
+}
+
+.admin-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.admin-table .course-id {
+    color: #868e96;
+    font-size: 0.85rem;
+}
+
+.admin-table .course-title {
+    font-weight: 600;
+    color: #212529;
+}
+
+.admin-table .course-title .title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.admin-table .course-title .course-thumb {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    object-fit: cover;
+}
+
+.admin-table .course-title .thumb-placeholder {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    background-color: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+}
+
+.admin-table .course-title .thumb-placeholder i {
+    font-size: 1.2rem;
+    color: #4C96FF;
+}
+
+.admin-table .course-slug code {
+    background-color: #f1f3f5;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: #495057;
+}
+
+.admin-table .badge-count {
+    background-color: #e0e7ff;
+    color: #3730a3;
+    padding: 0.25rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.admin-table .badge-count i {
+    font-size: 0.95rem;
+}
+
+.admin-table .empty-state {
+    text-align: center;
+    color: #868e96;
+    padding: 2.5rem;
+}
+
+.admin-table .empty-state .empty-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.actions-cell {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+.btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-primary {
+    background-color: #4C96FF;
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-primary i {
+    font-size: 1.2rem;
+}
+
+.btn-primary:hover {
+    background-color: #3b82f6;
+}
+
+.btn-icon {
+    background: transparent;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 0.4rem 0.6rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-icon i {
+    font-size: 1.1rem;
+    color: var(--azul-escuro, #495057);
+    transition: color 0.2s;
+}
+
+.btn-icon:hover {
+    background-color: #f1f3f5;
+}
+
+.btn-icon:hover i {
+    color: #4C96FF;
+}
+
+@media (max-width: 768px) {
+    .admin-container {
+        padding: 90px 16px 20px 16px;
+    }
+
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+}

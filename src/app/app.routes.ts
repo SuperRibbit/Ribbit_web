@@ -11,6 +11,7 @@ import { Mail } from './features/auth/password_reset/mail/mail';
 import { Reset } from './features/auth/password_reset/reset/reset';
 import { CourseForm } from './features/course/course-form/course-form';
 import { roleGuard } from './guards/role-guard';
+import { AdminCourses } from './features/admin/admin-courses/admin-courses';
 
 export const routes: Routes = [
   { path: '', component: LandingPage, data: { publicRoute: true } },
@@ -24,5 +25,6 @@ export const routes: Routes = [
   { path: 'courses/:id/edit', component: CourseForm, canActivate: [authGuard, roleGuard] },
   { path: 'courses/:id', component: Course, canActivate: [authGuard] },
   { path: 'player/:id', component: PlayerCourse, canActivate: [authGuard] },
+  { path: 'admin/courses', component: AdminCourses },
   { path: '**', redirectTo: '' } 
 ];
