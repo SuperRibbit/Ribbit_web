@@ -28,6 +28,7 @@ export class Profile implements OnInit {
   editandoAvatar = signal(false);
   avatarPreviewValida = signal(false);
   avatarUrlInput = '';
+  mostrarModalAvatar = signal(false);
 
   listaMeusCursos = signal<any[]>([]);
 
@@ -92,6 +93,14 @@ export class Profile implements OnInit {
         this.mensagem.set('Erro ao carregar dados do perfil.');
       }
     });
+  }
+
+  openModalAvatar() {
+    this.mostrarModalAvatar.set(true);
+  }
+
+  closeModalAvatar() {
+    this.mostrarModalAvatar.set(false);
   }
 
   toggleAvatarEdit() {

@@ -9,7 +9,9 @@
                 </app-custom-button>
             </div>
 
-            <app-modal-avatar></app-modal-avatar>
+            @if (mostrarModalAvatar()) {
+                <app-modal-avatar (close)="closeModalAvatar()"></app-modal-avatar>
+            }
 
             <div class="profile-right">
                 @if (role) {
