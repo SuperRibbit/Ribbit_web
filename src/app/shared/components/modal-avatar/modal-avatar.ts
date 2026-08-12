@@ -16,18 +16,18 @@ export class ModalAvatar {
   @Output() avatarSelected = new EventEmitter<string>();
 
   avatares: string[] = [
-    "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f436.png",
-    "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f431.png",
-    "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f98a.png",
-    "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f43b.png",
-    "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f43c.png",
-    "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f428.png",
-    "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f981.png",
-    "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f438.png",
-    "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f435.png",
-    "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f430.png",
-    "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f437.png",
-    "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f42f.png"
+    'assets/avatars/dog.svg',
+    'assets/avatars/cat.svg',
+    'assets/avatars/fox.svg',
+    'assets/avatars/bear.svg',
+    'assets/avatars/panda.svg',
+    'assets/avatars/koala.svg',
+    'assets/avatars/lion.svg',
+    'assets/avatars/frog.svg',
+    'assets/avatars/monkey.svg',
+    'assets/avatars/rabbit.svg',
+    'assets/avatars/pig.svg',
+    'assets/avatars/tiger.svg',
   ];
 
   selecionado = signal<string>('');
