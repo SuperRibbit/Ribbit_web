@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core'; 
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CourseFull } from '../../../models/course';
+import { CourseService } from '../../../services/course_service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-admin-courses',
@@ -10,53 +12,56 @@ import { CourseFull } from '../../../models/course';
   templateUrl: './admin-courses.html',
   styleUrls: ['./admin-courses.css']
 })
-export class AdminCourses {
+export class AdminCourses implements OnInit {
+  private router = inject(Router);
+  private courseService = inject(CourseService);
+  private cdr = inject(ChangeDetectorRef);
+  private http = inject(HttpClient);
+
   searchTerm = '';
+  courses: CourseFull[] = [];
+  isLoading = true;
+  errorMessage = '';
 
-  courses: CourseFull[] = [
-    {
-      id_course: 1,
-      title: 'Desenvolvimento Web com Angular',
-      slug: 'desenvolvimento-web-com-angular',
-      description: 'Aprenda Angular do zero ao avançado com boas práticas.',
-      banner_url: 'https://via.placeholder.com/150',
-      teacher_name: 'Bruna Serra',
-      progress: 0,
-      modules: [
-        {
-          module_id: 101,
-          title: 'Módulo 1: Introdução e Componentes',
-          index_order: 1,
-          classes: [
-            { class_id: 1001, title: 'Criando o Projeto', is_completed: false },
-            { class_id: 1002, title: 'Sintaxe Control Flow (@if/@for)', is_completed: false }
-          ]
-        }
-      ]
-    },
-    {
-      id_course: 2,
-      title: 'Estrutura de Dados em Java',
-      slug: 'estrutura-de-dados-em-java',
-      description: 'Conceitos fundamentais de listas, pilhas e filas.',
-      banner_url: '',
-      teacher_name: 'Professor Auxiliar',
-      progress: 0,
-      modules: []
-    }
-  ];
+  ngOnInit(): void {
+    this.fetchCourses();
+  }
 
-  constructor(private router: Router) {}
+  fetchCourses(): void {
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    this.courseService.getCourses().subscribe({
+      next: (response) => {
+        const rawCourses = response?.courses || (Array.isArray(response) ? response : []);
+
+        this.courses = rawCourses.map((c: any) => ({
+          ...c,
+          id_course: c.id_course ?? c.id,
+          modules: c.modules || []
+        }));
+
+        this.isLoading = false;
+        this.cdr.detectChanges(); 
+      },
+      error: (err) => {
+        console.error('Erro ao buscar cursos:', err);
+        this.errorMessage = 'Não foi possível carregar os cursos.';
+        this.isLoading = false;
+        this.cdr.detectChanges(); 
+      }
+    });
+  }
 
   get filteredCourses(): CourseFull[] {
-    if (!this.searchTerm.trim()) {
+    if (!this.searchTerm || !this.searchTerm.trim()) {
       return this.courses;
     }
-    const term = this.searchTerm.toLowerCase();
+    const term = this.searchTerm.trim().toLowerCase();
     return this.courses.filter(course =>
-      course.title.toLowerCase().includes(term) ||
-      course.teacher_name.toLowerCase().includes(term) ||
-      course.slug.toLowerCase().includes(term)
+      (course.title && course.title.toLowerCase().includes(term)) ||
+      (course.teacher_name && course.teacher_name.toLowerCase().includes(term)) ||
+      (course.slug && course.slug.toLowerCase().includes(term))
     );
   }
 

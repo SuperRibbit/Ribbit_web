@@ -15,28 +15,44 @@
                 <div class="search-input-wrapper">
                     <i class="ph ph-magnifying-glass search-icon"></i>
                     <input
-                    type="text"
-                    placeholder="Buscar por título, instrutor ou slug..."
-                    [(ngModel)]="searchTerm"
-                    class="search-input"
+                        type="text"
+                        placeholder="Buscar por título, instrutor ou slug..."
+                        [(ngModel)]="searchTerm"
+                        class="search-input"
                     />
                 </div>
-            </div>
+        </div>
 
-            <div class="table-wrapper">
-                <table class="admin-table">
-                    <thead>
+        <div class="table-wrapper">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Título</th>
+                        <th>Slug</th>
+                        <th>Instrutor(a)</th>
+                        <th>Módulos</th>
+                        <th class="text-right">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (isLoading) {
                         <tr>
-                            <th>ID</th>
-                            <th>Título</th>
-                            <th>Slug</th>
-                            <th>Instrutor(a)</th>
-                            <th>Módulos</th>
-                            <th class="text-right">Ações</th>
+                            <td colspan="6" class="empty-state">
+                                <i class="ph ph-spinner spinner-icon"></i>
+                                <p>Carregando cursos...</p>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @for (course of filteredCourses; track course.id_course) {
+                    } @else if (errorMessage) {
+                        <tr>
+                            <td colspan="6" class="empty-state error-text">
+                                <i class="ph ph-warning-circle empty-icon"></i>
+                                <p>{{ errorMessage }}</p>
+                                <button class="btn btn-primary" (click)="fetchCourses()">Tentar Novamente</button>
+                            </td>
+                        </tr>
+                    } @else {
+                        @for (course of filteredCourses; track (course.id_course || $index)) {
                             <tr>
                                 <td class="course-id">#{{ course.id_course }}</td>
                                 <td class="course-title">
@@ -52,7 +68,7 @@
                                     </div>
                                 </td>
                                 <td class="course-slug"><code>{{ course.slug }}</code></td>
-                                <td>{{ course.teacher_name }}</td>
+                                <td>{{ course.teacher_name || 'Não informado' }}</td>
                                 <td>
                                     <span class="badge-count">
                                         <i class="ph ph-circles-four"></i>
@@ -61,15 +77,15 @@
                                 </td>
                                 <td class="text-right actions-cell">
                                     <button 
-                                        class="btn-icon" 
-                                        (click)="onViewCourse(course.id_course)" 
-                                        title="Visualizar Curso">
+                                    class="btn-icon" 
+                                    (click)="onViewCourse(course.id_course)" 
+                                    title="Visualizar Curso">
                                         <i class="ph ph-eye"></i>
                                     </button>
                                     <button 
-                                        class="btn-icon btn-edit" 
-                                        (click)="onEditCourse(course.id_course)" 
-                                        title="Editar Curso">
+                                    class="btn-icon btn-edit" 
+                                    (click)="onEditCourse(course.id_course)" 
+                                    title="Editar Curso">
                                         <i class="ph ph-pencil-simple"></i>
                                     </button>
                                 </td>
@@ -81,10 +97,11 @@
                                     <p>Nenhum curso encontrado.</p>
                                 </td>
                             </tr>
-                        }   
-                    </tbody>
-                </table>
-            </div>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
         </div>
     </div>
 </div>
