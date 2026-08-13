@@ -14,7 +14,7 @@
 
   <section class="input-section">
     <label>Descrição da Aula:</label>
-    <textarea formControlName="description" placeholder="Descreva os tópicos abordados nesta aula..." rows="5"></textarea>
+    <ngx-jodit formControlName="description" [options]="joditOptions"></ngx-jodit>
     @if (f['description'].invalid && (f['description'].dirty || f['description'].touched)) {
       <small class="erro">Informe a descrição da aula.</small>
     }

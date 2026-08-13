@@ -18,6 +18,8 @@
     "@angular/platform-browser": "^21.2.0",
     "@angular/router": "^21.2.0",
     "@fortawesome/fontawesome-free": "^7.3.0",
+    "jodit": "^4.13.21",
+    "ngx-jodit": "^3.2.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
