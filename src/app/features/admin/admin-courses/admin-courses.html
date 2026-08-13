@@ -88,6 +88,12 @@
                                     title="Editar Curso">
                                         <i class="ph ph-pencil-simple"></i>
                                     </button>
+                                    <button 
+                                    class="btn-icon btn-delete" 
+                                    (click)="openDeleteModal(course)" 
+                                    title="Excluir Curso">
+                                        <i class="ph ph-trash"></i>
+                                    </button>
                                 </td>
                             </tr>
                         } @empty {
@@ -105,3 +111,38 @@
         </div>
     </div>
 </div>
+
+@if (showDeleteModal && selectedCourse) {
+    <div class="modal-overlay" (click)="closeDeleteModal()">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+            <div class="modal-icon text-danger">
+                <i class="ph ph-warning"></i>
+            </div>
+            <h2>Excluir Curso</h2>
+            <p>
+                Tem certeza de que deseja excluir o curso 
+                <strong>"{{ selectedCourse.title }}"</strong>?
+            </p>
+            <span class="modal-warning">Esta ação não poderá ser desfeita.</span>
+
+            <div class="modal-actions">
+                <button 
+                class="btn btn-secondary" 
+                (click)="closeDeleteModal()" 
+                [disabled]="isDeleting">
+                    Cancelar
+                </button>
+                <button 
+                class="btn btn-danger" 
+                (click)="confirmDeleteCourse()" 
+                [disabled]="isDeleting">
+                    @if (isDeleting) {
+                        <i class="ph ph-spinner spinner-icon-sm"></i> Excluindo...
+                    } @else {
+                        Excluir
+                    }
+                </button>
+            </div>
+        </div>
+    </div>
+}

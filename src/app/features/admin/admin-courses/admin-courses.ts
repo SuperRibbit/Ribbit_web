@@ -23,6 +23,10 @@ export class AdminCourses implements OnInit {
   isLoading = true;
   errorMessage = '';
 
+  showDeleteModal = false;
+  selectedCourse: CourseFull | null = null;
+  isDeleting = false;
+
   ngOnInit(): void {
     this.fetchCourses();
   }
@@ -75,5 +79,38 @@ export class AdminCourses implements OnInit {
 
   onCreateCourse(): void {
     this.router.navigate(['/courses/new']);
+  }
+
+  openDeleteModal(course: CourseFull): void {
+    this.selectedCourse = course;
+    this.showDeleteModal = true;
+  }
+
+  closeDeleteModal(): void {
+    if (this.isDeleting) return;
+    this.showDeleteModal = false;
+    this.selectedCourse = null;
+  }
+
+  confirmDeleteCourse(): void {
+    if (!this.selectedCourse) return;
+
+    this.isDeleting = true;
+    const courseId = this.selectedCourse.id_course;
+
+    this.courseService.deleteCourse(courseId).subscribe({
+      next: () => {
+        this.courses = this.courses.filter(c => c.id_course !== courseId);
+        this.isDeleting = false;
+        this.closeDeleteModal();
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Erro ao excluir curso:', err);
+        alert('Não foi possível excluir o curso. Tente novamente.');
+        this.isDeleting = false;
+        this.cdr.detectChanges();
+      }
+    });
   }
 }
