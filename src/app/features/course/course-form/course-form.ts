@@ -233,24 +233,39 @@ export class CourseForm implements OnInit {
     this.errorMessage.set(null);
 
     if (editing) {
-      const updatePayload: Partial<ModulePayload> = {
+      if (!courseId) {
+        this.errorMessage.set('Curso não encontrado.');
+        return;
+      }
+
+      const updatePayload: ModulePayload = {
         title: value.title,
-        description: value.description ?? ''
+        description: value.description ?? '',
+        index_order: editing.index_order,
+        fk_course: courseId
       };
+
       this.courseService.updateModule(editing.module_id, updatePayload).subscribe({
         next: res => {
           this.savedModules.update(modules =>
             modules.map(m =>
               m.module_id === editing.module_id
-                ? { ...m, title: res.module.title, description: res.module.description }
+                ? {
+                    ...m,
+                    title: res.module.title,
+                    description: res.module.description,
+                    index_order: res.module.index_order
+                  }
                 : m
             )
           );
+
           this.currentView.set('empty');
           this.selectedModuleForEdit.set(null);
         },
         error: () => this.errorMessage.set('Erro ao atualizar módulo.')
       });
+
       return;
     }
 

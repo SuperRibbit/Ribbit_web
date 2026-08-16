@@ -72,10 +72,14 @@ export class CourseService {
     });
   }
 
-  updateModule(moduleId: number, moduleData: Partial<ModulePayload>): Observable<UpdateModuleResponse> {
-    return this.http.put<UpdateModuleResponse>(`${this.apiUrl}/modules/${moduleId}`, moduleData, {
-      headers: this.getHeaders(false)
-    });
+  updateModule(moduleId: number, moduleData: ModulePayload): Observable<UpdateModuleResponse> {
+    return this.http.put<UpdateModuleResponse>(
+      `${this.apiUrl}/modules/${moduleId}`,
+      moduleData,
+      {
+        headers: this.getHeaders(false)
+      }
+    );
   }
 
   getModuleWithClasses(moduleId: number): Observable<ModuleWithClasses> {
@@ -129,5 +133,20 @@ export class CourseService {
     return this.http.delete(`${this.apiUrl}/files/${fileId}`, {
       headers: this.getHeaders()
     });
+  }
+
+  completeClass(classId: number): Observable<{ message: string, new_course_progress: number }> {
+    return this.http.post<{ message: string, new_course_progress: number }>(
+      `${this.apiUrl}/progress`,
+      { classId },
+      { headers: this.getHeaders(false) }
+    );
+  }
+
+  removeClassCompletion(classId: number): Observable<{ message: string, new_course_progress: number }> {
+    return this.http.delete<{ message: string, new_course_progress: number }>(
+      `${this.apiUrl}/progress/${classId}`,
+      { headers: this.getHeaders() }
+    );
   }
 }
