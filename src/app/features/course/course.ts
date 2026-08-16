@@ -1,17 +1,19 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { Modules } from "../../shared/components/modules/modules";
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CourseService } from '../../services/course_service';
 import { DriveImgPipe } from '../../utilities/pipes/drive-img-pipe';
+import { CustomButton } from "../../shared/components/custom-button/custom-button";
 
 @Component({
   selector: 'app-course',
-  imports: [Modules, DriveImgPipe],
+  imports: [Modules, DriveImgPipe, CustomButton],
   templateUrl: './course.html',
   styleUrl: './course.css',
 })
 export class Course implements OnInit{
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private courseService = inject(CourseService);
 
   
@@ -34,5 +36,12 @@ export class Course implements OnInit{
         console.error('Erro ao buscar os detalhes do curso:', err);
       }
     });
+  }
+
+  startCourse(): void {
+    const courseId = this.curso()?.id_course;
+    if (courseId) {
+      this.router.navigate(['/player', courseId]);
+    }
   }
 }

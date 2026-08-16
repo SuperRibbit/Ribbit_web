@@ -8,11 +8,19 @@
                     <img [src]="curso().banner_url | driveImg" alt="Banner do Curso">
                 </div>
 
-                <div class="texto-informativo">
-                    <p>{{ curso().description }}</p>
-                    @if (curso().teacher_name) {
-                        <small class="professor-nome">Instrutor: {{ curso().teacher_name }}</small>
-                    }
+                <div class="description">
+                    <div class="texto-informativo">
+                        @if (curso().teacher_name) {
+                            <small class="professor-nome">Instrutor: {{ curso().teacher_name }}</small>
+                        }
+                        <p>{{ curso().description }}</p>
+
+                        <div class="btn-row">
+                            <app-custom-button class="btn-iniciar-curso" (click)="startCourse()" variant="blue" label="Iniciar Curso">
+                                Iniciar Curso
+                            </app-custom-button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
