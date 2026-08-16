@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, injec
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgxJoditComponent } from 'ngx-jodit';
 import type { Config } from 'jodit/esm/config';
+import 'jodit/esm/plugins/all.js';
 import { CustomButton } from '../../../../shared/components/custom-button/custom-button';
 import { ClassMaterial, CourseClassDetail } from '../../../../models/course';
 
@@ -34,8 +35,7 @@ export class ClassForm implements OnChanges {
     toolbarButtonSize: 'middle',
     buttons: [
       'bold', 'italic', 'underline', 'strikethrough', '|',
-      'ul', 'ol', '|',
-      'link', '|',
+      'video', '|',
       'undo', 'redo'
     ]
   };

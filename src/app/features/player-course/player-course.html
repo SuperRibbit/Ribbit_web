@@ -2,28 +2,64 @@
     <aside class="sidebar-container">
         <div class="card-modulos">
             <h2 class="titulo-sidebar">Módulos</h2>
-            @for (item of curso.modules; track item.id_module) {
-                <app-modules [modules]="item"></app-modules>
+
+            @if (curso()) {
+                @for (item of curso()!.modules; track item.module_id) {
+                    <app-modules
+                        [modules]="item"
+                        [activeClassId]="activeClassId()"
+                        (classSelected)="selecionarAula($event)"
+                    ></app-modules>
+                } @empty {
+                    <p>Nenhum módulo cadastrado.</p>
+                }
+            } @else if (isLoadingCourse()) {
+                <p>Carregando módulos...</p>
             }
         </div>
     </aside>
 
     <main class="video-main">
         <div class="card-video">
-            <div class="video-placeholder">
-                <p>PLAYER DE VÍDEO</p>
-            </div>
+
+            @if (isLoadingClass()) {
+                <div class="video-placeholder">
+                    <p>Carregando aula...</p>
+                </div>
+            } @else if (pdfPreviewUrl()) {
+                <iframe
+                    class="pdf-frame"
+                    [src]="pdfPreviewUrl()"
+                    allow="autoplay"
+                ></iframe>
+            } @else {
+                <div class="video-placeholder">
+                    <p>Nenhum material em PDF para esta aula.</p>
+                </div>
+            }
 
             <div class="video-footer">
                 <div class="info-aula">
-                    <h3>{{ curso.title }}</h3>
-                    <p>INFORMAÇÕES DA AULA</p>
+                    <h3>{{ activeClass()?.title || curso()?.title }}</h3>
+                    <div class="descricao-aula" [innerHTML]="sanitizedDescription()"></div>
                 </div>
-        
-                <button class="btn-completar">
-                    <i class="ph ph-check"></i> COMPLETAR AULA
+            </div>
+            
+            <div class="btn-row">
+                <button
+                    class="btn-completar"
+                    [class.concluida]="isCurrentClassCompletedPublic"
+                    [disabled]="isTogglingCompletion() || !activeClassId()"
+                    (click)="toggleCompletion()"
+                >
+                    <i class="ph ph-check"></i>
+                    {{ isCurrentClassCompletedPublic ? 'AULA CONCLUÍDA' : 'COMPLETAR AULA' }}
                 </button>
             </div>
+
+            @if (errorMessage()) {
+                <p class="erro-player">{{ errorMessage() }}</p>
+            }
         </div>
     </main>
 </div>
