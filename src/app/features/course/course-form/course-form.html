@@ -75,7 +75,7 @@
           @if (isEditMode) {
             <div class="banner-preview banner-readonly">
               @if (bannerPreviewUrl()) {
-                <img [src]="bannerPreviewUrl()" alt="Banner do curso" />
+                <img [src]="bannerPreviewUrl() | driveImg" alt="Banner do curso" />
               } @else {
                 <p>Nenhum banner cadastrado</p>
               }

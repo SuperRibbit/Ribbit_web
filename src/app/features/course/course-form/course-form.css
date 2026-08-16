@@ -95,6 +95,7 @@ textarea {
   flex-direction: column;
   gap: 8px;
   height: 200px;
+  width: 350px;
 }
 
 .banner-preview img {

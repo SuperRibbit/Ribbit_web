@@ -7,6 +7,7 @@ import { ClassForm, ClassFormValue } from './class-form/class-form';
 import { CustomButton } from '../../../shared/components/custom-button/custom-button';
 import { CourseService } from '../../../services/course_service';
 import { ClassPayload, CourseClass, CourseClassDetail, CourseFull, CourseModule, ModulePayload } from '../../../models/course';
+import { DriveImgPipe } from "../../../utilities/pipes/drive-img-pipe";
 
 type CurriculumView = 'empty' | 'module' | 'class';
 
@@ -24,7 +25,7 @@ function slugify(text: string): string {
 @Component({
   selector: 'app-course-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CustomButton, ModuleForm, ClassForm],
+  imports: [ReactiveFormsModule, CustomButton, ModuleForm, ClassForm, DriveImgPipe],
   templateUrl: './course-form.html',
   styleUrl: './course-form.css'
 })
