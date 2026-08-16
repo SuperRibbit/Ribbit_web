@@ -1,20 +1,31 @@
 <div class="container">
     <aside class="sidebar-container">
         <div class="card-modulos">
-            <h2 class="titulo-sidebar">Módulos</h2>
+            <h2 class="titulo-sidebar">
+                Módulos
+            </h2>
 
             @if (curso()) {
-                @for (item of curso()!.modules; track item.module_id) {
+                @for (
+                    item of curso()!.modules;
+                    track item.module_id
+                ) {
                     <app-modules
                         [modules]="item"
                         [activeClassId]="activeClassId()"
                         (classSelected)="selecionarAula($event)"
                     ></app-modules>
                 } @empty {
-                    <p>Nenhum módulo cadastrado.</p>
+                    <p>
+                        Nenhum módulo cadastrado.
+                    </p>
                 }
             } @else if (isLoadingCourse()) {
-                <p>Carregando módulos...</p>
+
+                <p>
+                    Carregando módulos...
+                </p>
+
             }
         </div>
     </aside>
@@ -23,42 +34,59 @@
         <div class="card-video">
 
             @if (isLoadingClass()) {
-                <div class="video-placeholder">
-                    <p>Carregando aula...</p>
+                <div class="loading-aula">
+                    <p>
+                        Carregando aula...
+                    </p>
                 </div>
             } @else if (pdfPreviewUrl()) {
-                <iframe
-                    class="pdf-frame"
-                    [src]="pdfPreviewUrl()"
-                    allow="autoplay"
-                ></iframe>
-            } @else {
-                <div class="video-placeholder">
-                    <p>Nenhum material em PDF para esta aula.</p>
+                <div class="pdf-placeholder">
+                    <iframe
+                        class="pdf-frame"
+                        [src]="pdfPreviewUrl()"
+                        allow="autoplay"
+                    ></iframe>
                 </div>
-            }
+            } @else {}
 
             <div class="video-footer">
                 <div class="info-aula">
-                    <h3>{{ activeClass()?.title || curso()?.title }}</h3>
+
+                    <h3>
+                        {{
+                            activeClass()?.title ||
+                            curso()?.title
+                        }}
+                    </h3>
+
                     <div class="descricao-aula" [innerHTML]="sanitizedDescription()"></div>
                 </div>
             </div>
-            
+
             <div class="btn-row">
                 <button
                     class="btn-completar"
                     [class.concluida]="isCurrentClassCompletedPublic"
-                    [disabled]="isTogglingCompletion() || !activeClassId()"
-                    (click)="toggleCompletion()"
-                >
+                    [disabled]="isTogglingCompletion() || isEnrolling() || !activeClassId()" 
+                    (click)="toggleCompletion()">
+
                     <i class="ph ph-check"></i>
-                    {{ isCurrentClassCompletedPublic ? 'AULA CONCLUÍDA' : 'COMPLETAR AULA' }}
+                    @if (isEnrolling()) {
+                        MATRICULANDO...
+                    } @else {
+                        {{
+                            isCurrentClassCompletedPublic
+                                ? 'AULA CONCLUÍDA'
+                                : 'COMPLETAR AULA'
+                        }}
+                    }
                 </button>
             </div>
 
             @if (errorMessage()) {
-                <p class="erro-player">{{ errorMessage() }}</p>
+                <p class="erro-player">
+                    {{ errorMessage() }}
+                </p>
             }
         </div>
     </main>
