@@ -7,6 +7,7 @@ import { ClassForm, ClassFormValue } from './class-form/class-form';
 import { CustomButton } from '../../../shared/components/custom-button/custom-button';
 import { CourseService } from '../../../services/course_service';
 import { ClassPayload, CourseClass, CourseClassDetail, CourseFull, CourseModule, ModulePayload } from '../../../models/course';
+import { DriveImgPipe } from "../../../utilities/pipes/drive-img-pipe";
 
 type CurriculumView = 'empty' | 'module' | 'class';
 
@@ -24,7 +25,7 @@ function slugify(text: string): string {
 @Component({
   selector: 'app-course-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CustomButton, ModuleForm, ClassForm],
+  imports: [ReactiveFormsModule, CustomButton, ModuleForm, ClassForm, DriveImgPipe],
   templateUrl: './course-form.html',
   styleUrl: './course-form.css'
 })
@@ -42,6 +43,7 @@ export class CourseForm implements OnInit {
 
   isLoading = signal(false);
   isSaving = signal(false);
+  isDeleting = signal(false);
   errorMessage = signal<string | null>(null);
   successMessage = signal<string | null>(null);
 
@@ -187,6 +189,35 @@ export class CourseForm implements OnInit {
       });
   }
 
+  deleteCourse(): void {
+    if (!this.courseId || !this.isEditMode || this.isDeleting()) {
+      return;
+    }
+
+    const confirmed = window.confirm('Tem certeza que deseja excluir este curso? Esta ação não pode ser desfeita.');
+
+    if (!confirmed) {
+      return;
+    }
+
+    this.errorMessage.set(null);
+    this.successMessage.set(null);
+    this.isDeleting.set(true);
+
+    this.courseService.deleteCourse(this.courseId).subscribe({
+      next: () => {
+        this.isDeleting.set(false);
+        this.router.navigate(['/profile']);
+      },
+
+      error: (err) => {
+        console.error('Erro ao excluir curso:', err);
+        this.isDeleting.set(false);
+        this.errorMessage.set('Não foi possível excluir o curso.');
+      }
+    });
+  }
+
   isExpanded(moduleId: number): boolean {
     return this.expandedModuleIds().has(moduleId);
   }
@@ -232,24 +263,39 @@ export class CourseForm implements OnInit {
     this.errorMessage.set(null);
 
     if (editing) {
-      const updatePayload: Partial<ModulePayload> = {
+      if (!courseId) {
+        this.errorMessage.set('Curso não encontrado.');
+        return;
+      }
+
+      const updatePayload: ModulePayload = {
         title: value.title,
-        description: value.description ?? ''
+        description: value.description ?? '',
+        index_order: editing.index_order,
+        fk_course: courseId
       };
+
       this.courseService.updateModule(editing.module_id, updatePayload).subscribe({
         next: res => {
           this.savedModules.update(modules =>
             modules.map(m =>
               m.module_id === editing.module_id
-                ? { ...m, title: res.module.title, description: res.module.description }
+                ? {
+                    ...m,
+                    title: res.module.title,
+                    description: res.module.description,
+                    index_order: res.module.index_order
+                  }
                 : m
             )
           );
+
           this.currentView.set('empty');
           this.selectedModuleForEdit.set(null);
         },
         error: () => this.errorMessage.set('Erro ao atualizar módulo.')
       });
+
       return;
     }
 

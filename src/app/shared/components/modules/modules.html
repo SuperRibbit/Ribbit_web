@@ -18,8 +18,12 @@
     @if (estaExpandido) {
         <div class="lista-aulas">
             @for (aula of modules.classes; track aula.class_id) {
-                <div class="aula-item">
-                    <input type="checkbox" [checked]="aula.is_completed" class="check-aula">
+                <div
+                    class="aula-item"
+                    [class.aula-ativa]="aula.class_id === activeClassId"
+                    (click)="selecionarAula(aula)"
+                >
+                    <input type="checkbox" [checked]="aula.is_completed" class="check-aula" (click)="$event.stopPropagation()">
                     <span class="aula-nome">{{ aula.title }}</span>
                 </div>
             } @empty {

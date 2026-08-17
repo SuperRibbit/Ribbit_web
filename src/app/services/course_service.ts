@@ -55,6 +55,10 @@ export class CourseService {
     });
   }
 
+  deleteCourse(courseId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/courses/${courseId}`, { headers: this.getHeaders() });
+  }
+
   getCourses(search?: string): Observable<any> {
     const headers = this.getHeaders();
     const url = search ? `${this.apiUrl}/courses?search=${search}` : `${this.apiUrl}/courses`;
@@ -64,6 +68,10 @@ export class CourseService {
   getCourseById(courseId: number): Observable<any> {
     const headers = this.getHeaders();
     return this.http.get<any>(`${this.apiUrl}/courses/${courseId}`, { headers });
+  }
+
+  getCoursesByUser(userId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/courses/user/${userId}`, { headers: this.getHeaders() });
   }
 
   deleteCourse(courseId: number): Observable<any> {
@@ -78,10 +86,8 @@ export class CourseService {
     });
   }
 
-  updateModule(moduleId: number, moduleData: Partial<ModulePayload>): Observable<UpdateModuleResponse> {
-    return this.http.put<UpdateModuleResponse>(`${this.apiUrl}/modules/${moduleId}`, moduleData, {
-      headers: this.getHeaders(false)
-    });
+  updateModule(moduleId: number, moduleData: ModulePayload): Observable<UpdateModuleResponse> {
+    return this.http.put<UpdateModuleResponse>( `${this.apiUrl}/modules/${moduleId}`, moduleData, { headers: this.getHeaders(false) });
   }
 
   getModuleWithClasses(moduleId: number): Observable<ModuleWithClasses> {
@@ -135,5 +141,20 @@ export class CourseService {
     return this.http.delete(`${this.apiUrl}/files/${fileId}`, {
       headers: this.getHeaders()
     });
+  }
+
+  completeClass(classId: number): Observable<{ message: string, new_course_progress: number }> {
+    return this.http.post<{ message: string, new_course_progress: number }>(
+      `${this.apiUrl}/progress`,
+      { classId },
+      { headers: this.getHeaders(false) }
+    );
+  }
+
+  removeClassCompletion(classId: number): Observable<{ message: string, new_course_progress: number }> {
+    return this.http.delete<{ message: string, new_course_progress: number }>(
+      `${this.apiUrl}/progress/${classId}`,
+      { headers: this.getHeaders() }
+    );
   }
 }

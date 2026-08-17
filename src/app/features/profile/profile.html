@@ -82,12 +82,26 @@
       }
     </div>
 
-    <div class="course-grid">
-      @for (item of listaMeusCursos(); track item.enrollment_id) {
-        <app-card-curso-home [curso]="item.course"></app-card-curso-home>
-      } @empty {
-        <p class="carregando-aviso">Nenhum curso iniciado no momento.</p>
-      }
+        <div class="course-grid">
+            @if (role == 'Professor') {
+                @for (curso of listaMeusCursos(); track curso.id_course) {
+                    <app-card-curso-home
+                        [curso]="curso"
+                        [isTeacher]="true">
+                    </app-card-curso-home>
+
+                } @empty {
+                    <p class="carregando-aviso">Nenhum curso cadastrado.</p>
+                }
+
+            } @else {
+                @for (item of listaMeusCursos(); track item.enrollment_id) {
+                    <app-card-curso-home [curso]="item.course"></app-card-curso-home>
+                } @empty {
+                    <p class="carregando-aviso">Nenhum curso iniciado no momento.</p>
+                }
+            }
+        </div>
     </div>
   </div>
 </div>

@@ -82,6 +82,21 @@
     gap: 10px;
     font-size: 0.9rem;
     color: #555;
+    cursor: pointer;
+    padding: 4px 6px;
+    margin: 0 -6px;
+    border-radius: 6px;
+    transition: background 0.15s ease;
+}
+
+.aula-item:hover {
+    background: #00000012;
+}
+
+.aula-item.aula-ativa {
+    background: #00000018;
+    color: var(--azul-escuro);
+    font-weight: 700;
 }
 
 .check-aula {

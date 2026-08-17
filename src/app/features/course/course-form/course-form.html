@@ -75,7 +75,7 @@
           @if (isEditMode) {
             <div class="banner-preview banner-readonly">
               @if (bannerPreviewUrl()) {
-                <img [src]="bannerPreviewUrl()" alt="Banner do curso" />
+                <img [src]="bannerPreviewUrl() | driveImg" alt="Banner do curso" />
               } @else {
                 <p>Nenhum banner cadastrado</p>
               }
@@ -87,13 +87,23 @@
       </div>
     </form>
 
-    <app-custom-button
-      variant="blue"
-      [label]="isSaving() ? 'Salvando...' : (isEditMode ? 'Salvar' : 'Criar Curso')"
-      [disabled]="isSaving() || courseForm.invalid"
-      (click)="saveCourse()"
-      class="final-btn"
-    ></app-custom-button>
+    <div class="course-actions">
+      <app-custom-button
+        variant="blue"
+        [label]="isSaving() ? 'Salvando...' : (isEditMode ? 'Salvar' : 'Criar Curso')"
+        [disabled]="isSaving() || isDeleting() || courseForm.invalid"
+        (click)="saveCourse()"
+      ></app-custom-button>
+
+      @if (isEditMode) {
+        <app-custom-button
+          variant="red"
+          [label]="isDeleting() ? 'Excluindo...' : 'Excluir Curso'"
+          [disabled]="isSaving() || isDeleting()"
+          (click)="deleteCourse()"
+        ></app-custom-button>
+      }
+    </div>
 
     <div class="curriculum-card">
       <aside class="sidebar-modules">
@@ -147,7 +157,7 @@
         @if (currentView() === 'empty') {
           <div class="empty-state">
             <img
-              src="assets/placeholder-curriculum.svg"
+              src=""
               alt="Nenhum item selecionado"
               class="empty-img"
               onerror="this.style.display = 'none'"

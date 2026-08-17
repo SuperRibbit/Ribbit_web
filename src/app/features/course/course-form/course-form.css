@@ -76,7 +76,8 @@ textarea {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  height: 100%;
+  height: 200px;
+  width: 300px;
   border: 2px dashed #ccc;
   border-radius: 8px;
   color: #888;
@@ -93,12 +94,13 @@ textarea {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  height: 100%;
+  height: 200px;
+  width: 350px;
 }
 
 .banner-preview img {
-  width: 100%;
-  height: 100%;
+  width: 350px;
+  height: 200px;
   object-fit: cover;
   border-radius: 8px;
   min-height: 0;
@@ -113,6 +115,13 @@ textarea {
 
 .final-btn {
   width: max-content;
+}
+
+.course-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
 }
 
 /* Layout Inferior: Sidebar e Main */

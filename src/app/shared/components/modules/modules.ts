@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-modules',
@@ -9,9 +9,16 @@ import { Component, Input } from '@angular/core';
 })
 export class Modules {
   @Input() modules: any;
+  @Input() activeClassId: number | null = null;
+  @Output() classSelected = new EventEmitter<any>();
+
   public estaExpandido: boolean = false;
 
   toggleModulo() {
     this.estaExpandido = !this.estaExpandido;
+  }
+
+  selecionarAula(aula: any): void {
+    this.classSelected.emit(aula);
   }
 }

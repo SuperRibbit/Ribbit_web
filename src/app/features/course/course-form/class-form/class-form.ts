@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NgxJoditComponent } from 'ngx-jodit';
+import type { Config } from 'jodit/esm/config';
+import 'jodit/esm/plugins/all.js';
 import { CustomButton } from '../../../../shared/components/custom-button/custom-button';
 import { ClassMaterial, CourseClassDetail } from '../../../../models/course';
 
@@ -14,7 +17,7 @@ export interface ClassFormValue {
 @Component({
   selector: 'app-class-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CustomButton],
+  imports: [ReactiveFormsModule, CustomButton, NgxJoditComponent],
   templateUrl: './class-form.html',
   styleUrl: '../course-form.css'
 })
@@ -26,6 +29,16 @@ export class ClassForm implements OnChanges {
   @Output() saveClass = new EventEmitter<ClassFormValue>();
 
   selectedFile: File | { name: string } | null = null;
+
+  joditOptions: Partial<Config> = {
+    height: 220,
+    toolbarButtonSize: 'middle',
+    buttons: [
+      'bold', 'italic', 'underline', 'strikethrough', '|',
+      'video', '|',
+      'undo', 'redo'
+    ]
+  };
 
   private existingMaterial: ClassMaterial | null = null;
   private materialToRemove: number | null = null;
