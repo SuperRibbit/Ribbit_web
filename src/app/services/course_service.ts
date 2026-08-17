@@ -55,6 +55,10 @@ export class CourseService {
     });
   }
 
+  deleteCourse(courseId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/courses/${courseId}`, { headers: this.getHeaders() });
+  }
+
   getCourses(search?: string): Observable<any> {
     const headers = this.getHeaders();
     const url = search ? `${this.apiUrl}/courses?search=${search}` : `${this.apiUrl}/courses`;

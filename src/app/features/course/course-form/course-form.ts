@@ -43,6 +43,7 @@ export class CourseForm implements OnInit {
 
   isLoading = signal(false);
   isSaving = signal(false);
+  isDeleting = signal(false);
   errorMessage = signal<string | null>(null);
   successMessage = signal<string | null>(null);
 
@@ -186,6 +187,35 @@ export class CourseForm implements OnInit {
           }
         }
       });
+  }
+
+  deleteCourse(): void {
+    if (!this.courseId || !this.isEditMode || this.isDeleting()) {
+      return;
+    }
+
+    const confirmed = window.confirm('Tem certeza que deseja excluir este curso? Esta ação não pode ser desfeita.');
+
+    if (!confirmed) {
+      return;
+    }
+
+    this.errorMessage.set(null);
+    this.successMessage.set(null);
+    this.isDeleting.set(true);
+
+    this.courseService.deleteCourse(this.courseId).subscribe({
+      next: () => {
+        this.isDeleting.set(false);
+        this.router.navigate(['/profile']);
+      },
+
+      error: (err) => {
+        console.error('Erro ao excluir curso:', err);
+        this.isDeleting.set(false);
+        this.errorMessage.set('Não foi possível excluir o curso.');
+      }
+    });
   }
 
   isExpanded(moduleId: number): boolean {

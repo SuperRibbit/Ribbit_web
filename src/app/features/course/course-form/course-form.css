@@ -117,6 +117,13 @@ textarea {
   width: max-content;
 }
 
+.course-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+}
+
 /* Layout Inferior: Sidebar e Main */
 .curriculum-card {
   display: flex;
