@@ -12,13 +12,24 @@ import { DriveImgPipe } from '../../../utilities/pipes/drive-img-pipe';
 })
 export class CardCursoHome {
   private router = inject(Router);
-
+  
   @Input() curso: any;
+  @Input() isTeacher = false;
 
   goToCourse(): void {
-    const courseId = this.curso?.course_id ?? this.curso?.id_course;
-    if (courseId) {
-      this.router.navigate(['/courses', courseId]);
+    const courseId =
+      this.curso?.course_id ??
+      this.curso?.id_course;
+
+    if (!courseId) {
+      return;
     }
+
+    if (this.isTeacher) {
+      this.router.navigate(['/courses', courseId, 'edit']);
+      return;
+    }
+
+    this.router.navigate(['/courses', courseId]);
   }
 }

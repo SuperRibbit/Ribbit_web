@@ -7,6 +7,7 @@ import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../../services/auth';
 import { User as UserService } from '../../services/user';
 import { EnrollmentsService } from '../../services/enrollments_service';
+import { CourseService } from '../../services/course_service';
 
 @Component({
   selector: 'app-profile',
@@ -18,6 +19,7 @@ export class Profile implements OnInit {
   private router = inject(Router);
   private authService = inject(Auth);
   private userService = inject(UserService);
+  private courseService = inject(CourseService);
   private enrollmentsService = inject(EnrollmentsService);
   private cdr = inject(ChangeDetectorRef);
   private fb = inject(FormBuilder);
@@ -42,18 +44,52 @@ export class Profile implements OnInit {
 
   ngOnInit() {
     this.loadUserData();
-    this.loadUserCourses();
   }
 
   loadUserCourses() {
+    if (this.loadedUser.role === 'prof') {
+      const userId =
+        this.authService.getUserIdFromStorage();
+
+      if (!userId) {
+        console.error('ID do usuário não encontrado.');
+        this.listaMeusCursos.set([]);
+        return;
+      }
+
+      this.courseService.getCoursesByUser(userId).subscribe({
+          next: (response: any) => {
+            this.listaMeusCursos.set(response?.courses ?? []);
+          },
+
+          error: (err) => {
+            console.error('Erro ao buscar cursos do professor:', err);
+            this.listaMeusCursos.set([]);
+          }
+        });
+
+      return;
+    }
+
     this.enrollmentsService.getMyCourses().subscribe({
       next: (response: any) => {
-        if (response && response.courses) {
-          this.listaMeusCursos.set(response.courses);
+        if (response?.courses) {
+          this.listaMeusCursos.set(
+            response.courses
+          );
+
+        } else {
+          this.listaMeusCursos.set([]);
         }
       },
+
       error: (err) => {
-        console.error('Erro ao buscar cursos do perfil:', err);
+        console.error(
+          'Erro ao buscar cursos do aluno:',
+          err
+        );
+
+        this.listaMeusCursos.set([]);
       }
     });
   }
@@ -83,9 +119,11 @@ export class Profile implements OnInit {
           });
 
           this.profileForm.markAsPristine();
+          this.loadUserCourses();
           this.cdr.detectChanges();
         }
       },
+
       error: (err) => {
         console.error('Erro ao carregar perfil:', err);
         this.mensagem.set('Erro ao carregar dados do perfil.');

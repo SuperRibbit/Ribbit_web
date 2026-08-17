@@ -66,6 +66,10 @@ export class CourseService {
     return this.http.get<any>(`${this.apiUrl}/courses/${courseId}`, { headers });
   }
 
+  getCoursesByUser(userId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/courses/user/${userId}`, { headers: this.getHeaders() });
+  }
+
   createModule(moduleData: ModulePayload): Observable<CreateModuleResponse> {
     return this.http.post<CreateModuleResponse>(`${this.apiUrl}/modules`, moduleData, {
       headers: this.getHeaders(false)
@@ -73,13 +77,7 @@ export class CourseService {
   }
 
   updateModule(moduleId: number, moduleData: ModulePayload): Observable<UpdateModuleResponse> {
-    return this.http.put<UpdateModuleResponse>(
-      `${this.apiUrl}/modules/${moduleId}`,
-      moduleData,
-      {
-        headers: this.getHeaders(false)
-      }
-    );
+    return this.http.put<UpdateModuleResponse>( `${this.apiUrl}/modules/${moduleId}`, moduleData, { headers: this.getHeaders(false) });
   }
 
   getModuleWithClasses(moduleId: number): Observable<ModuleWithClasses> {

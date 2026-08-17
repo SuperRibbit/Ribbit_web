@@ -170,9 +170,10 @@ section label {
 
 .course-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 24px;
     width: 100%;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+    justify-content: center;
 }
 
 app-card-curso-home {
@@ -180,115 +181,74 @@ app-card-curso-home {
     width: 100%;
 }
 
+app-card-curso-home ::ng-deep .card-container {
+    width: 100% !important;
+    max-width: 250px;
+    min-height: 250px !important;
+    height: auto !important;
+    background-color: var(--branco);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    box-sizing: border-box;
+    margin: 0 auto;
+    justify-content: space-between;
+}
+
+app-card-curso-home ::ng-deep .card-image-area {
+    width: 100% !important;
+    height: 140px !important;
+    background-color: #4C96FF;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    flex-shrink: 0;
+}
+
+app-card-curso-home ::ng-deep .card-image {
+    max-width: 85%;
+    max-height: 85%;
+    object-fit: contain;
+}
+
+app-card-curso-home ::ng-deep .card-text-area {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: auto;
+}
+
+app-card-curso-home ::ng-deep .card-titulo {
+    font-size: 1.1rem;
+    color: #333333;
+    font-weight: 700;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+app-card-curso-home ::ng-deep .card-description {
+    font-family: 'Raleway', sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--text-dark);
+    line-height: 1.3;
+    margin: 0;
+    width: 100%;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
 .btn-row {
     display: flex;
     width: 100%;
     justify-content: space-between;
-}
-
-
-
-@media (max-width: 1200px) {
-    .course-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-@media (max-width: 1024px) {
-    .profile-card {
-        padding: 25px;
-    }
-
-    .course-section {
-        padding: 40px 30px;
-    }
-}
-
-@media (max-width: 900px) {
-    .course-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 768px) {
-    .profile {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 10px;
-    }
-
-    .profile-left {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .profile-right {
-        margin-left: 0;
-    }
-
-    .profile-left img {
-        width: 80px;
-        height: 80px;
-    }
-
-    .profile-left app-custom-button,
-    .confirm app-custom-button {
-        width: 100%;
-        max-width: none;
-    }
-
-    form input {
-        height: 45px;
-        font-size: 14px;
-    }
-
-    .password-group {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .profile-card {
-        padding: 20px;
-    }
-
-    .course-section {
-        padding: 30px 20px;
-        margin-top: 60px;
-    }
-
-    .course-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-    }
-
-    .course-header h2 {
-        font-size: 18px;
-    }
-
-    .course-grid {
-        grid-template-columns: 1fr;
-        justify-items: center;
-    }
-}
-
-@media (max-width: 480px) {
-    .profile-card {
-        padding: 15px;
-        border-radius: 30px;
-    }
-
-    .course-section {
-        padding: 20px 15px;
-    }
-
-    .profile-left img {
-        width: 70px;
-        height: 70px;
-    }
-
-    form input {
-        font-size: 13px;
-    }
 }

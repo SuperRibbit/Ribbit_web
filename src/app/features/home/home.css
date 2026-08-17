@@ -107,8 +107,13 @@ app-card-curso-home ::ng-deep .card-description {
 
 .activities-grid {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 32px;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 8px;
+    scrollbar-width: thin;
 }
 
 .section-header {
