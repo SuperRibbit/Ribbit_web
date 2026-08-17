@@ -42,6 +42,7 @@ img#text {
     height: 55px;
     width: 55px;
     border-radius: 50%;
+    padding: 10px;
     object-fit: cover;
     border: 1px solid var(--verde-escuro);
 }

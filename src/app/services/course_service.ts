@@ -74,6 +74,12 @@ export class CourseService {
     return this.http.get<any>(`${this.apiUrl}/courses/user/${userId}`, { headers: this.getHeaders() });
   }
 
+  deleteCourse(courseId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/courses/${courseId}`, {
+      headers: this.getHeaders()
+    });
+  }
+
   createModule(moduleData: ModulePayload): Observable<CreateModuleResponse> {
     return this.http.post<CreateModuleResponse>(`${this.apiUrl}/modules`, moduleData, {
       headers: this.getHeaders(false)

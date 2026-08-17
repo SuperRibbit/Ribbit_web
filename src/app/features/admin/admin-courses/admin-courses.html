@@ -1,0 +1,148 @@
+<div class="admin-page">
+    <div class="admin-container">
+        <header class="page-header">
+            <div class="header-title">
+                <h1>Gerenciamento de Cursos</h1>
+                <p class="subtitle">Visualize, edite e gerencie todos os cursos do Ribbit</p>
+            </div>
+            <button class="btn btn-primary" (click)="onCreateCourse()">
+                <i class="ph ph-plus-circle"></i> Novo Curso
+            </button>
+        </header>
+
+        <div class="table-card">
+            <div class="table-actions">
+                <div class="search-input-wrapper">
+                    <i class="ph ph-magnifying-glass search-icon"></i>
+                    <input
+                        type="text"
+                        placeholder="Buscar por título, instrutor ou slug..."
+                        [(ngModel)]="searchTerm"
+                        class="search-input"
+                    />
+                </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Título</th>
+                        <th>Slug</th>
+                        <th>Instrutor(a)</th>
+                        <th>Módulos</th>
+                        <th class="text-right">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (isLoading) {
+                        <tr>
+                            <td colspan="6" class="empty-state">
+                                <i class="ph ph-spinner spinner-icon"></i>
+                                <p>Carregando cursos...</p>
+                            </td>
+                        </tr>
+                    } @else if (errorMessage) {
+                        <tr>
+                            <td colspan="6" class="empty-state error-text">
+                                <i class="ph ph-warning-circle empty-icon"></i>
+                                <p>{{ errorMessage }}</p>
+                                <button class="btn btn-primary" (click)="fetchCourses()">Tentar Novamente</button>
+                            </td>
+                        </tr>
+                    } @else {
+                        @for (course of filteredCourses; track (course.id_course || $index)) {
+                            <tr>
+                                <td class="course-id">#{{ course.id_course }}</td>
+                                <td class="course-title">
+                                    <div class="title-wrapper">
+                                        @if (course.banner_url) {
+                                            <img [src]="course.banner_url" alt="Banner do curso" class="course-thumb" />
+                                        } @else {
+                                            <div class="thumb-placeholder">
+                                                <i class="ph ph-book-open"></i>
+                                            </div>
+                                        }
+                                        <span>{{ course.title }}</span>
+                                    </div>
+                                </td>
+                                <td class="course-slug"><code>{{ course.slug }}</code></td>
+                                <td>{{ course.teacher_name || 'Não informado' }}</td>
+                                <td>
+                                    <span class="badge-count">
+                                        <i class="ph ph-circles-four"></i>
+                                        {{ course.modules ? course.modules.length : 0 }} Módulo(s)
+                                    </span>
+                                </td>
+                                <td class="text-right actions-cell">
+                                    <button 
+                                    class="btn-icon" 
+                                    (click)="onViewCourse(course.id_course)" 
+                                    title="Visualizar Curso">
+                                        <i class="ph ph-eye"></i>
+                                    </button>
+                                    <button 
+                                    class="btn-icon btn-edit" 
+                                    (click)="onEditCourse(course.id_course)" 
+                                    title="Editar Curso">
+                                        <i class="ph ph-pencil-simple"></i>
+                                    </button>
+                                    <button 
+                                    class="btn-icon btn-delete" 
+                                    (click)="openDeleteModal(course)" 
+                                    title="Excluir Curso">
+                                        <i class="ph ph-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        } @empty {
+                            <tr>
+                                <td colspan="6" class="empty-state">
+                                    <i class="ph ph-folder-open empty-icon"></i>
+                                    <p>Nenhum curso encontrado.</p>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        </div>
+    </div>
+</div>
+
+@if (showDeleteModal && selectedCourse) {
+    <div class="modal-overlay" (click)="closeDeleteModal()">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+            <div class="modal-icon text-danger">
+                <i class="ph ph-warning"></i>
+            </div>
+            <h2>Excluir Curso</h2>
+            <p>
+                Tem certeza de que deseja excluir o curso 
+                <strong>"{{ selectedCourse.title }}"</strong>?
+            </p>
+            <span class="modal-warning">Esta ação não poderá ser desfeita.</span>
+
+            <div class="modal-actions">
+                <button 
+                class="btn btn-secondary" 
+                (click)="closeDeleteModal()" 
+                [disabled]="isDeleting">
+                    Cancelar
+                </button>
+                <button 
+                class="btn btn-danger" 
+                (click)="confirmDeleteCourse()" 
+                [disabled]="isDeleting">
+                    @if (isDeleting) {
+                        <i class="ph ph-spinner spinner-icon-sm"></i> Excluindo...
+                    } @else {
+                        Excluir
+                    }
+                </button>
+            </div>
+        </div>
+    </div>
+}
