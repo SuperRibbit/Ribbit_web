@@ -38,6 +38,25 @@ img#text {
     color: var(--verde-escuro);
 }
 
+.menu-row .menu-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.menu-row .nav-link-admin {
+    padding: 8px 16px;
+    border-radius: 10px;
+    background-color: var(--azul-escuro);
+    color: var(--branco);
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+}
+
+.menu-row .nav-link-admin:hover {
+    background-color: #4a4ad1;
+}
+
 .menu-row img {
     height: 55px;
     width: 55px;

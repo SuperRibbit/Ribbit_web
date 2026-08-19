@@ -10,7 +10,12 @@
     </div>
     } @else {
     <div class="menu-row">
-        <a routerLink="/home">Página Inicial</a>
+        <div class="menu-links">
+            <a routerLink="/home">Página Inicial</a>
+            @if (isAdmin()) {
+            <a routerLink="/users" class="nav-link-admin">Gerenciar Usuários</a>
+            }
+        </div>
         <a routerLink="/profile">
             <img [src]="avatarUrl()" (error)="avatarUrl.set('assets/GenericAvatar.png')" alt="Perfil" class="navbar-avatar">
         </a>

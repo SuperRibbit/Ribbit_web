@@ -126,6 +126,17 @@ export class Profile implements OnInit {
           this.avatarUrl = user.avatar_url || 'assets/GenericAvatar.png';
           this.role = user.role == 'aluno' ? 'Aluno' : 'Professor';
 
+          if (typeof localStorage !== 'undefined') {
+            const existing = this.authService.getUserData();
+            const updatedUser = {
+              ...(existing || {}),
+              id: user.user_uuid,
+              name: user.full_name,
+              ...user
+            };
+            localStorage.setItem('user_data', JSON.stringify(updatedUser));
+          }
+
           this.profileForm.patchValue({
             nome: user.full_name || user.name || '',
             email: user.email || '',

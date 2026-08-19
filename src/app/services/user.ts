@@ -43,4 +43,13 @@ export class User {
       })
     );
   }
+
+  getUsers() {
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders()
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', 'application/json');
+
+    return this.http.get(`${this.apiUrl}/users`, { headers });
+  }
 }

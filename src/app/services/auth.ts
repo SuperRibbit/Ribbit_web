@@ -12,21 +12,24 @@ export class Auth {
   private http = inject(HttpClient)
 
   avatarUrl = signal<string>('assets/GenericAvatar.png');
+  isAdmin = signal<boolean>(false);
 
   login(credentials: { email: string, password: string }): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/auth/login`, credentials)
       .pipe(
         tap(response => {
           localStorage.setItem('token', response.token);
-          // Temporário até o getme endpoint estar funcionando
+          const user = (response.user as any) || {};
           const userData = {
-            id: (response.user as any).user_uuid,
-            name: response.user.full_name
+            id: user.user_uuid,
+            name: user.full_name,
+            ...user
           };
           localStorage.setItem('user_data', JSON.stringify(userData));
-          if (response.user && (response.user as any).avatar_url) {
-            this.avatarUrl.set((response.user as any).avatar_url);
+          if (user && user.avatar_url) {
+            this.avatarUrl.set(user.avatar_url);
           }
+          this.syncAdminFromStorage();
         })
       );
   }
@@ -83,6 +86,12 @@ export class Auth {
       localStorage.removeItem('user_data');
     }
     this.avatarUrl.set('assets/GenericAvatar.png');
+    this.isAdmin.set(false);
+  }
+
+  syncAdminFromStorage(): void {
+    const userData = this.getUserData();
+    this.isAdmin.set(!!(userData && userData.role === 'admin'));
   }
 
   setAvatar(url: string): void {
