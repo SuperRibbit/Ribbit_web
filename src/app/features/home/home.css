@@ -141,7 +141,8 @@ app-card-curso-home ::ng-deep .card-description {
     width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
-    padding-bottom: 8px;
+    padding: 10px 10px 16px 10px;
+    margin: -10px -10px 0 -10px;
     scrollbar-width: thin;
 }
 
