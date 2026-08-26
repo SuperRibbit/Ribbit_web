@@ -22,12 +22,18 @@
             <h2>Nosso Catálogo</h2>
         </div>
         <div class="cursos-grid">
-            @for (item of listaCursos(); track item.course_id) {
+            @for (item of listaCursosPaginada(); track item.course_id) {
                 <app-card-curso-home [curso]="item"></app-card-curso-home>
             } @empty {
                 <p class="carregando-aviso">Buscando o catálogo de cursos do Ribbit...</p>
             }
         </div>
+
+        <app-pagination
+            [page]="catalogoPage()"
+            [totalPages]="totalCatalogoPages()"
+            (pageChange)="onCatalogoPageChange($event)">
+        </app-pagination>
     </section>
 </div>
 <app-footer variant="green"></app-footer>

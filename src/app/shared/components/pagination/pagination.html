@@ -1,0 +1,23 @@
+@if (totalPages > 1) {
+  <div class="pagination">
+    <button
+      type="button"
+      class="pagination-btn"
+      [disabled]="page <= 1"
+      (click)="goToPrevious()"
+      aria-label="Página anterior">
+      <i class="ph ph-caret-left"></i>
+    </button>
+
+    <span class="pagination-info">Página {{ page }} de {{ totalPages }}</span>
+
+    <button
+      type="button"
+      class="pagination-btn"
+      [disabled]="page >= totalPages"
+      (click)="goToNext()"
+      aria-label="Próxima página">
+      <i class="ph ph-caret-right"></i>
+    </button>
+  </div>
+}

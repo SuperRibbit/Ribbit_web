@@ -84,7 +84,7 @@
 
       <div class="course-grid">
           @if (role == 'Professor') {
-              @for (curso of listaMeusCursos(); track curso.id_course) {
+              @for (curso of listaMeusCursosPaginada(); track curso.id_course) {
                   <app-card-curso-home
                       [curso]="curso"
                       [isTeacher]="true">
@@ -95,12 +95,18 @@
               }
 
           } @else {
-              @for (item of listaMeusCursos(); track item.enrollment_id) {
+              @for (item of listaMeusCursosPaginada(); track item.enrollment_id) {
                   <app-card-curso-home [curso]="item.course"></app-card-curso-home>
               } @empty {
                   <p class="carregando-aviso">Nenhum curso iniciado no momento.</p>
               }
           }
       </div>
+
+      <app-pagination
+          [page]="meusCursosPage()"
+          [totalPages]="totalMeusCursosPages()"
+          (pageChange)="onMeusCursosPageChange($event)">
+      </app-pagination>
   </div>
 </div>

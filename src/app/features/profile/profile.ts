@@ -1,11 +1,5 @@
-import { Component, inject, signal, OnInit, ChangeDetectorRef } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { Component, inject, signal, computed, OnInit, ChangeDetectorRef } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CustomButton } from '../../shared/components/custom-button/custom-button';
 import { CardCursoHome } from '../../shared/components/card-curso-home/card-curso-home';
 import { CommonModule } from '@angular/common';
@@ -15,18 +9,11 @@ import { User as UserService } from '../../services/user';
 import { EnrollmentsService } from '../../services/enrollments_service';
 import { CourseService } from '../../services/course_service';
 import { ModalAvatar } from '../../shared/components/modal-avatar/modal-avatar';
+import { Pagination } from '../../shared/components/pagination/pagination';
 
 @Component({
   selector: 'app-profile',
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    CommonModule,
-    CustomButton,
-    CardCursoHome,
-    RouterLink,
-    ModalAvatar,
-  ],
+  imports: [ FormsModule, ReactiveFormsModule, CommonModule, CustomButton, CardCursoHome, RouterLink, ModalAvatar, Pagination ],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
@@ -44,6 +31,22 @@ export class Profile implements OnInit {
   mostrarModalAvatar = signal(false);
 
   listaMeusCursos = signal<any[]>([]);
+
+  readonly cursosPorPagina = 20;
+  meusCursosPage = signal(1);
+
+  totalMeusCursosPages = computed(() =>
+    Math.max(1, Math.ceil(this.listaMeusCursos().length / this.cursosPorPagina))
+  );
+
+  listaMeusCursosPaginada = computed(() => {
+    const inicio = (this.meusCursosPage() - 1) * this.cursosPorPagina;
+    return this.listaMeusCursos().slice(inicio, inicio + this.cursosPorPagina);
+  });
+
+  onMeusCursosPageChange(page: number) {
+    this.meusCursosPage.set(page);
+  }
 
   profileForm: FormGroup = this.fb.group({
     nome: ['', [Validators.required, Validators.minLength(10)]],
