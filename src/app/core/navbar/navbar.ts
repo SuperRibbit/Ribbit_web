@@ -2,7 +2,6 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CustomButton } from "../../shared/components/custom-button/custom-button";
 import { NavigationEnd, Router, RouterLink } from "@angular/router";
 import { Auth } from '../../services/auth';
-import { User as UserService } from '../../services/user';
 import { filter } from 'rxjs';
 
 @Component({
@@ -13,10 +12,10 @@ import { filter } from 'rxjs';
 })
 export class Navbar implements OnInit {
   private auth = inject(Auth);
-  private userService = inject(UserService);
   private router = inject(Router);
 
   avatarUrl = this.auth.avatarUrl;
+  isAdmin = this.auth.isAdmin;
   isPublicRoute = false;
 
   get isLogged() {
@@ -40,17 +39,6 @@ export class Navbar implements OnInit {
 
   ngOnInit() {
     this.updatePublicRoute();
-
-    if (this.isLogged && !this.isPublicRoute) {
-      this.loadUserAvatar();
-    }
-  }
-
-  loadUserAvatar() {
-    this.userService.getProfile().subscribe({
-      error: (err) => {
-        console.error('Erro ao carregar avatar na navbar:', err);
-      }
-    });
+    this.auth.syncAdminFromStorage();
   }
 }

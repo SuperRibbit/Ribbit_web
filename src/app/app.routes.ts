@@ -11,7 +11,9 @@ import { Mail } from './features/auth/password_reset/mail/mail';
 import { Reset } from './features/auth/password_reset/reset/reset';
 import { CourseForm } from './features/course/course-form/course-form';
 import { roleGuard } from './guards/role-guard';
+import { adminGuard } from './guards/admin-guard';
 import { AdminCourses } from './features/admin/admin-courses/admin-courses';
+import { AdminUsers } from './features/admin/admin-users/admin-users';
 
 export const routes: Routes = [
   { path: '', component: LandingPage, data: { publicRoute: true } },
@@ -26,5 +28,6 @@ export const routes: Routes = [
   { path: 'courses/:id', component: Course, canActivate: [authGuard] },
   { path: 'player/:id', component: PlayerCourse, canActivate: [authGuard] },
   { path: 'admin/courses', component: AdminCourses, canActivate: [authGuard, roleGuard] },
+  { path: 'users', component: AdminUsers, canActivate: [authGuard, adminGuard] },
   { path: '**', redirectTo: '' } 
 ];

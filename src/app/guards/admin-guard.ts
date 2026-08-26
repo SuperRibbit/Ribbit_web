@@ -4,7 +4,7 @@ import { map, catchError, of } from 'rxjs';
 
 import { User } from '../services/user';
 
-export const roleGuard: CanActivateFn = () => {
+export const adminGuard: CanActivateFn = () => {
   const userService = inject(User);
   const router = inject(Router);
 
@@ -12,7 +12,7 @@ export const roleGuard: CanActivateFn = () => {
     map((response: any) => {
       const user = response.user ? response.user : response;
 
-      if (user && (user.role === 'prof' || user.role === 'admin')) {
+      if (user && user.role === 'admin') {
         return true;
       }
 
