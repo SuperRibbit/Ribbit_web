@@ -13,7 +13,17 @@
         <div class="menu-links">
             <a routerLink="/home">Página Inicial</a>
             @if (isAdmin()) {
-            <a routerLink="/users" class="nav-link-admin">Gerenciar Usuários</a>
+            <div class="admin-dropdown">
+                <button type="button" class="nav-link-admin admin-dropdown-toggle" (click)="toggleAdminMenu()">
+                    Gerenciar <i class="ph" [class.ph-caret-up]="showAdminMenu()" [class.ph-caret-down]="!showAdminMenu()"></i>
+                </button>
+                @if (showAdminMenu()) {
+                <div class="admin-dropdown-menu">
+                    <a routerLink="/admin/courses" (click)="closeAdminMenu()">Gerenciar Cursos</a>
+                    <a routerLink="/admin/users" (click)="closeAdminMenu()">Gerenciar Usuários</a>
+                </div>
+                }
+            </div>
             }
         </div>
         <a routerLink="/profile">

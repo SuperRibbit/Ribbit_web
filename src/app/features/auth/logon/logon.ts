@@ -22,7 +22,7 @@ export class Logon {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]],
-      role: ['aluno'], //por padrão usuário será aluno
+      role: ['admin'], //por padrão usuário será aluno
       avatar_url: [''] //sem foto 
     });
   }

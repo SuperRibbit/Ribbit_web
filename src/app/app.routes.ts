@@ -27,7 +27,7 @@ export const routes: Routes = [
   { path: 'courses/:id/edit', component: CourseForm, canActivate: [authGuard, roleGuard] },
   { path: 'courses/:id', component: Course, canActivate: [authGuard] },
   { path: 'player/:id', component: PlayerCourse, canActivate: [authGuard] },
-  { path: 'admin/courses', component: AdminCourses, canActivate: [authGuard, roleGuard] },
-  { path: 'users', component: AdminUsers, canActivate: [authGuard, adminGuard] },
+  { path: 'admin/courses', component: AdminCourses, canActivate: [authGuard, adminGuard] },
+  { path: 'admin/users', component: AdminUsers, canActivate: [authGuard, adminGuard] },
   { path: '**', redirectTo: '' } 
 ];

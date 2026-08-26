@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CustomButton } from "../../shared/components/custom-button/custom-button";
 import { NavigationEnd, Router, RouterLink } from "@angular/router";
 import { Auth } from '../../services/auth';
@@ -17,6 +17,15 @@ export class Navbar implements OnInit {
   avatarUrl = this.auth.avatarUrl;
   isAdmin = this.auth.isAdmin;
   isPublicRoute = false;
+  showAdminMenu = signal(false);
+
+  toggleAdminMenu() {
+    this.showAdminMenu.update(open => !open);
+  }
+
+  closeAdminMenu() {
+    this.showAdminMenu.set(false);
+  }
 
   get isLogged() {
     return this.auth.isLoggedIn();

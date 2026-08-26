@@ -57,6 +57,45 @@ img#text {
     background-color: #4a4ad1;
 }
 
+.admin-dropdown {
+    position: relative;
+}
+
+.admin-dropdown-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: none;
+    cursor: pointer;
+    font: inherit;
+    font-weight: bold;
+}
+
+.admin-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 180px;
+    background-color: var(--branco);
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    z-index: 20;
+}
+
+.admin-dropdown-menu a {
+    padding: 12px 16px;
+    color: var(--text-dark);
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+}
+
+.admin-dropdown-menu a:hover {
+    background-color: var(--azul-bg);
+}
+
 .menu-row img {
     height: 55px;
     width: 55px;
