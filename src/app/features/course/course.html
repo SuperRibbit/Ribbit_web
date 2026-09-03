@@ -29,7 +29,10 @@
             <h2 class="modulos-titulo">Módulos</h2>
             
             @for (modulo of curso().modules; track modulo.module_id) {
-                <app-modules [modules]="modulo"></app-modules>
+                <app-modules 
+                    [modules]="modulo"
+                    (classSelected)="abrirAula($event)">
+                </app-modules>
             } @empty {
                 <p>Nenhum conteúdo disponível para este curso.</p>
             }
