@@ -52,4 +52,13 @@ export class User {
 
     return this.http.get(`${this.apiUrl}/users`, { headers });
   }
+
+  updateUserRole(userUuid: string, role: string) {
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders()
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', 'application/json');
+
+    return this.http.patch(`${this.apiUrl}/users/${userUuid}/role`, { role }, { headers });
+  }
 }

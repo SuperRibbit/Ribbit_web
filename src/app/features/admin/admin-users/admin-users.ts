@@ -32,6 +32,7 @@ export class AdminUsers implements OnInit {
 
   showUserModal = false;
   selectedUser: AdminUser | null = null;
+  isSaving = false;
 
   ngOnInit(): void {
     this.verifyAdmin();
@@ -106,6 +107,27 @@ export class AdminUsers implements OnInit {
   closeUserModal(): void {
     this.showUserModal = false;
     this.selectedUser = null;
+  }
+
+  saveUserRole(): void {
+    if (!this.selectedUser || !this.selectedUser.user_uuid) {
+      return;
+    }
+
+    this.isSaving = true;
+
+    this.userService.updateUserRole(this.selectedUser.user_uuid, this.selectedUser.role).subscribe({
+      next: () => {
+        this.isSaving = false;
+        this.closeUserModal();
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Erro ao salvar role do usuário:', err);
+        this.isSaving = false;
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   getRoleLabel(role: string): string {

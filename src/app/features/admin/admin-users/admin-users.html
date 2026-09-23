@@ -74,8 +74,8 @@
                                         <button
                                             class="btn-icon"
                                             (click)="openUserModal(user)"
-                                            title="Ver Informações">
-                                            <i class="ph ph-info"></i>
+                                            title="Editar Usuário">
+                                            <i class="ph ph-pencil-simple"></i>
                                         </button>
                                     </td>
                                 </tr>
@@ -99,7 +99,7 @@
     <div class="modal-overlay" (click)="closeUserModal()">
         <div class="modal-content" (click)="$event.stopPropagation()">
             <div class="modal-header">
-                <h2>Informações do Usuário</h2>
+                <h2>Editar Usuário</h2>
                 <button class="modal-close" (click)="closeUserModal()" title="Fechar">
                     <i class="ph ph-x"></i>
                 </button>
@@ -139,6 +139,16 @@
 
             <div class="modal-actions">
                 <button class="btn btn-secondary" (click)="closeUserModal()">Fechar</button>
+                <button
+                    class="btn btn-primary"
+                    (click)="saveUserRole()"
+                    [disabled]="isSaving">
+                    @if (isSaving) {
+                        <i class="ph ph-spinner spinner-icon"></i> Salvando...
+                    } @else {
+                        Salvar Alterações
+                    }
+                </button>
             </div>
         </div>
     </div>
