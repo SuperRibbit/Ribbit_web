@@ -13,7 +13,7 @@
         <div class="menu-links">
             <a routerLink="/home">Página Inicial</a>
             @if (isAdmin()) {
-            <div class="admin-dropdown">
+            <div class="admin-dropdown" #adminDropdown>
                 <button type="button" class="nav-link-admin admin-dropdown-toggle" (click)="toggleAdminMenu()">
                     Gerenciar <i class="ph" [class.ph-caret-up]="showAdminMenu()" [class.ph-caret-down]="!showAdminMenu()"></i>
                 </button>
