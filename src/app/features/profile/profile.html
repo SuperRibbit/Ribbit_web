@@ -18,8 +18,8 @@
       }
 
       <div class="profile-right">
-        @if (role) {
-          <h3>Perfil do {{ role }}</h3>
+        @if (titulo) {
+          <h3>{{ titulo }}</h3>
         }
       </div>
     </header>
@@ -70,10 +70,11 @@
     </form>
   </div>
 
+  @if (role !== 'admin') {
   <div class="course-section">
     <div class="course-header">
       <h2>Meus Cursos</h2>
-      @if (role == 'Professor') {
+      @if (role === 'prof') {
         <app-custom-button
           variant="green"
           label="Cadastrar novo curso"
@@ -83,7 +84,7 @@
     </div>
 
       <div class="course-grid">
-          @if (role == 'Professor') {
+          @if (role === 'prof') {
               @for (curso of listaMeusCursosPaginada(); track curso.id_course) {
                   <app-card-curso-home
                       [curso]="curso"
@@ -109,4 +110,5 @@
           (pageChange)="onMeusCursosPageChange($event)">
       </app-pagination>
   </div>
+  }
 </div>
