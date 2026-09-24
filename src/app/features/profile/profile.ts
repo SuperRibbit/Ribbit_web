@@ -55,6 +55,7 @@ export class Profile implements OnInit {
 
   avatarUrl = '';
   role = '';
+  titulo = '';
 
   private loadedUser: any = null;
 
@@ -68,7 +69,12 @@ export class Profile implements OnInit {
   }
 
   loadUserCourses() {
-    if (this.loadedUser.role === 'prof') {
+    if (this.role === 'admin') {
+      this.listaMeusCursos.set([]);
+      return;
+    }
+
+    if (this.role === 'prof') {
       const userId =
         this.authService.getUserIdFromStorage();
 
@@ -127,7 +133,8 @@ export class Profile implements OnInit {
         if (user) {
           this.loadedUser = user;
           this.avatarUrl = user.avatar_url || 'assets/GenericAvatar.png';
-          this.role = user.role == 'aluno' ? 'Aluno' : 'Professor';
+          this.role = user.role;
+          this.titulo = { prof: 'Perfil do Professor', admin: 'Administrador' }[user.role as string] ?? '';
 
           if (typeof localStorage !== 'undefined') {
             const existing = this.authService.getUserData();

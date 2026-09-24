@@ -1,6 +1,8 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core'; 
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { Subject, Subscription, debounceTime } from 'rxjs';
 import { CourseFull } from '../../../models/course';
 import { CourseService } from '../../../services/course_service';
 import { HttpClient } from '@angular/common/http';
@@ -19,6 +21,8 @@ export class AdminCourses implements OnInit {
   private http = inject(HttpClient);
 
   searchTerm = '';
+  private search$ = new Subject<void>();
+  private request?: Subscription;
   courses: CourseFull[] = [];
   isLoading = true;
   errorMessage = '';
@@ -27,15 +31,27 @@ export class AdminCourses implements OnInit {
   selectedCourse: CourseFull | null = null;
   isDeleting = false;
 
+  constructor() {
+    this.search$
+      .pipe(debounceTime(300), takeUntilDestroyed())
+      .subscribe(() => this.fetchCourses());
+  }
+
   ngOnInit(): void {
     this.fetchCourses();
+  }
+
+  onSearchChange(term: string): void {
+    this.searchTerm = term;
+    this.search$.next();
   }
 
   fetchCourses(): void {
     this.isLoading = true;
     this.errorMessage = '';
 
-    this.courseService.getCourses().subscribe({
+    this.request?.unsubscribe();
+    this.request = this.courseService.getCourses(this.searchTerm.trim() || undefined).subscribe({
       next: (response) => {
         const rawCourses = response?.courses || (Array.isArray(response) ? response : []);
 
@@ -55,18 +71,6 @@ export class AdminCourses implements OnInit {
         this.cdr.detectChanges(); 
       }
     });
-  }
-
-  get filteredCourses(): CourseFull[] {
-    if (!this.searchTerm || !this.searchTerm.trim()) {
-      return this.courses;
-    }
-    const term = this.searchTerm.trim().toLowerCase();
-    return this.courses.filter(course =>
-      (course.title && course.title.toLowerCase().includes(term)) ||
-      (course.teacher_name && course.teacher_name.toLowerCase().includes(term)) ||
-      (course.slug && course.slug.toLowerCase().includes(term))
-    );
   }
 
   onViewCourse(courseId: number): void {

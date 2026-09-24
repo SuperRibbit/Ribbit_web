@@ -19,12 +19,19 @@ export class Course implements OnInit {
   private enrollmentsService = inject(EnrollmentsService);
 
   public curso = signal<any>(null);
+  public isEnrolled = signal(false);
+  public isUnenrolling = signal(false);
 
   ngOnInit(): void {
     const courseId = this.route.snapshot.paramMap.get('id');
 
     if (courseId) {
       this.loadCourseDetails(Number(courseId));
+
+      this.enrollmentsService.getEnrollmentStatus(Number(courseId)).subscribe({
+        next: (status) => this.isEnrolled.set(status.is_enrolled),
+        error: (err) => console.error('Erro ao verificar matrícula:', err)
+      });
     }
   }
 
@@ -42,6 +49,30 @@ export class Course implements OnInit {
           'Erro ao buscar os detalhes do curso:',
           err
         );
+      }
+    });
+  }
+
+  unenroll(): void {
+    const courseId = this.curso()?.id_course;
+
+    if (!courseId || this.isUnenrolling()) {
+      return;
+    }
+
+    if (!window.confirm('Tem certeza que deseja cancelar sua matrícula neste curso?')) {
+      return;
+    }
+
+    this.isUnenrolling.set(true);
+
+    this.enrollmentsService.unenroll(courseId).subscribe({
+      next: (response) => {
+        this.isUnenrolling.set(false);
+        this.isEnrolled.set(false);
+      },
+      error: (err) => {
+        this.isUnenrolling.set(false);
       }
     });
   }

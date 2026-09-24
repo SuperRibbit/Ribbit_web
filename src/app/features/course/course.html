@@ -16,6 +16,14 @@
                         <p>{{ curso().description }}</p>
 
                         <div class="btn-row">
+                            @if (isEnrolled()) {
+                                <app-custom-button
+                                    variant="red"
+                                    [label]="isUnenrolling() ? 'Cancelando...' : 'Cancelar matrícula'"
+                                    [disabled]="isUnenrolling()"
+                                    (click)="unenroll()">
+                                </app-custom-button>
+                            }
                             <app-custom-button class="btn-iniciar-curso" (click)="startCourse()" variant="blue" label="Iniciar Curso">
                                 Iniciar Curso
                             </app-custom-button>

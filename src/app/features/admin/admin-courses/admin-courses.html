@@ -16,8 +16,9 @@
                     <i class="ph ph-magnifying-glass search-icon"></i>
                     <input
                         type="text"
-                        placeholder="Buscar por título, instrutor ou slug..."
-                        [(ngModel)]="searchTerm"
+                        placeholder="Buscar por título..."
+                        [ngModel]="searchTerm"
+                        (ngModelChange)="onSearchChange($event)"
                         class="search-input"
                     />
                 </div>
@@ -52,7 +53,7 @@
                             </td>
                         </tr>
                     } @else {
-                        @for (course of filteredCourses; track (course.id_course || $index)) {
+                        @for (course of courses; track (course.id_course || $index)) {
                             <tr>
                                 <td class="course-id">#{{ course.id_course }}</td>
                                 <td class="course-title">

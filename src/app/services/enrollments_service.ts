@@ -49,6 +49,13 @@ export class EnrollmentsService {
     );
   }
 
+  unenroll(courseId: number): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(
+      `${this.enrollmentsUrl}/course/${courseId}`,
+      { headers: this.getHeaders() }
+    );
+  }
+
   ensureEnrollment(courseId: number): Observable<boolean> {
     return this.getEnrollmentStatus(courseId).pipe(
       switchMap(status => {
