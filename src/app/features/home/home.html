@@ -9,7 +9,8 @@
                 <app-card-curso-dashboard 
                     [progress]="item.progress" 
                     [description]="item.course.title"
-                    [imageUrl]="item.course.banner_url || 'assets/imageScratch.png'">
+                    [imageUrl]="item.course.banner_url || 'assets/imageScratch.png'"
+                    [courseId]="item.course.id || item.course.course_id">
                 </app-card-curso-dashboard>
             } @empty {
                 <p>Você ainda não iniciou nenhum curso.</p>
