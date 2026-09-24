@@ -26,7 +26,7 @@
             <i class="ph ph-magnifying-glass search-icon"></i>
             <input
                 type="text"
-                placeholder="Buscar por título, instrutor ou slug..."
+                placeholder="Buscar por título..."
                 [ngModel]="searchTerm()"
                 (ngModelChange)="onSearchTermChange($event)"
                 class="search-input"
@@ -34,7 +34,7 @@
         </div>
 
         <div class="cursos-grid">
-            @for (item of listaCursosPaginada(); track item.course_id) {
+            @for (item of listaCursosPaginada(); track item.id_course) {
                 <app-card-curso-home [curso]="item"></app-card-curso-home>
             } @empty {
                 <p class="carregando-aviso">Nenhum curso encontrado.</p>

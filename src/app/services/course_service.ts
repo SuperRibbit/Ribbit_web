@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {
   ClassPayload,
@@ -56,9 +56,8 @@ export class CourseService {
   }
 
   getCourses(search?: string): Observable<any> {
-    const headers = this.getHeaders();
-    const url = search ? `${this.apiUrl}/courses?search=${search}` : `${this.apiUrl}/courses`;
-    return this.http.get<any>(url, { headers });
+    const params = search ? new HttpParams().set('search', search) : undefined;
+    return this.http.get<any>(`${this.apiUrl}/courses`, { headers: this.getHeaders(), params });
   }
 
   getCourseById(courseId: number): Observable<any> {
