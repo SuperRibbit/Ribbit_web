@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -13,13 +13,7 @@ export class User {
   private authService = inject(Auth);
 
   updateProfile(data: { full_name?: string; email?: string; password?: string; avatar_url?: string }): Observable<any> {
-    const userId = this.authService.getUserIdFromStorage();
-    const token = this.authService.getToken();
-    const headers = new HttpHeaders()
-      .set('Authorization', `Bearer ${token}`)
-      .set('Content-Type', 'application/json');
-
-    return this.http.put(`${this.apiUrl}/users/me`, data, { headers }).pipe(
+    return this.http.put(`${this.apiUrl}/users/me`, data).pipe(
       tap((response: any) => {
         const user = response?.user ? response.user : response;
         if (user && user.avatar_url) {
@@ -30,12 +24,7 @@ export class User {
   }
 
   getProfile() {
-    const token = this.authService.getToken();
-    const headers = new HttpHeaders()
-      .set('Authorization', `Bearer ${token}`)
-      .set('Content-Type', 'application/json');
-
-    return this.http.get(`${this.apiUrl}/users/me`, { headers }).pipe(
+    return this.http.get(`${this.apiUrl}/users/me`).pipe(
       tap((response: any) => {
         const user = response?.user ? response.user : response;
         if (user && user.avatar_url) {
@@ -46,11 +35,6 @@ export class User {
   }
 
   getUsers() {
-    const token = this.authService.getToken();
-    const headers = new HttpHeaders()
-      .set('Authorization', `Bearer ${token}`)
-      .set('Content-Type', 'application/json');
-
-    return this.http.get(`${this.apiUrl}/users`, { headers });
+    return this.http.get(`${this.apiUrl}/users`);
   }
 }
