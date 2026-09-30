@@ -2,7 +2,7 @@
   <div class="profile-card">
     <header class="profile">
       <div class="profile-left">
-        <img [src]="avatarUrl" (error)="avatarUrl = 'assets/GenericAvatar.png'" alt="Avatar" />
+        <img [src]="avatarUrl()" (error)="avatarUrl.set('assets/GenericAvatar.png')" alt="Avatar" />
 
         <app-custom-button variant="blue" label="Trocar avatar" (click)="openModalAvatar()">
         </app-custom-button>
@@ -10,7 +10,7 @@
 
       @if (mostrarModalAvatar()) {
         <app-modal-avatar
-          [avatarAtual]="avatarUrl"
+          [avatarAtual]="avatarUrl()"
           (close)="closeModalAvatar()"
           (avatarSelected)="onAvatarSelected($event)"
         >
@@ -18,8 +18,8 @@
       }
 
       <div class="profile-right">
-        @if (titulo) {
-          <h3>{{ titulo }}</h3>
+        @if (titulo()) {
+          <h3>{{ titulo() }}</h3>
         }
       </div>
     </header>
@@ -70,11 +70,11 @@
     </form>
   </div>
 
-  @if (role !== 'admin') {
+  @if (role() !== 'admin') {
   <div class="course-section">
     <div class="course-header">
       <h2>Meus Cursos</h2>
-      @if (role === 'prof') {
+      @if (role() === 'prof') {
         <app-custom-button
           variant="green"
           label="Cadastrar novo curso"
@@ -84,7 +84,7 @@
     </div>
 
       <div class="course-grid">
-          @if (role === 'prof') {
+          @if (role() === 'prof') {
               @for (curso of listaMeusCursosPaginada(); track curso.id_course) {
                   <app-card-curso-home
                       [curso]="curso"
