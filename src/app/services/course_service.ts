@@ -15,12 +15,13 @@ import {
   CourseClassDetail
 } from '../models/course';
 import { Auth } from './auth';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class CourseService {
   private http = inject(HttpClient);
   private authService = inject(Auth);
-  private readonly apiUrl = 'https://ribbit-api-kf5q.onrender.com/ribbit';
+  private readonly apiUrl = environment.apiUrl;
 
   private getHeaders(isFormData = false): HttpHeaders {
     const token = this.authService.getToken();

@@ -1,13 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
+import { environment } from '../../environments/environment';
 import { Auth } from './auth';
 
 @Injectable({
   providedIn: 'root',
 })
 export class User {
-  private readonly apiUrl = 'https://ribbit-api-kf5q.onrender.com/ribbit';
+  private readonly apiUrl = environment.apiUrl;
   private http = inject(HttpClient);
   private authService = inject(Auth);
 

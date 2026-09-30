@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, catchError, of, switchMap } from 'rxjs';
+import { environment } from '../../environments/environment';
 import { Auth } from './auth';
 
 export interface EnrollmentStatus {
@@ -13,8 +14,7 @@ export interface EnrollmentStatus {
   providedIn: 'root',
 })
 export class EnrollmentsService {
-  private readonly enrollmentsUrl =
-    'https://ribbit-api-kf5q.onrender.com/ribbit/enrollments';
+  private readonly enrollmentsUrl = `${environment.apiUrl}/enrollments`;
 
   private http = inject(HttpClient);
   private authService = inject(Auth);
