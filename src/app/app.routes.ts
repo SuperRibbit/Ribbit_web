@@ -5,7 +5,7 @@ import { LandingPage } from './features/landing-page/landing-page';
 import { Home } from './features/home/home';
 import { authGuard } from './guards/auth-guard';
 import { Profile } from './features/profile/profile';
-import { Course } from './features/course/course';  
+import { Course } from './features/course/course';
 import { PlayerCourse } from './features/player-course/player-course';
 import { Mail } from './features/auth/password_reset/mail/mail';
 import { Reset } from './features/auth/password_reset/reset/reset';
@@ -14,6 +14,7 @@ import { roleGuard } from './guards/role-guard';
 import { adminGuard } from './guards/admin-guard';
 import { AdminCourses } from './features/admin/admin-courses/admin-courses';
 import { AdminUsers } from './features/admin/admin-users/admin-users';
+import { NotFound } from './features/not-found/not-found';
 
 export const routes: Routes = [
   { path: '', component: LandingPage, data: { publicRoute: true } },
@@ -29,5 +30,5 @@ export const routes: Routes = [
   { path: 'player/:id', component: PlayerCourse, canActivate: [authGuard] },
   { path: 'admin/courses', component: AdminCourses, canActivate: [authGuard, adminGuard] },
   { path: 'admin/users', component: AdminUsers, canActivate: [authGuard, adminGuard] },
-  { path: '**', redirectTo: '' } 
+  { path: '**', component: NotFound }
 ];

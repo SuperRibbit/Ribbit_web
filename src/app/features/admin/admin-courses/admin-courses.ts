@@ -1,11 +1,10 @@
-import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core'; 
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Subject, Subscription, debounceTime } from 'rxjs';
 import { CourseFull } from '../../../models/course';
 import { CourseService } from '../../../services/course_service';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-admin-courses',
@@ -17,19 +16,18 @@ import { HttpClient } from '@angular/common/http';
 export class AdminCourses implements OnInit {
   private router = inject(Router);
   private courseService = inject(CourseService);
-  private cdr = inject(ChangeDetectorRef);
-  private http = inject(HttpClient);
 
-  searchTerm = '';
+  searchTerm = signal('');
   private search$ = new Subject<void>();
   private request?: Subscription;
-  courses: CourseFull[] = [];
-  isLoading = true;
-  errorMessage = '';
 
-  showDeleteModal = false;
-  selectedCourse: CourseFull | null = null;
-  isDeleting = false;
+  courses = signal<CourseFull[]>([]);
+  isLoading = signal(true);
+  errorMessage = signal('');
+
+  showDeleteModal = signal(false);
+  selectedCourse = signal<CourseFull | null>(null);
+  isDeleting = signal(false);
 
   constructor() {
     this.search$
@@ -42,33 +40,31 @@ export class AdminCourses implements OnInit {
   }
 
   onSearchChange(term: string): void {
-    this.searchTerm = term;
+    this.searchTerm.set(term);
     this.search$.next();
   }
 
   fetchCourses(): void {
-    this.isLoading = true;
-    this.errorMessage = '';
+    this.isLoading.set(true);
+    this.errorMessage.set('');
 
     this.request?.unsubscribe();
-    this.request = this.courseService.getCourses(this.searchTerm.trim() || undefined).subscribe({
+    this.request = this.courseService.getCourses(this.searchTerm().trim() || undefined).subscribe({
       next: (response) => {
         const rawCourses = response?.courses || (Array.isArray(response) ? response : []);
 
-        this.courses = rawCourses.map((c: any) => ({
+        this.courses.set(rawCourses.map((c: any) => ({
           ...c,
           id_course: c.id_course ?? c.id,
           modules: c.modules || []
-        }));
+        })));
 
-        this.isLoading = false;
-        this.cdr.detectChanges(); 
+        this.isLoading.set(false);
       },
       error: (err) => {
         console.error('Erro ao buscar cursos:', err);
-        this.errorMessage = 'Não foi possível carregar os cursos.';
-        this.isLoading = false;
-        this.cdr.detectChanges(); 
+        this.errorMessage.set('Não foi possível carregar os cursos.');
+        this.isLoading.set(false);
       }
     });
   }
@@ -86,34 +82,33 @@ export class AdminCourses implements OnInit {
   }
 
   openDeleteModal(course: CourseFull): void {
-    this.selectedCourse = course;
-    this.showDeleteModal = true;
+    this.selectedCourse.set(course);
+    this.showDeleteModal.set(true);
   }
 
   closeDeleteModal(): void {
-    if (this.isDeleting) return;
-    this.showDeleteModal = false;
-    this.selectedCourse = null;
+    if (this.isDeleting()) return;
+    this.showDeleteModal.set(false);
+    this.selectedCourse.set(null);
   }
 
   confirmDeleteCourse(): void {
-    if (!this.selectedCourse) return;
+    const courseId = this.selectedCourse()?.id_course;
 
-    this.isDeleting = true;
-    const courseId = this.selectedCourse.id_course;
+    if (courseId == null) return;
+
+    this.isDeleting.set(true);
 
     this.courseService.deleteCourse(courseId).subscribe({
       next: () => {
-        this.courses = this.courses.filter(c => c.id_course !== courseId);
-        this.isDeleting = false;
+        this.courses.update(courses => courses.filter(c => c.id_course !== courseId));
+        this.isDeleting.set(false);
         this.closeDeleteModal();
-        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Erro ao excluir curso:', err);
         alert('Não foi possível excluir o curso. Tente novamente.');
-        this.isDeleting = false;
-        this.cdr.detectChanges();
+        this.isDeleting.set(false);
       }
     });
   }

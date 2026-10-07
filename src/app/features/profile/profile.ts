@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CustomButton } from '../../shared/components/custom-button/custom-button';
 import { CardCursoHome } from '../../shared/components/card-curso-home/card-curso-home';
@@ -23,12 +23,15 @@ export class Profile implements OnInit {
   private userService = inject(UserService);
   private courseService = inject(CourseService);
   private enrollmentsService = inject(EnrollmentsService);
-  private cdr = inject(ChangeDetectorRef);
   private fb = inject(FormBuilder);
 
   enviando = signal(false);
   mensagem = signal('');
   mostrarModalAvatar = signal(false);
+
+  avatarUrl = signal('assets/GenericAvatar.png');
+  role = signal('');
+  titulo = signal('');
 
   listaMeusCursos = signal<any[]>([]);
 
@@ -53,10 +56,6 @@ export class Profile implements OnInit {
     email: ['', [Validators.required, Validators.minLength(10), Validators.email]],
   });
 
-  avatarUrl = '';
-  role = '';
-  titulo = '';
-
   private loadedUser: any = null;
 
   ngOnInit() {
@@ -64,17 +63,17 @@ export class Profile implements OnInit {
   }
 
   onAvatarSelected(avatar: string) {
-    this.avatarUrl = avatar;
+    this.avatarUrl.set(avatar);
     this.closeModalAvatar();
   }
 
   loadUserCourses() {
-    if (this.role === 'admin') {
+    if (this.role() === 'admin') {
       this.listaMeusCursos.set([]);
       return;
     }
 
-    if (this.role === 'prof') {
+    if (this.role() === 'prof') {
       const userId =
         this.authService.getUserIdFromStorage();
 
@@ -121,7 +120,7 @@ export class Profile implements OnInit {
 
     const formModificado = this.profileForm.dirty;
     const avatarOriginal = this.loadedUser?.avatar_url || 'assets/GenericAvatar.png';
-    const avatarModificado = this.avatarUrl !== avatarOriginal;
+    const avatarModificado = this.avatarUrl() !== avatarOriginal;
     return !formModificado && !avatarModificado;
   }
 
@@ -132,9 +131,9 @@ export class Profile implements OnInit {
 
         if (user) {
           this.loadedUser = user;
-          this.avatarUrl = user.avatar_url || 'assets/GenericAvatar.png';
-          this.role = user.role;
-          this.titulo = { prof: 'Perfil do Professor', admin: 'Administrador' }[user.role as string] ?? '';
+          this.avatarUrl.set(user.avatar_url || 'assets/GenericAvatar.png');
+          this.role.set(user.role);
+          this.titulo.set({ prof: 'Perfil do Professor', admin: 'Administrador' }[user.role as string] ?? '');
 
           if (typeof localStorage !== 'undefined') {
             const existing = this.authService.getUserData();
@@ -154,7 +153,6 @@ export class Profile implements OnInit {
 
           this.profileForm.markAsPristine();
           this.loadUserCourses();
-          this.cdr.detectChanges();
         }
       },
 
@@ -185,10 +183,8 @@ export class Profile implements OnInit {
 
     const payload: any = {
       full_name: formValues.nome,
-      avatar_url: this.avatarUrl !== 'assets/GenericAvatar.png' ? this.avatarUrl : '',
+      avatar_url: this.avatarUrl() !== 'assets/GenericAvatar.png' ? this.avatarUrl() : '',
     };
-
-    console.log('Payload enviado:', payload);
 
     this.userService.updateProfile(payload).subscribe({
       next: (response: any) => {
