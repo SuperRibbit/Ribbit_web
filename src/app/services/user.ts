@@ -54,4 +54,8 @@ export class User {
     const userId = this.authService.getUserIdFromStorage();
     this.profileCache = { userId, data: response };
   }
+
+  updateUserRole(userUuid: string, role: string) {
+    return this.http.patch(`${this.apiUrl}/users/${userUuid}/role`, { role });
+  }
 }

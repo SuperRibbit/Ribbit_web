@@ -32,6 +32,7 @@ export class AdminUsers implements OnInit {
 
   showUserModal = false;
   selectedUser: AdminUser | null = null;
+  isSaving = false;
 
   ngOnInit(): void {
     this.verifyAdmin();
@@ -99,13 +100,42 @@ export class AdminUsers implements OnInit {
   }
 
   openUserModal(user: AdminUser): void {
-    this.selectedUser = user;
+    this.selectedUser = { ...user };
     this.showUserModal = true;
   }
 
   closeUserModal(): void {
     this.showUserModal = false;
     this.selectedUser = null;
+  }
+
+  saveUserRole(): void {
+    if (!this.selectedUser || !this.selectedUser.user_uuid) {
+      return;
+    }
+
+    const userUuid = this.selectedUser.user_uuid;
+    const newRole = this.selectedUser.role;
+
+    this.isSaving = true;
+
+    this.userService.updateUserRole(userUuid, newRole).subscribe({
+      next: () => {
+        const user = this.users.find(u => u.user_uuid === userUuid);
+        if (user) {
+          user.role = newRole;
+        }
+
+        this.isSaving = false;
+        this.closeUserModal();
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Erro ao salvar role do usuário:', err);
+        this.isSaving = false;
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   getRoleLabel(role: string): string {
