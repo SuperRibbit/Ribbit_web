@@ -1,0 +1,60 @@
+.not-found-container {
+    min-height: calc(100vh - 90px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: var(--azul) url('/assets/CloudBGLow.svg') no-repeat center;
+    background-size: cover;
+}
+
+.not-found-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+    background-color: var(--branco);
+    border-radius: 30px;
+    padding: 48px 40px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    max-width: 480px;
+    width: 100%;
+}
+
+.not-found-card i {
+    font-size: 4rem;
+    color: var(--verde-escuro);
+}
+
+.not-found-card h1 {
+    font-size: 4rem;
+    font-weight: 800;
+    color: var(--azul-escuro);
+    line-height: 1;
+}
+
+.not-found-card h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.not-found-card p {
+    color: var(--text-light);
+    margin-bottom: 12px;
+}
+
+@media (max-width: 480px) {
+    .not-found-card {
+        padding: 32px 24px;
+    }
+
+    .not-found-card h1 {
+        font-size: 3rem;
+    }
+
+    .not-found-card h2 {
+        font-size: 1.2rem;
+    }
+}

@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnInit, ViewChild, inject, signal } from '@angular/core';
+import { Component, HostListener, OnInit, inject, signal } from '@angular/core';
 import { CustomButton } from "../../shared/components/custom-button/custom-button";
 import { NavigationEnd, Router, RouterLink } from "@angular/router";
 import { Auth } from '../../services/auth';
@@ -19,8 +19,6 @@ export class Navbar implements OnInit {
   isPublicRoute = false;
   showAdminMenu = signal(false);
 
-  @ViewChild('adminDropdown') adminDropdown!: ElementRef;
-
   toggleAdminMenu() {
     this.showAdminMenu.update(open => !open);
   }
@@ -30,8 +28,17 @@ export class Navbar implements OnInit {
   }
 
   @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
-    if (this.adminDropdown && !this.adminDropdown.nativeElement.contains(event.target)) {
+  onDocumentClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement | null;
+
+    if (this.showAdminMenu() && !target?.closest('.admin-dropdown')) {
+      this.closeAdminMenu();
+    }
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscapePressed(): void {
+    if (this.showAdminMenu()) {
       this.closeAdminMenu();
     }
   }

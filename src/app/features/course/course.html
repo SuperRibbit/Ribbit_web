@@ -16,6 +16,14 @@
                         <p>{{ curso().description }}</p>
 
                         <div class="btn-row">
+                            @if (isEnrolled()) {
+                                <app-custom-button
+                                    variant="red"
+                                    [label]="isUnenrolling() ? 'Cancelando...' : 'Cancelar matrícula'"
+                                    [disabled]="isUnenrolling()"
+                                    (click)="unenroll()">
+                                </app-custom-button>
+                            }
                             <app-custom-button class="btn-iniciar-curso" (click)="startCourse()" variant="blue" label="Iniciar Curso">
                                 Iniciar Curso
                             </app-custom-button>
@@ -29,7 +37,10 @@
             <h2 class="modulos-titulo">Módulos</h2>
             
             @for (modulo of curso().modules; track modulo.module_id) {
-                <app-modules [modules]="modulo"></app-modules>
+                <app-modules 
+                    [modules]="modulo"
+                    (classSelected)="abrirAula($event)">
+                </app-modules>
             } @empty {
                 <p>Nenhum conteúdo disponível para este curso.</p>
             }

@@ -1,25 +1,24 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
+import { environment } from '../../environments/environment';
 import { Auth } from './auth';
 
 @Injectable({
   providedIn: 'root',
 })
 export class User {
-  private readonly apiUrl = 'https://ribbit-api-kf5q.onrender.com/ribbit';
+  private readonly apiUrl = environment.apiUrl;
   private http = inject(HttpClient);
   private authService = inject(Auth);
 
-  updateProfile(data: { full_name?: string; email?: string; password?: string; avatar_url?: string }): Observable<any> {
-    const userId = this.authService.getUserIdFromStorage();
-    const token = this.authService.getToken();
-    const headers = new HttpHeaders()
-      .set('Authorization', `Bearer ${token}`)
-      .set('Content-Type', 'application/json');
+  private profileCache: { userId: string | null; data: any } | null = null;
 
-    return this.http.put(`${this.apiUrl}/users/me`, data, { headers }).pipe(
+  updateProfile(data: { full_name?: string; email?: string; password?: string; avatar_url?: string }): Observable<any> {
+    return this.http.put(`${this.apiUrl}/users/me`, data).pipe(
       tap((response: any) => {
+        this.updateProfileCache(response);
+
         const user = response?.user ? response.user : response;
         if (user && user.avatar_url) {
           this.authService.setAvatar(user.avatar_url);
@@ -28,14 +27,17 @@ export class User {
     );
   }
 
-  getProfile() {
-    const token = this.authService.getToken();
-    const headers = new HttpHeaders()
-      .set('Authorization', `Bearer ${token}`)
-      .set('Content-Type', 'application/json');
+  getProfile(): Observable<any> {
+    const userId = this.authService.getUserIdFromStorage();
 
-    return this.http.get(`${this.apiUrl}/users/me`, { headers }).pipe(
+    if (this.profileCache && this.profileCache.userId === userId) {
+      return of(this.profileCache.data);
+    }
+
+    return this.http.get(`${this.apiUrl}/users/me`).pipe(
       tap((response: any) => {
+        this.profileCache = { userId, data: response };
+
         const user = response?.user ? response.user : response;
         if (user && user.avatar_url) {
           this.authService.setAvatar(user.avatar_url);
@@ -45,20 +47,15 @@ export class User {
   }
 
   getUsers() {
-    const token = this.authService.getToken();
-    const headers = new HttpHeaders()
-      .set('Authorization', `Bearer ${token}`)
-      .set('Content-Type', 'application/json');
+    return this.http.get(`${this.apiUrl}/users`);
+  }
 
-    return this.http.get(`${this.apiUrl}/users`, { headers });
+  private updateProfileCache(response: any): void {
+    const userId = this.authService.getUserIdFromStorage();
+    this.profileCache = { userId, data: response };
   }
 
   updateUserRole(userUuid: string, role: string) {
-    const token = this.authService.getToken();
-    const headers = new HttpHeaders()
-      .set('Authorization', `Bearer ${token}`)
-      .set('Content-Type', 'application/json');
-
-    return this.http.patch(`${this.apiUrl}/users/${userUuid}/role`, { role }, { headers });
+    return this.http.patch(`${this.apiUrl}/users/${userUuid}/role`, { role });
   }
 }

@@ -16,8 +16,9 @@
                     <i class="ph ph-magnifying-glass search-icon"></i>
                     <input
                         type="text"
-                        placeholder="Buscar por título, instrutor ou slug..."
-                        [(ngModel)]="searchTerm"
+                        placeholder="Buscar por título..."
+                        [ngModel]="searchTerm()"
+                        (ngModelChange)="onSearchChange($event)"
                         class="search-input"
                     />
                 </div>
@@ -36,23 +37,23 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if (isLoading) {
+                    @if (isLoading()) {
                         <tr>
                             <td colspan="6" class="empty-state">
                                 <i class="ph ph-spinner spinner-icon"></i>
                                 <p>Carregando cursos...</p>
                             </td>
                         </tr>
-                    } @else if (errorMessage) {
+                    } @else if (errorMessage()) {
                         <tr>
                             <td colspan="6" class="empty-state error-text">
                                 <i class="ph ph-warning-circle empty-icon"></i>
-                                <p>{{ errorMessage }}</p>
+                                <p>{{ errorMessage() }}</p>
                                 <button class="btn btn-primary" (click)="fetchCourses()">Tentar Novamente</button>
                             </td>
                         </tr>
                     } @else {
-                        @for (course of filteredCourses; track (course.id_course || $index)) {
+                        @for (course of courses(); track (course.id_course || $index)) {
                             <tr>
                                 <td class="course-id">#{{ course.id_course }}</td>
                                 <td class="course-title">
@@ -112,37 +113,39 @@
     </div>
 </div>
 
-@if (showDeleteModal && selectedCourse) {
-    <div class="modal-overlay" (click)="closeDeleteModal()">
-        <div class="modal-content" (click)="$event.stopPropagation()">
-            <div class="modal-icon text-danger">
-                <i class="ph ph-warning"></i>
-            </div>
-            <h2>Excluir Curso</h2>
-            <p>
-                Tem certeza de que deseja excluir o curso 
-                <strong>"{{ selectedCourse.title }}"</strong>?
-            </p>
-            <span class="modal-warning">Esta ação não poderá ser desfeita.</span>
+@if (showDeleteModal()) {
+    @if (selectedCourse(); as modalCourse) {
+        <div class="modal-overlay" (click)="closeDeleteModal()">
+            <div class="modal-content" (click)="$event.stopPropagation()">
+                <div class="modal-icon text-danger">
+                    <i class="ph ph-warning"></i>
+                </div>
+                <h2>Excluir Curso</h2>
+                <p>
+                    Tem certeza de que deseja excluir o curso 
+                    <strong>"{{ modalCourse.title }}"</strong>?
+                </p>
+                <span class="modal-warning">Esta ação não poderá ser desfeita.</span>
 
-            <div class="modal-actions">
-                <button 
-                class="btn btn-secondary" 
-                (click)="closeDeleteModal()" 
-                [disabled]="isDeleting">
-                    Cancelar
-                </button>
-                <button 
-                class="btn btn-danger" 
-                (click)="confirmDeleteCourse()" 
-                [disabled]="isDeleting">
-                    @if (isDeleting) {
-                        <i class="ph ph-spinner spinner-icon-sm"></i> Excluindo...
-                    } @else {
-                        Excluir
-                    }
-                </button>
+                <div class="modal-actions">
+                    <button 
+                    class="btn btn-secondary" 
+                    (click)="closeDeleteModal()" 
+                    [disabled]="isDeleting()">
+                        Cancelar
+                    </button>
+                    <button 
+                    class="btn btn-danger" 
+                    (click)="confirmDeleteCourse()" 
+                    [disabled]="isDeleting()">
+                        @if (isDeleting()) {
+                            <i class="ph ph-spinner spinner-icon-sm"></i> Excluindo...
+                        } @else {
+                            Excluir
+                        }
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
+    }
 }

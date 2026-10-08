@@ -13,14 +13,20 @@
         <div class="menu-links">
             <a routerLink="/home">Página Inicial</a>
             @if (isAdmin()) {
-            <div class="admin-dropdown" #adminDropdown>
-                <button type="button" class="nav-link-admin admin-dropdown-toggle" (click)="toggleAdminMenu()">
-                    Gerenciar <i class="ph" [class.ph-caret-up]="showAdminMenu()" [class.ph-caret-down]="!showAdminMenu()"></i>
+            <div class="admin-dropdown">
+                <button
+                    type="button"
+                    class="nav-link-admin admin-dropdown-toggle"
+                    (click)="toggleAdminMenu()"
+                    [attr.aria-expanded]="showAdminMenu() ? 'true' : 'false'"
+                    aria-haspopup="menu"
+                    aria-controls="admin-dropdown-menu">
+                    Gerenciar <i class="ph" [class.ph-caret-up]="showAdminMenu()" [class.ph-caret-down]="!showAdminMenu()" aria-hidden="true"></i>
                 </button>
                 @if (showAdminMenu()) {
-                <div class="admin-dropdown-menu">
-                    <a routerLink="/admin/courses" (click)="closeAdminMenu()">Gerenciar Cursos</a>
-                    <a routerLink="/admin/users" (click)="closeAdminMenu()">Gerenciar Usuários</a>
+                <div class="admin-dropdown-menu" id="admin-dropdown-menu" role="menu">
+                    <a role="menuitem" routerLink="/admin/courses" (click)="closeAdminMenu()">Gerenciar Cursos</a>
+                    <a role="menuitem" routerLink="/admin/users" (click)="closeAdminMenu()">Gerenciar Usuários</a>
                 </div>
                 }
             </div>
