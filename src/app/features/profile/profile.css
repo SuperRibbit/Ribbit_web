@@ -3,11 +3,18 @@
 }
 
 .profile-container {
-  background: var(--azul) url('/assets/CloudBGLow.svg') no-repeat center;
-  background-size: cover;
+  background-color: var(--azul);
+  background-image: url('/assets/CloudBGLow.svg');
+  background-repeat: repeat-y;
+  background-position: top center;
+  background-size: 100% auto;
   top: 0;
   padding-top: 80px;
   width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
 }
 
 .profile-card {
@@ -18,6 +25,7 @@
   text-align: left;
   width: 100%;
   max-width: 700px;
+  margin-bottom: 100px;
 }
 
 .profile {
@@ -156,7 +164,7 @@ section label {
 }
 
 .course-section {
-  margin-top: 100px;
+  margin-top: auto;
   background: white;
   border-radius: 25px 25px 0 0;
   padding: 60px 40px;
