@@ -1,23 +1,3 @@
-<!--
-<section class="hero-temp">
-    <header>
-        <div class="left">
-            <div class="note">
-                <p>Nunca pare de Aprender!</p>
-            </div>
-            <h1>Confira o nosso material abaixo!</h1>
-        </div>
-        <div class="right">
-            <img src="/assets/RibbitStanding.svg" alt="">
-        </div>
-    </header>
-
-    <section class="content-temp">
-        <h2>Apostila 1</h2>
-        <iframe src="/temporary_files/Apostila1.pdf" frameborder="1" width="100%" height="600px"></iframe>
-    </section>
-</section> -->
-
 <section class="hero">
      <header>
         <div class="left">
@@ -25,6 +5,7 @@
                 <p>Nunca pare de Aprender!</p>
             </div>
             <h1>Aprenda a programar com o Ribbit!</h1>
+            <p class="hero-sub">Um projeto de extensão da turma de formandos 2026 para deixar os cursos de programação a um clique de você.</p>
             <app-custom-button label="Confira aqui!" variant="white" [routerLink]="isLogged ? '/home' : '/login'"/>   
         </div>
         <div class="right">
@@ -35,20 +16,62 @@
     </header>
 </section>
 
+<section class="stats">
+    <div class="stat"><strong>100%</strong><span>gratuito</span></div>
+    <div class="stat"><strong>Programação</strong><span>para todo mundo</span></div>
+    <div class="stat"><strong>Turma 2026</strong><span>Tecnologia em Análise e Desenvolvimento de Sistemas</span></div>
+    <div class="stat"><strong>Colaborativo</strong><span>compartilhe o que sabe</span></div>
+</section>
+
 <section class="content">
     <section class="first">
-        <img src="/assets/IconsRibbit2.svg" alt="imagem">
+        <img src="/assets/IconsRibbit2.svg" alt="Ícones de tecnologia do Ribbit">
         <div class="text">
             <h2>O que é o Ribbit?</h2>
-            <p>O Ribbit é uma plataforma em que os usuários podem ter acesso a cursos relacionados a tecnologia de forma prática e gratuita, além de permitir com que vários usuários também compartilhem seus conhecimentos.</p>
+            <p>O Ribbit é um projeto de extensão desenvolvido pela turma de formandos de 2026 do curso de Tecnologia em Análise e Desenvolvimento de Sistemas, do IFSP campus Boituva. Ele reúne em um só lugar os cursos disponibilizados para quem quer aprender programação, de forma prática e gratuita.</p>
+            <p>Aqui você encontra cursos organizados em módulos e aulas, pode se matricular e estudar no seu ritmo. Outros usuários também podem compartilhar seus conhecimentos, ajudando a comunidade a crescer.</p>
         </div>
     </section>
+
+    <section class="steps">
+        <h2>Como funciona</h2>
+        <div class="steps-grid">
+            <article class="step">
+                <span class="step-num">1</span>
+                <h3>Crie sua conta</h3>
+                <p>O cadastro é rápido e gratuito. Basta ter um e-mail para começar.</p>
+            </article>
+            <article class="step">
+                <span class="step-num">2</span>
+                <h3>Escolha um curso</h3>
+                <p>Busque entre os cursos disponíveis e se matricule no que mais combina com você.</p>
+            </article>
+            <article class="step">
+                <span class="step-num">3</span>
+                <h3>Aprenda no seu ritmo</h3>
+                <p>Acompanhe módulos e aulas quando e onde quiser, sem pressa.</p>
+            </article>
+        </div>
+    </section>
+
     <section class="second">
         <div class="text">
             <h2>Nossa missão</h2>
-            <p>A missão do Ribbit é tornar o conhecimento acessível a todas as pessoas que desejam saber mais sobre tecnologias.</p>
+            <p>Facilitar o acesso aos cursos para aprender programação, tornando o conhecimento acessível a todas as pessoas que desejam saber mais sobre tecnologia.</p>
+            <p>Acreditamos que aprender a programar não deveria depender de dinheiro, tempo ou de saber por onde começar.</p>
         </div>
-         <img src="/assets/RibbitStanding.svg" alt="imagem">
+        <img src="/assets/RibbitStanding.svg" alt="Ribbit em pé">
+    </section>
+
+    <section class="about">
+        <div class="about-card">
+            <h3>Projeto de extensão</h3>
+            <p>O Ribbit nasceu como trabalho de extensão da turma de formandos de 2026 de Tecnologia em Análise e Desenvolvimento de Sistemas, do IFSP campus Boituva, com o propósito de devolver à comunidade o que aprendemos ao longo do curso.</p>
+        </div>
+        <div class="about-card">
+            <h3>Fale com a gente</h3>
+            <p>Tem dúvidas, sugestões ou quer cadastrar um curso? Escreva para <a href="mailto:ribbitextensao@gmail.com">ribbitextensao@gmail.com</a>.</p>
+        </div>
     </section>
 </section>
 

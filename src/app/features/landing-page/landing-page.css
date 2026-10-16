@@ -36,7 +36,7 @@ header {
 }
 
 header h1 {
-    font-size: 60px;
+    font-size: clamp(2rem, 5vw, 3.75rem);
 }
 
 .left {
@@ -79,27 +79,72 @@ header h1 {
     flex-direction: column;
 }
 
+.hero-sub {
+    font-size: 1.35rem;
+    line-height: 1.5;
+    max-width: 640px;
+    margin-bottom: 8px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    padding: 40px 60px 0;
+    color: var(--verde-escuro);
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 4px;
+    padding: 20px 12px;
+    border-radius: 20px;
+    background-color: var(--azul-bg);
+}
+
+.stat strong {
+    font-size: 1.6rem;
+    font-weight: 800;
+}
+
+.stat span {
+    font-size: 1.05rem;
+    color: var(--text-dark);
+}
+
 .content {
     background-color: var(--branco);
-    padding: 60px;
+    padding: 40px 60px 60px;
     color: var(--verde-escuro);
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 40px;
 }
 
 .first, .second {
-    padding: 32px 80px;
-    display: flex;
+    padding: 48px 64px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     border-radius: 30px;
-    gap: 32px;
-    justify-content: center;
+    gap: 48px;
     align-items: center;
     color: var(--text-dark);
 }
 
+.first img, .second img {
+    width: 100%;
+    max-width: 420px;
+    max-height: 380px;
+    object-fit: contain;
+    justify-self: center;
+}
+
 h2 {
     color: var(--verde-escuro);
+    font-size: clamp(2rem, 4vw, 2.75rem);
 }
 
 .first {
@@ -107,17 +152,103 @@ h2 {
 }
 
 .text {
-    gap: 16px;
+    gap: 20px;
     display: flex;
     flex-direction: column;
+}
+
+.text p {
+    font-size: clamp(1.1rem, 1.6vw, 1.4rem);
+    line-height: 1.65;
 }
 
 .second {
     background-color: var(--amarelo);
 }
 
-.second .text h2, .second .text p{
+.second .text h2, .second .text p {
     text-align: right;
+}
+
+.steps {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: center;
+    text-align: center;
+}
+
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    width: 100%;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 32px 24px;
+    border-radius: 24px;
+    background-color: var(--azul-bg);
+    color: var(--text-dark);
+}
+
+.step-num {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: var(--verde-escuro);
+    color: var(--branco);
+    font-size: 1.6rem;
+    font-weight: 800;
+}
+
+.step h3 {
+    font-size: 1.5rem;
+    color: var(--verde-escuro);
+}
+
+.step p {
+    font-size: 1.15rem;
+    line-height: 1.55;
+}
+
+.about {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.about-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 32px 40px;
+    border-radius: 24px;
+    border: 3px solid var(--verde-escuro);
+    color: var(--text-dark);
+}
+
+.about-card h3 {
+    font-size: 1.6rem;
+    color: var(--verde-escuro);
+}
+
+.about-card p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+}
+
+.about-card a {
+    color: var(--verde-escuro);
+    font-weight: 700;
+    text-decoration: underline;
+    overflow-wrap: anywhere;
 }
 
 app-custom-button {
@@ -154,11 +285,43 @@ app-custom-button {
         display: none;
     }
 
-    .content {
-        padding: 20px;
+    .hero-sub {
+        font-size: 1.15rem;
     }
 
-    .content iframe {
-        height: 400px;
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 24px 20px 0;
+    }
+
+    .content {
+        padding: 24px 20px 40px;
+        gap: 24px;
+    }
+
+    .first, .second {
+        grid-template-columns: 1fr;
+        padding: 28px 24px;
+        gap: 24px;
+    }
+
+    .first img, .second img {
+        max-width: 260px;
+    }
+
+    .second img {
+        order: -1;
+    }
+
+    .second .text h2, .second .text p {
+        text-align: left;
+    }
+
+    .steps-grid, .about {
+        grid-template-columns: 1fr;
+    }
+
+    .about-card {
+        padding: 24px;
     }
 }
