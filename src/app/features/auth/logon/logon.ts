@@ -15,6 +15,8 @@ export class Logon {
   registerForm: FormGroup
   errorMessage = signal<string | null>(null);
   loading = signal(false);
+  showPassword = false;
+  showConfirmPassword = false;
 
   constructor( private fb: FormBuilder, private authService: Auth, private router: Router ) {
     this.registerForm = this.fb.group({
@@ -68,4 +70,3 @@ export class Logon {
     })
   }
 }
-
