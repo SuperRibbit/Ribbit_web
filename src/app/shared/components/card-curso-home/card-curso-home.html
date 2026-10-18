@@ -1,6 +1,12 @@
 <section class="card-container" (click)="goToCourse()">
     <div class="card-image-area">
-        <img [src]="curso?.banner_url | driveImg" [alt]="curso?.title" class="card-image">
+        @if (curso?.banner_url && !imgError) {
+            <img [src]="curso?.banner_url | driveImg" [alt]="curso?.title" class="card-image" (error)="imgError = true">
+        } @else {
+            <div class="card-placeholder" aria-hidden="true">
+                <i class="fa-solid fa-laptop-code"></i>
+            </div>
+        }
     </div>
 
     <div class="card-text-area">

@@ -57,6 +57,11 @@
     overflow: hidden;
 }
 
+.banner-icon {
+    color: var(--branco);
+    font-size: 6rem;
+}
+
 .banner-placeholder img {
     width: 100%;
     height: 100%;

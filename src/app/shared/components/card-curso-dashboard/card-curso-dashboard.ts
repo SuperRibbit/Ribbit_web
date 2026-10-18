@@ -13,10 +13,12 @@ import { Router } from '@angular/router';
 })
 
 export class CardCursoDashboard{
-  @Input() imageUrl: string = 'assets/imageScratch.png';
+  @Input() imageUrl: string | null | undefined = '';
   @Input() description: string = 'Lorem ipsum dolor sit amet, consectetur.';
   @Input() progress: number = 0;
   @Input() courseId!: number | string;
+
+  imgError = false;
 
   private router = inject(Router);
 

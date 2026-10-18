@@ -16,6 +16,8 @@ export class CardCursoHome {
   @Input() curso: any;
   @Input() isTeacher = false;
 
+  imgError = false;
+
   goToCourse(): void {
     const courseId =
       this.curso?.course_id ??

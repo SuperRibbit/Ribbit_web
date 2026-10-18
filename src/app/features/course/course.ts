@@ -21,6 +21,7 @@ export class Course implements OnInit {
   public curso = signal<any>(null);
   public isEnrolled = signal(false);
   public isUnenrolling = signal(false);
+  public imgError = signal(false);
 
   ngOnInit(): void {
     const courseId = this.route.snapshot.paramMap.get('id');

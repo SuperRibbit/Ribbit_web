@@ -1,6 +1,12 @@
 <section class="container">
     <div class="card-image-area">
-        <img [src]="imageUrl | driveImg" [alt]="description" class="card-image">
+        @if (imageUrl && !imgError) {
+            <img [src]="imageUrl | driveImg" [alt]="description" class="card-image" (error)="imgError = true">
+        } @else {
+            <div class="card-placeholder" aria-hidden="true">
+                <i class="fa-solid fa-laptop-code"></i>
+            </div>
+        }
     </div>
 
     <div class="progress-container">

@@ -5,7 +5,11 @@
             
             <div class="header-content">
                 <div class="banner-placeholder">
-                    <img [src]="curso().banner_url | driveImg" alt="Banner do Curso">
+                    @if (curso().banner_url && !imgError()) {
+                        <img [src]="curso().banner_url | driveImg" alt="Banner do Curso" (error)="imgError.set(true)">
+                    } @else {
+                        <i class="fa-solid fa-laptop-code banner-icon" aria-hidden="true"></i>
+                    }
                 </div>
 
                 <div class="description">
