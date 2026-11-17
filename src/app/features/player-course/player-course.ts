@@ -150,7 +150,7 @@ export class PlayerCourse implements OnInit {
     });
   }
 
-  private isCurrentClassCompleted(): boolean {
+  readonly isCurrentClassCompleted = computed(() => {
     const classId = this.activeClassId();
 
     if (!classId) {
@@ -158,7 +158,7 @@ export class PlayerCourse implements OnInit {
     }
 
     for (const modulo of this.curso()?.modules ?? []) {
-      const aula = modulo.classes.find( c => c.class_id === classId);
+      const aula = modulo.classes.find(c => c.class_id === classId);
 
       if (aula) {
         return !!aula.is_completed;
@@ -166,11 +166,7 @@ export class PlayerCourse implements OnInit {
     }
 
     return false;
-  }
-
-  get isCurrentClassCompletedPublic(): boolean {
-    return this.isCurrentClassCompleted();
-  }
+  });
 
   toggleCompletion(): void {
     const classId = this.activeClassId();
