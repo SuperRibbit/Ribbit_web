@@ -60,7 +60,7 @@ export class Home {
   ngOnInit() {
     this.enrollmentsService.getMyCourses().subscribe({
       next: (response) => {
-        this.listaAtividadesRecentes.set(response.courses); 
+        this.listaAtividadesRecentes.set(response?.courses ?? []);
       },
       error: (err) => console.error('Erro ao buscar atividades recentes', err)
     });
