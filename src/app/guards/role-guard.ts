@@ -4,22 +4,24 @@ import { map, catchError, of } from 'rxjs';
 
 import { User } from '../services/user';
 
-export const roleGuard: CanActivateFn = () => {
-  const userService = inject(User);
-  const router = inject(Router);
+export function roleGuard(...roles: string[]): CanActivateFn {
+  return () => {
+    const userService = inject(User);
+    const router = inject(Router);
 
-  return userService.getProfile().pipe(
-    map((response: any) => {
-      const user = response.user ? response.user : response;
+    return userService.getProfile().pipe(
+      map((response: any) => {
+        const user = response.user ? response.user : response;
 
-      if (user && (user.role === 'prof' || user.role === 'admin')) {
-        return true;
-      }
+        if (user && roles.includes(user.role)) {
+          return true;
+        }
 
-      return router.createUrlTree(['/home']);
-    }),
-    catchError(() => {
-      return of(router.createUrlTree(['/home']));
-    })
-  );
-};
+        return router.createUrlTree(['/home']);
+      }),
+      catchError(() => {
+        return of(router.createUrlTree(['/home']));
+      })
+    );
+  };
+}

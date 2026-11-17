@@ -11,7 +11,6 @@ import { Mail } from './features/auth/password_reset/mail/mail';
 import { Reset } from './features/auth/password_reset/reset/reset';
 import { CourseForm } from './features/course/course-form/course-form';
 import { roleGuard } from './guards/role-guard';
-import { adminGuard } from './guards/admin-guard';
 import { AdminCourses } from './features/admin/admin-courses/admin-courses';
 import { AdminUsers } from './features/admin/admin-users/admin-users';
 import { NotFound } from './features/not-found/not-found';
@@ -24,11 +23,11 @@ export const routes: Routes = [
   { path: 'reset-password', component: Reset, data: { hideNavbar: true }},
   { path: 'profile', component: Profile, canActivate: [authGuard] },
   { path: 'home', component: Home, canActivate: [authGuard] },
-  { path: 'courses/new', component: CourseForm, canActivate: [authGuard, roleGuard] },
-  { path: 'courses/:id/edit', component: CourseForm, canActivate: [authGuard, roleGuard] },
+  { path: 'courses/new', component: CourseForm, canActivate: [authGuard, roleGuard('prof', 'admin')] },
+  { path: 'courses/:id/edit', component: CourseForm, canActivate: [authGuard, roleGuard('prof', 'admin')] },
   { path: 'courses/:id', component: Course, canActivate: [authGuard] },
   { path: 'player/:id', component: PlayerCourse, canActivate: [authGuard] },
-  { path: 'admin/courses', component: AdminCourses, canActivate: [authGuard, adminGuard] },
-  { path: 'admin/users', component: AdminUsers, canActivate: [authGuard, adminGuard] },
+  { path: 'admin/courses', component: AdminCourses, canActivate: [authGuard, roleGuard('admin')] },
+  { path: 'admin/users', component: AdminUsers, canActivate: [authGuard, roleGuard('admin')] },
   { path: '**', component: NotFound }
 ];

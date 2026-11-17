@@ -75,6 +75,28 @@ export class Auth {
     return userData ? userData.id : null;
   }
 
+  persistUser(user: any): void {
+    if (!user || typeof localStorage === 'undefined') {
+      return;
+    }
+
+    const existing = this.getUserData();
+    const userData = {
+      ...(existing || {}),
+      id: user.user_uuid,
+      name: user.full_name,
+      ...user
+    };
+
+    localStorage.setItem('user_data', JSON.stringify(userData));
+
+    if (user.avatar_url) {
+      this.avatarUrl.set(user.avatar_url);
+    }
+
+    this.isAdmin.set(user.role === 'admin');
+  }
+
   getUserData(): any | null {
     if (typeof localStorage !== 'undefined') {
       const userDataStr = localStorage.getItem('user_data');

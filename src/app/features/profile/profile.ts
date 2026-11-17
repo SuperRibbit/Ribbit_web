@@ -11,6 +11,11 @@ import { CourseService } from '../../services/course_service';
 import { ModalAvatar } from '../../shared/components/modal-avatar/modal-avatar';
 import { Pagination } from '../../shared/components/pagination/pagination';
 
+const ROLE_TITLES: Record<string, string> = {
+  prof: 'Perfil do Professor',
+  admin: 'Administrador',
+};
+
 @Component({
   selector: 'app-profile',
   imports: [ FormsModule, ReactiveFormsModule, CommonModule, CustomButton, CardCursoHome, RouterLink, ModalAvatar, Pagination ],
@@ -133,18 +138,9 @@ export class Profile implements OnInit {
           this.loadedUser = user;
           this.avatarUrl.set(user.avatar_url || 'assets/GenericAvatar.png');
           this.role.set(user.role);
-          this.titulo.set({ prof: 'Perfil do Professor', admin: 'Administrador' }[user.role as string] ?? '');
+          this.titulo.set(ROLE_TITLES[user.role as string] ?? '');
 
-          if (typeof localStorage !== 'undefined') {
-            const existing = this.authService.getUserData();
-            const updatedUser = {
-              ...(existing || {}),
-              id: user.user_uuid,
-              name: user.full_name,
-              ...user
-            };
-            localStorage.setItem('user_data', JSON.stringify(updatedUser));
-          }
+          this.authService.persistUser(user);
 
           this.profileForm.patchValue({
             nome: user.full_name || user.name || '',
@@ -200,14 +196,8 @@ export class Profile implements OnInit {
           this.loadedUser = response.user;
         }
 
-        if (typeof localStorage !== 'undefined' && response && response.user) {
-          const user = response.user;
-          const updatedUser = {
-            id: user.user_uuid,
-            name: user.full_name,
-            ...user,
-          };
-          localStorage.setItem('user_data', JSON.stringify(updatedUser));
+        if (response && response.user) {
+          this.authService.persistUser(response.user);
         }
 
         this.profileForm.markAsPristine();

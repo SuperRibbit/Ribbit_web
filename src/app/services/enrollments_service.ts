@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable, catchError, of, switchMap } from 'rxjs';
+import { Observable, catchError, map, of, switchMap } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 export interface EnrollmentStatus {
@@ -48,7 +48,7 @@ export class EnrollmentsService {
         }
 
         return this.enroll(courseId).pipe(
-          switchMap(() => of(true))
+          map(() => true)
         );
       }),
       catchError(error => {
