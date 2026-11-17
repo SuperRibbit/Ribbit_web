@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { Observable, switchMap, tap } from 'rxjs';
+import { Observable, Subject, switchMap, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { LoginResponse, User } from '../models/user';
 
@@ -14,6 +14,9 @@ export class Auth {
 
   avatarUrl = signal<string>('assets/GenericAvatar.png');
   isAdmin = signal<boolean>(false);
+
+  private readonly logoutSubject = new Subject<void>();
+  readonly loggedOut$ = this.logoutSubject.asObservable();
 
   constructor() {
     const userData = this.getUserData();
@@ -125,6 +128,7 @@ export class Auth {
     }
     this.avatarUrl.set('assets/GenericAvatar.png');
     this.isAdmin.set(false);
+    this.logoutSubject.next();
   }
 
   syncAdminFromStorage(): void {
