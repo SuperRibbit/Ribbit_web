@@ -2,8 +2,8 @@ import { Component, OnInit, SecurityContext, computed, inject, signal } from '@a
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Modules } from '../../shared/components/modules/modules';
-import { CourseService } from '../../services/course_service';
-import { EnrollmentsService } from '../../services/enrollments_service';
+import { CourseService } from '../../services/course.service';
+import { EnrollmentsService } from '../../services/enrollments.service';
 import { CourseClassDetail, CourseFull } from '../../models/course';
 import { toDrivePreviewUrl } from '../../utilities/drive_img_extract';
 
