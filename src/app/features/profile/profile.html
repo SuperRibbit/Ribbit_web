@@ -53,6 +53,7 @@
       <div class="btn-row">
         <div class="confirm">
           <app-custom-button
+            type="submit"
             variant="blue"
             [label]="enviando() ? 'Salvando...' : 'Confirmar Alterações'"
             [disabled]="enviando() || formSemAlteracoes()"

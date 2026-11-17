@@ -12,4 +12,5 @@ export class CustomButton {
   @Input() variant: 'yellow' | 'green' | 'white' | 'blue' | 'light-blue' | 'red' = 'blue';
   @Input() label: string = 'BUTTON';
   @Input() disabled: boolean = false;
+  @Input() type: 'button' | 'submit' | 'reset' = 'button';
 }
