@@ -89,8 +89,9 @@ export class Profile implements OnInit {
       }
 
       this.courseService.getCoursesByUser(userId).subscribe({
-          next: (response: any) => {
-            this.listaMeusCursos.set(response?.courses ?? []);
+          next: (response) => {
+            const courses = Array.isArray(response) ? response : response?.courses ?? [];
+            this.listaMeusCursos.set(courses);
           },
 
           error: (err) => {
@@ -103,7 +104,7 @@ export class Profile implements OnInit {
     }
 
     this.enrollmentsService.getMyCourses().subscribe({
-      next: (response: any) => {
+      next: (response) => {
         if (response?.courses) {
           this.listaMeusCursos.set(
             response.courses

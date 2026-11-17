@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, catchError, map, of, switchMap } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { MyCoursesResponse } from '../models/course';
 
 export interface EnrollmentStatus {
   is_enrolled: boolean;
@@ -30,8 +31,8 @@ export class EnrollmentsService {
     );
   }
 
-  getMyCourses(): Observable<any> {
-    return this.http.get<any>(`${this.enrollmentsUrl}/my-courses`);
+  getMyCourses(): Observable<MyCoursesResponse> {
+    return this.http.get<MyCoursesResponse>(`${this.enrollmentsUrl}/my-courses`);
   }
 
   unenroll(courseId: number): Observable<{ message: string }> {

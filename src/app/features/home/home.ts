@@ -31,7 +31,7 @@ export class Home {
       distinctUntilChanged(),
       switchMap(term =>
         this.courseService.getCourses(term || undefined).pipe(
-          map((response: { courses?: any[] }) => response?.courses ?? []),
+          map(response => Array.isArray(response) ? response : response?.courses ?? []),
           catchError(() => of([]))
         )
       )
