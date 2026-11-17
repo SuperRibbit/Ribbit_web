@@ -1,6 +1,6 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, OnInit, SecurityContext, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DomSanitizer, SafeHtml, SafeResourceUrl } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Modules } from '../../shared/components/modules/modules';
 import { CourseService } from '../../services/course_service';
 import { EnrollmentsService } from '../../services/enrollments_service';
@@ -58,10 +58,11 @@ export class PlayerCourse implements OnInit {
     );
   });
 
-  sanitizedDescription = computed<SafeHtml>(() =>
-    this.sanitizer.bypassSecurityTrustHtml(
+  sanitizedDescription = computed<string>(() =>
+    this.sanitizer.sanitize(
+      SecurityContext.HTML,
       this.activeClass()?.description ?? ''
-    )
+    ) ?? ''
   );
 
   ngOnInit(): void {
