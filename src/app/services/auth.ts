@@ -15,6 +15,16 @@ export class Auth {
   avatarUrl = signal<string>('assets/GenericAvatar.png');
   isAdmin = signal<boolean>(false);
 
+  constructor() {
+    const userData = this.getUserData();
+
+    if (userData?.avatar_url) {
+      this.avatarUrl.set(userData.avatar_url);
+    }
+
+    this.isAdmin.set(userData?.role === 'admin');
+  }
+
   login(credentials: { email: string, password: string }): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/auth/login`, credentials)
       .pipe(
