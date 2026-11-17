@@ -36,8 +36,7 @@ export class Login {
     this.loading.set(true);
 
     this.authService.login(this.loginForm.value).subscribe({
-      next: (response) => {
-        console.log('Login feito com sucesso!', response)
+      next: () => {
         this.loading.set(false);
         this.router.navigate(['/home'])
       },

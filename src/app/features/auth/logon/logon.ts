@@ -51,9 +51,7 @@ export class Logon {
     const userToSend = { full_name, email, password, role, avatar_url };
 
     this.authService.register(userToSend).subscribe({
-      next: (response) => {
-        console.log('Usuário criado!', response)
-        alert('Conta criada com sucesso!')
+      next: () => {
         this.loading.set(false);
         this.router.navigate(['/home'])
         this.registerForm.reset()

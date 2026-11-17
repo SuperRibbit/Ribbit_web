@@ -107,7 +107,7 @@ export class AdminCourses implements OnInit {
       },
       error: (err) => {
         console.error('Erro ao excluir curso:', err);
-        alert('Não foi possível excluir o curso. Tente novamente.');
+        this.errorMessage.set('Não foi possível excluir o curso. Tente novamente.');
         this.isDeleting.set(false);
       }
     });
