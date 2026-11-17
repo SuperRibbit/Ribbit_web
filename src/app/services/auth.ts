@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Observable, Subject, switchMap, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { LoginResponse, User } from '../models/user';
+import { LoginResponse, StoredUser, User } from '../models/user';
 
 @Injectable({
   providedIn: 'root',
@@ -33,14 +33,14 @@ export class Auth {
       .pipe(
         tap(response => {
           localStorage.setItem('token', response.token);
-          const user = (response.user as any) || {};
-          const userData = {
+          const user = response.user;
+          const userData: StoredUser = {
+            ...user,
             id: user.user_uuid,
-            name: user.full_name,
-            ...user
+            name: user.full_name
           };
           localStorage.setItem('user_data', JSON.stringify(userData));
-          if (user && user.avatar_url) {
+          if (user.avatar_url) {
             this.avatarUrl.set(user.avatar_url);
           }
           this.syncAdminFromStorage();
@@ -71,21 +71,20 @@ export class Auth {
   }
 
   getUserIdFromStorage(): string | null {
-    const userData = this.getUserData();
-    return userData ? userData.id : null;
+    return this.getUserData()?.id ?? null;
   }
 
-  persistUser(user: any): void {
+  persistUser(user: StoredUser): void {
     if (!user || typeof localStorage === 'undefined') {
       return;
     }
 
     const existing = this.getUserData();
-    const userData = {
+    const userData: StoredUser = {
       ...(existing || {}),
-      id: user.user_uuid,
-      name: user.full_name,
-      ...user
+      ...user,
+      id: user.user_uuid ?? existing?.id,
+      name: user.full_name ?? existing?.name
     };
 
     localStorage.setItem('user_data', JSON.stringify(userData));
@@ -97,15 +96,18 @@ export class Auth {
     this.isAdmin.set(user.role === 'admin');
   }
 
-  getUserData(): any | null {
+  getUserData(): StoredUser | null {
     if (typeof localStorage !== 'undefined') {
       const userDataStr = localStorage.getItem('user_data');
-      if (userDataStr) {
-        try {
-          return JSON.parse(userDataStr);
-        } catch (e) {
-          return null;
-        }
+      if (!userDataStr) {
+        return null;
+      }
+
+      try {
+        const parsed = JSON.parse(userDataStr) as StoredUser | null;
+        return parsed && typeof parsed === 'object' ? parsed : null;
+      } catch {
+        return null;
       }
     }
     return null;
