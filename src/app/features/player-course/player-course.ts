@@ -227,8 +227,6 @@ export class PlayerCourse implements OnInit {
           );
         }
       });
-
-    this.completeCurrentClass(classId);
   }
 
   private completeCurrentClass(classId: number): void {
