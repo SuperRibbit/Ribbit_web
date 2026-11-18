@@ -5,7 +5,7 @@ import { Observable, catchError, forkJoin, map, of } from 'rxjs';
 import { ModuleForm, ModuleFormValue } from './module-form/module-form';
 import { ClassForm, ClassFormValue } from './class-form/class-form';
 import { CustomButton } from '../../../shared/components/custom-button/custom-button';
-import { CourseService } from '../../../services/course.service';
+import { CourseService } from '../../../services/course_service';
 import { ClassPayload, CourseClass, CourseClassDetail, CourseFull, CourseModule, ModulePayload } from '../../../models/course';
 import { DriveImgPipe } from "../../../utilities/pipes/drive-img-pipe";
 

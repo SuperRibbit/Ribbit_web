@@ -1,10 +1,10 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { Modules } from "../../shared/components/modules/modules";
 import { ActivatedRoute, Router } from '@angular/router';
-import { CourseService } from '../../services/course.service';
+import { CourseService } from '../../services/course_service';
 import { DriveImgPipe } from '../../utilities/pipes/drive-img-pipe';
 import { CustomButton } from "../../shared/components/custom-button/custom-button";
-import { EnrollmentsService } from '../../services/enrollments.service';
+import { EnrollmentsService } from '../../services/enrollments_service';
 
 @Component({
   selector: 'app-course',

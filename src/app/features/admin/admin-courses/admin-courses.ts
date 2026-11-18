@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Subject, Subscription, debounceTime } from 'rxjs';
 import { CourseFull } from '../../../models/course';
-import { CourseService } from '../../../services/course.service';
+import { CourseService } from '../../../services/course_service';
 
 @Component({
   selector: 'app-admin-courses',

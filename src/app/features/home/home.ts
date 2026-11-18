@@ -6,8 +6,8 @@ import { Footer } from "../../core/footer/footer";
 import { Pagination } from "../../shared/components/pagination/pagination";
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { catchError, debounce, distinctUntilChanged, map, of, switchMap, timer } from 'rxjs';
-import { EnrollmentsService } from '../../services/enrollments.service';
-import { CourseService } from '../../services/course.service';
+import { EnrollmentsService } from '../../services/enrollments_service';
+import { CourseService } from '../../services/course_service';
 
 @Component({
   selector: 'app-home',

@@ -6,8 +6,8 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../../services/auth';
 import { User as UserService } from '../../services/user';
-import { EnrollmentsService } from '../../services/enrollments.service';
-import { CourseService } from '../../services/course.service';
+import { EnrollmentsService } from '../../services/enrollments_service';
+import { CourseService } from '../../services/course_service';
 import { ModalAvatar } from '../../shared/components/modal-avatar/modal-avatar';
 import { Pagination } from '../../shared/components/pagination/pagination';
 
