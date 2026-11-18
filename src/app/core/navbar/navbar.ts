@@ -1,8 +1,8 @@
 import { Component, HostListener, OnInit, inject, signal } from '@angular/core';
 import { CustomButton } from "../../shared/components/custom-button/custom-button";
-import { NavigationEnd, Router, RouterLink } from "@angular/router";
+import { RouterLink } from "@angular/router";
 import { Auth } from '../../services/auth';
-import { filter } from 'rxjs';
+import { RouteData } from '../../services/route-data';
 
 @Component({
   selector: 'app-navbar',
@@ -12,11 +12,10 @@ import { filter } from 'rxjs';
 })
 export class Navbar implements OnInit {
   private auth = inject(Auth);
-  private router = inject(Router);
+  private routeData = inject(RouteData);
 
   avatarUrl = this.auth.avatarUrl;
   isAdmin = this.auth.isAdmin;
-  isPublicRoute = false;
   showAdminMenu = signal(false);
 
   toggleAdminMenu() {
@@ -48,22 +47,10 @@ export class Navbar implements OnInit {
   }
 
   get showPublic() {
-    return this.isPublicRoute || !this.isLogged;
-  }
-
-  private updatePublicRoute() {
-    const rotaAtual = this.router.routerState.root.firstChild;
-    this.isPublicRoute = rotaAtual?.snapshot.data['publicRoute'] ?? false;
-  }
-
-  constructor() {
-    this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe(() => this.updatePublicRoute());
+    return this.routeData.isPublicRoute() || !this.isLogged;
   }
 
   ngOnInit() {
-    this.updatePublicRoute();
     this.auth.syncAdminFromStorage();
   }
 }

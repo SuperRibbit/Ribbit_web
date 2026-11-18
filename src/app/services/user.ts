@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable, of, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Auth } from './auth';
@@ -13,6 +14,14 @@ export class User {
   private authService = inject(Auth);
 
   private profileCache: { userId: string | null; data: any } | null = null;
+
+  constructor() {
+    this.authService.loggedOut$
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => {
+        this.profileCache = null;
+      });
+  }
 
   updateProfile(data: { full_name?: string; email?: string; password?: string; avatar_url?: string }): Observable<any> {
     return this.http.put(`${this.apiUrl}/users/me`, data).pipe(

@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { Observable, switchMap, tap } from 'rxjs';
+import { Observable, Subject, switchMap, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { LoginResponse, User } from '../models/user';
+import { LoginResponse, StoredUser, User } from '../models/user';
 
 @Injectable({
   providedIn: 'root',
@@ -15,19 +15,32 @@ export class Auth {
   avatarUrl = signal<string>('assets/GenericAvatar.png');
   isAdmin = signal<boolean>(false);
 
+  private readonly logoutSubject = new Subject<void>();
+  readonly loggedOut$ = this.logoutSubject.asObservable();
+
+  constructor() {
+    const userData = this.getUserData();
+
+    if (userData?.avatar_url) {
+      this.avatarUrl.set(userData.avatar_url);
+    }
+
+    this.isAdmin.set(userData?.role === 'admin');
+  }
+
   login(credentials: { email: string, password: string }): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/auth/login`, credentials)
       .pipe(
         tap(response => {
           localStorage.setItem('token', response.token);
-          const user = (response.user as any) || {};
-          const userData = {
+          const user = response.user;
+          const userData: StoredUser = {
+            ...user,
             id: user.user_uuid,
-            name: user.full_name,
-            ...user
+            name: user.full_name
           };
           localStorage.setItem('user_data', JSON.stringify(userData));
-          if (user && user.avatar_url) {
+          if (user.avatar_url) {
             this.avatarUrl.set(user.avatar_url);
           }
           this.syncAdminFromStorage();
@@ -58,19 +71,43 @@ export class Auth {
   }
 
   getUserIdFromStorage(): string | null {
-    const userData = this.getUserData();
-    return userData ? userData.id : null;
+    return this.getUserData()?.id ?? null;
   }
 
-  getUserData(): any | null {
+  persistUser(user: StoredUser): void {
+    if (!user || typeof localStorage === 'undefined') {
+      return;
+    }
+
+    const existing = this.getUserData();
+    const userData: StoredUser = {
+      ...(existing || {}),
+      ...user,
+      id: user.user_uuid ?? existing?.id,
+      name: user.full_name ?? existing?.name
+    };
+
+    localStorage.setItem('user_data', JSON.stringify(userData));
+
+    if (user.avatar_url) {
+      this.avatarUrl.set(user.avatar_url);
+    }
+
+    this.isAdmin.set(user.role === 'admin');
+  }
+
+  getUserData(): StoredUser | null {
     if (typeof localStorage !== 'undefined') {
       const userDataStr = localStorage.getItem('user_data');
-      if (userDataStr) {
-        try {
-          return JSON.parse(userDataStr);
-        } catch (e) {
-          return null;
-        }
+      if (!userDataStr) {
+        return null;
+      }
+
+      try {
+        const parsed = JSON.parse(userDataStr) as StoredUser | null;
+        return parsed && typeof parsed === 'object' ? parsed : null;
+      } catch {
+        return null;
       }
     }
     return null;
@@ -115,6 +152,7 @@ export class Auth {
     }
     this.avatarUrl.set('assets/GenericAvatar.png');
     this.isAdmin.set(false);
+    this.logoutSubject.next();
   }
 
   syncAdminFromStorage(): void {

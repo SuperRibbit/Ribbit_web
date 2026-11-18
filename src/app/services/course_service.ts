@@ -12,7 +12,12 @@ import {
   UpdateClassResponse,
   CourseFull,
   ModuleWithClasses,
-  CourseClassDetail
+  CourseClassDetail,
+  CoursesResult,
+  CourseDetailResponse,
+  CourseOperationResponse,
+  MessageResponse,
+  FileUploadResponse
 } from '../models/course';
 import { environment } from '../../environments/environment';
 
@@ -34,26 +39,29 @@ export class CourseService {
     return this.http.post<CreateCourseResponse>(`${this.apiUrl}/courses`, formData);
   }
 
-  updateCourse(courseId: number, courseData: CoursePayload): Observable<any> {
+  updateCourse(courseId: number, courseData: CoursePayload): Observable<CourseOperationResponse> {
     const { title, description, slug } = courseData;
-    return this.http.put(`${this.apiUrl}/courses/${courseId}`, { title, description, slug });
+    return this.http.put<CourseOperationResponse>(
+      `${this.apiUrl}/courses/${courseId}`,
+      { title, description, slug }
+    );
   }
 
-  getCourses(search?: string): Observable<any> {
+  getCourses(search?: string): Observable<CoursesResult> {
     const params = search ? new HttpParams().set('search', search) : undefined;
-    return this.http.get<any>(`${this.apiUrl}/courses`, { params });
+    return this.http.get<CoursesResult>(`${this.apiUrl}/courses`, { params });
   }
 
-  getCourseById(courseId: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/courses/${courseId}`);
+  getCourseById(courseId: number): Observable<CourseDetailResponse> {
+    return this.http.get<CourseDetailResponse>(`${this.apiUrl}/courses/${courseId}`);
   }
 
-  getCoursesByUser(userId: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/courses/user/${userId}`);
+  getCoursesByUser(userId: string): Observable<CoursesResult> {
+    return this.http.get<CoursesResult>(`${this.apiUrl}/courses/user/${userId}`);
   }
 
-  deleteCourse(courseId: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/courses/${courseId}`);
+  deleteCourse(courseId: number): Observable<MessageResponse> {
+    return this.http.delete<MessageResponse>(`${this.apiUrl}/courses/${courseId}`);
   }
 
   createModule(moduleData: ModulePayload): Observable<CreateModuleResponse> {
@@ -68,8 +76,8 @@ export class CourseService {
     return this.http.get<ModuleWithClasses>(`${this.apiUrl}/modules/${moduleId}/classes`);
   }
 
-  deleteModule(moduleId: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/modules/${moduleId}`);
+  deleteModule(moduleId: number): Observable<MessageResponse> {
+    return this.http.delete<MessageResponse>(`${this.apiUrl}/modules/${moduleId}`);
   }
 
   createClass(classData: ClassPayload): Observable<CreateClassResponse> {
@@ -84,21 +92,21 @@ export class CourseService {
     return this.http.get<CourseClassDetail>(`${this.apiUrl}/classes/${classId}`);
   }
 
-  deleteClass(classId: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/classes/${classId}`);
+  deleteClass(classId: number): Observable<MessageResponse> {
+    return this.http.delete<MessageResponse>(`${this.apiUrl}/classes/${classId}`);
   }
 
-  uploadClassFile(classId: number, file: File): Observable<any> {
+  uploadClassFile(classId: number, file: File): Observable<FileUploadResponse> {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('class_id', classId.toString());
     formData.append('display_name', file.name);
 
-    return this.http.post(`${this.apiUrl}/files/pdf`, formData);
+    return this.http.post<FileUploadResponse>(`${this.apiUrl}/files/pdf`, formData);
   }
 
-  deleteClassFile(fileId: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/files/${fileId}`);
+  deleteClassFile(fileId: number): Observable<MessageResponse> {
+    return this.http.delete<MessageResponse>(`${this.apiUrl}/files/${fileId}`);
   }
 
   completeClass(classId: number): Observable<{ message: string, new_course_progress: number }> {

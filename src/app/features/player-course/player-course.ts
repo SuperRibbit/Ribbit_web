@@ -1,6 +1,6 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, OnInit, SecurityContext, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DomSanitizer, SafeHtml, SafeResourceUrl } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Modules } from '../../shared/components/modules/modules';
 import { CourseService } from '../../services/course_service';
 import { EnrollmentsService } from '../../services/enrollments_service';
@@ -58,10 +58,11 @@ export class PlayerCourse implements OnInit {
     );
   });
 
-  sanitizedDescription = computed<SafeHtml>(() =>
-    this.sanitizer.bypassSecurityTrustHtml(
+  sanitizedDescription = computed<string>(() =>
+    this.sanitizer.sanitize(
+      SecurityContext.HTML,
       this.activeClass()?.description ?? ''
-    )
+    ) ?? ''
   );
 
   ngOnInit(): void {
@@ -150,7 +151,7 @@ export class PlayerCourse implements OnInit {
     });
   }
 
-  private isCurrentClassCompleted(): boolean {
+  readonly isCurrentClassCompleted = computed(() => {
     const classId = this.activeClassId();
 
     if (!classId) {
@@ -158,7 +159,7 @@ export class PlayerCourse implements OnInit {
     }
 
     for (const modulo of this.curso()?.modules ?? []) {
-      const aula = modulo.classes.find( c => c.class_id === classId);
+      const aula = modulo.classes.find(c => c.class_id === classId);
 
       if (aula) {
         return !!aula.is_completed;
@@ -166,11 +167,7 @@ export class PlayerCourse implements OnInit {
     }
 
     return false;
-  }
-
-  get isCurrentClassCompletedPublic(): boolean {
-    return this.isCurrentClassCompleted();
-  }
+  });
 
   toggleCompletion(): void {
     const classId = this.activeClassId();
@@ -227,8 +224,6 @@ export class PlayerCourse implements OnInit {
           );
         }
       });
-
-    this.completeCurrentClass(classId);
   }
 
   private completeCurrentClass(classId: number): void {

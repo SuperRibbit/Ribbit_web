@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, inject } from '@angular/core';
 import { CustomButton } from "../../../../shared/components/custom-button/custom-button";
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Auth } from '../../../../services/auth';
@@ -10,12 +10,14 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './reset.html',
   styleUrl: '../password_reset.css',
 })
-export class Reset {
+export class Reset implements OnDestroy {
   private fb = inject(FormBuilder);
   private authService = inject(Auth);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private cdr = inject(ChangeDetectorRef);
+
+  private redirectTimeout?: ReturnType<typeof setTimeout>;
 
   successMessage = '';
   errorMessage = '';
@@ -55,7 +57,7 @@ export class Reset {
           'Sua senha foi redefinida com sucesso.';
         this.resetForm.reset();
         this.cdr.detectChanges();
-        setTimeout(() => {
+        this.redirectTimeout = setTimeout(() => {
           this.router.navigate(['/login']);
         }, 3000);
       },
@@ -65,5 +67,11 @@ export class Reset {
         this.cdr.detectChanges();
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.redirectTimeout) {
+      clearTimeout(this.redirectTimeout);
+    }
   }
 }

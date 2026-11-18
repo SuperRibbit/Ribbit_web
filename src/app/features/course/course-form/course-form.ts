@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Observable, forkJoin } from 'rxjs';
+import { Observable, catchError, forkJoin, map, of } from 'rxjs';
 import { ModuleForm, ModuleFormValue } from './module-form/module-form';
 import { ClassForm, ClassFormValue } from './class-form/class-form';
 import { CustomButton } from '../../../shared/components/custom-button/custom-button';
@@ -358,7 +358,7 @@ export class CourseForm implements OnInit {
         .updateClass(editing.class_id, { title: value.title, description: value.description })
         .subscribe({
           next: () => {
-            this.syncClassFile(editing.class_id, value, () => {
+            this.syncClassFile(editing.class_id, value).subscribe(() => {
               this.savedModules.update(modules =>
                 modules.map(m =>
                   m.module_id === moduleId
@@ -396,7 +396,7 @@ export class CourseForm implements OnInit {
 
     this.courseService.createClass(payload).subscribe({
       next: res => {
-        this.syncClassFile(res.class_id, value, () => {
+        this.syncClassFile(res.class_id, value).subscribe(() => {
           const newClass: CourseClass = {
             class_id: res.class_id,
             title: value.title,
@@ -415,7 +415,7 @@ export class CourseForm implements OnInit {
     });
   }
 
-  private syncClassFile(classId: number, value: ClassFormValue, done: () => void): void {
+  private syncClassFile(classId: number, value: ClassFormValue): Observable<void> {
     const tasks: Observable<any>[] = [];
 
     if (value.removedMaterialId) {
@@ -426,16 +426,15 @@ export class CourseForm implements OnInit {
     }
 
     if (tasks.length === 0) {
-      done();
-      return;
+      return of(void 0);
     }
 
-    forkJoin(tasks).subscribe({
-      next: () => done(),
-      error: () => {
+    return forkJoin(tasks).pipe(
+      map(() => void 0),
+      catchError(() => {
         this.errorMessage.set('Aula salva, mas houve um erro ao processar o arquivo.');
-        done();
-      }
-    });
+        return of(void 0);
+      })
+    );
   }
 }

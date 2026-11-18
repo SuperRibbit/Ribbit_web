@@ -51,11 +51,11 @@ export class AdminCourses implements OnInit {
     this.request?.unsubscribe();
     this.request = this.courseService.getCourses(this.searchTerm().trim() || undefined).subscribe({
       next: (response) => {
-        const rawCourses = response?.courses || (Array.isArray(response) ? response : []);
+        const rawCourses = Array.isArray(response) ? response : response?.courses ?? [];
 
-        this.courses.set(rawCourses.map((c: any) => ({
+        this.courses.set(rawCourses.map(c => ({
           ...c,
-          id_course: c.id_course ?? c.id,
+          id_course: c.id_course ?? c.id ?? 0,
           modules: c.modules || []
         })));
 
@@ -107,7 +107,7 @@ export class AdminCourses implements OnInit {
       },
       error: (err) => {
         console.error('Erro ao excluir curso:', err);
-        alert('Não foi possível excluir o curso. Tente novamente.');
+        this.errorMessage.set('Não foi possível excluir o curso. Tente novamente.');
         this.isDeleting.set(false);
       }
     });

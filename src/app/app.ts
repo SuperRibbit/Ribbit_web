@@ -1,7 +1,7 @@
-import { Component, signal } from '@angular/core';
-import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { Component, inject, signal } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { Navbar } from './core/navbar/navbar';
-import { filter } from 'rxjs';
+import { RouteData } from './services/route-data';
 
 @Component({
   selector: 'app-root',
@@ -13,14 +13,5 @@ export class App {
 
   protected readonly title = signal('Ribbit_web');
 
-  hideNavbar = false;
-
-  constructor(private router: Router) {
-    this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe(() => {
-        const rotaAtual = this.router.routerState.root.firstChild;
-        this.hideNavbar = rotaAtual?.snapshot.data['hideNavbar'] ?? false;
-      });
-  }
+  readonly routeData = inject(RouteData);
 }

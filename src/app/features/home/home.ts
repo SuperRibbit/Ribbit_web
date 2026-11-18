@@ -31,7 +31,7 @@ export class Home {
       distinctUntilChanged(),
       switchMap(term =>
         this.courseService.getCourses(term || undefined).pipe(
-          map((response: { courses?: any[] }) => response?.courses ?? []),
+          map(response => Array.isArray(response) ? response : response?.courses ?? []),
           catchError(() => of([]))
         )
       )
@@ -60,7 +60,7 @@ export class Home {
   ngOnInit() {
     this.enrollmentsService.getMyCourses().subscribe({
       next: (response) => {
-        this.listaAtividadesRecentes.set(response.courses); 
+        this.listaAtividadesRecentes.set(response?.courses ?? []);
       },
       error: (err) => console.error('Erro ao buscar atividades recentes', err)
     });
