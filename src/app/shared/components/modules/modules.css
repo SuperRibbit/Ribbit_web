@@ -20,6 +20,11 @@
     display: flex;
     align-items: center;
     gap: 15px;
+    min-width: 0;
+}
+
+.textos {
+    min-width: 0;
 }
 
 .icon-play-main {
@@ -56,6 +61,7 @@
     color: #333;
     margin: 0;
     font-weight: 600;
+    overflow-wrap: anywhere;
 }
 
 .modulo-tempo {
@@ -104,4 +110,25 @@
     height: 16px;
     accent-color: var(--azul-escuro);
     cursor: pointer;
+}
+
+@media (max-width: 480px) {
+    .modulo-header {
+        padding: 8px;
+        gap: 8px;
+    }
+
+    .icon-play-main {
+        width: 36px;
+        height: 36px;
+        flex-shrink: 0;
+    }
+
+    .lista-aulas {
+        padding-left: 20px;
+    }
+
+    .aula-nome {
+        overflow-wrap: anywhere;
+    }
 }
