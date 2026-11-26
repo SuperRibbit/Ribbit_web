@@ -25,6 +25,8 @@
     --spacing-lg: 80px;
     --spacing-md: 40px;
     --spacing-sm: 20px;
+    --gutter: clamp(16px, 4vw, 40px);
+    --navbar-height: 79px;
 }
 
 html, body {
@@ -37,6 +39,7 @@ html, body {
 img, picture, video, canvas {
     display: block;
     max-width: 100%;
+    height: auto;
 }
 
 button, input, textarea, select {
@@ -50,5 +53,31 @@ a {
 
 ul, ol {
     list-style: none;
+}
+
+p, h1, h2, h3, h4, h5, h6, a, label, small, li, code {
+    overflow-wrap: anywhere;
+}
+
+:where(.container, .content, .card, .home-section, .header-content,
+    .description, .texto-informativo, .profile-card, .modal-content) {
+    min-width: 0;
+}
+
+@media (max-width: 768px) {
+    :root {
+        --spacing-lg: 40px;
+        --spacing-md: 24px;
+        --spacing-sm: 16px;
+        --navbar-height: 64px;
+    }
+}
+
+@media (max-width: 480px) {
+    :root {
+        --spacing-lg: 24px;
+        --spacing-md: 16px;
+        --spacing-sm: 12px;
+    }
 }
 
