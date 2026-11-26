@@ -8,24 +8,63 @@ nav,
 nav {
     width: 100%;
     justify-content: space-between;
+    align-items: center;
     position: absolute;
-    padding: 12px 60px;
-    gap: 32px;
+    top: 0;
+    left: 0;
+    padding: 12px clamp(16px, 4vw, 60px);
+    gap: clamp(12px, 3vw, 32px);
 
     z-index: 10;
 }
 
+.logo {
+    flex-shrink: 0;
+    min-width: 0;
+    gap: clamp(8px, 1.5vw, 16px);
+}
+
 img#logo {
-    height: 55px;
-    margin-right: 16px;
+    height: clamp(38px, 6vw, 55px);
+    width: auto;
 }
 
 img#text {
-    height: 45px;
+    height: clamp(28px, 4.6vw, 45px);
+    width: auto;
+}
+
+.menu-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 12px;
+    background-color: var(--branco);
+    color: var(--verde-escuro);
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.08);
+    transition: background-color 0.2s ease;
+}
+
+.menu-toggle:hover {
+    background-color: #f1f5f9;
 }
 
 .button-row {
-    gap: 24px;
+    gap: clamp(12px, 2vw, 24px);
+    margin-left: auto;
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
 }
 
 .menu-row {
@@ -33,6 +72,7 @@ img#text {
     justify-content: space-between;
     align-items: center;
     flex: 1;
+    min-width: 0;
 
     font-weight: bold;
     color: var(--verde-escuro);
@@ -41,10 +81,21 @@ img#text {
 .menu-row .menu-links {
     display: flex;
     align-items: center;
-    gap: 32px;
+    gap: clamp(16px, 2.5vw, 32px);
+    min-width: 0;
+}
+
+.menu-row .menu-links > a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
 }
 
 .menu-row .nav-link-admin {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
     padding: 8px 16px;
     border-radius: 10px;
     background-color: var(--azul-escuro);
@@ -62,9 +113,6 @@ img#text {
 }
 
 .admin-dropdown-toggle {
-    display: flex;
-    align-items: center;
-    gap: 6px;
     border: none;
     cursor: pointer;
     font: inherit;
@@ -96,21 +144,129 @@ img#text {
     background-color: var(--azul-bg);
 }
 
-.menu-row img {
+.profile-link {
+    display: flex;
+    flex-shrink: 0;
+}
+
+.navbar-avatar {
     height: 55px;
     width: 55px;
     border-radius: 50%;
     padding: 10px;
+    box-sizing: border-box;
     object-fit: cover;
     border: 1px solid var(--verde-escuro);
+    background-color: var(--branco);
 }
 
 @media (max-width: 768px) {
     nav {
-        padding: 12px 20px;
+        padding: 10px 16px;
+        gap: 12px;
+    }
+
+    img#logo {
+        height: 40px;
+    }
+
+    img#text {
+        height: 28px;
+    }
+
+    .menu-toggle {
+        display: flex;
+    }
+
+    .button-row,
+    .menu-row {
+        display: none;
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 12px;
+        right: 12px;
+        background-color: var(--branco);
+        border-radius: 16px;
+        box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.15);
+        padding: 16px;
+        z-index: 20;
+    }
+
+    nav.menu-open .button-row,
+    nav.menu-open .menu-row {
+        display: flex;
     }
 
     .button-row {
-        display: none;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .button-row app-custom-button {
+        width: 100%;
+    }
+
+    .menu-row {
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        gap: 8px;
+    }
+
+    .menu-row .menu-links {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 4px;
+        width: 100%;
+    }
+
+    .menu-row .menu-links > a {
+        padding: 0 12px;
+        border-radius: 10px;
+        transition: background-color 0.2s ease;
+    }
+
+    .menu-row .menu-links > a:hover {
+        background-color: var(--azul-bg);
+    }
+
+    .admin-dropdown {
+        width: 100%;
+    }
+
+    .menu-row .nav-link-admin {
+        justify-content: center;
+        width: 100%;
+        padding: 10px 16px;
+        font-size: 0.95rem;
+    }
+
+    .admin-dropdown-menu {
+        position: static;
+        width: 100%;
+        min-width: 0;
+        margin-top: 6px;
+        background-color: #f4f8ff;
+        box-shadow: none;
+    }
+
+    .nav-actions {
+        gap: 8px;
+    }
+
+    .navbar-avatar {
+        height: 48px;
+        width: 48px;
+        padding: 8px;
+    }
+}
+
+@media (max-width: 400px) {
+    img#logo {
+        height: 36px;
+    }
+
+    img#text {
+        height: 25px;
     }
 }
