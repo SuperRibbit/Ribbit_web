@@ -1,5 +1,6 @@
 .container {
   width: 300px;
+  max-width: 100%;
   background-color: var(--branco);
   border-radius: 20px;
   box-shadow:
@@ -126,5 +127,25 @@ app-custom-button {
 @media (max-width: 768px) {
   .container {
     width: 100%;
+    padding: 14px;
+  }
+
+  .card-image-area {
+    height: 130px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .card-image-area {
+    height: 120px;
+  }
+
+  .progress-text {
+    font-size: 13px;
   }
 }
