@@ -26,12 +26,13 @@
 
 .titulo-sidebar {
     color: #5B5CEC;
-    font-size: 1.5rem;
+    font-size: clamp(1.15rem, 3vw, 1.5rem);
     font-weight: 800;
     text-align: center;
     margin-bottom: 25px;
     border-bottom: 2px solid #F0F5FF;
     padding-bottom: 15px;
+    overflow-wrap: anywhere;
 }
 
 .card-video {
@@ -40,6 +41,12 @@
     border-radius: 30px;
     padding: 30px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    min-width: 0;
+    max-width: 100%;
+}
+
+.video-main {
+    min-width: 0;
 }
 
 .video-placeholder {
@@ -62,10 +69,15 @@
     margin-top: 25px;
 }
 
+.info-aula {
+    min-width: 0;
+}
+
 .info-aula h3 {
     margin: 0;
-    font-size: 1.4rem;
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
     color: #333;
+    overflow-wrap: anywhere;
 }
 
 .info-aula p {
@@ -88,6 +100,25 @@
     margin-top: 5px;
     color: #555;
     line-height: 1.5;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.descricao-aula img,
+.descricao-aula video {
+    max-width: 100%;
+    height: auto;
+}
+
+.descricao-aula table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+}
+
+.descricao-aula pre {
+    max-width: 100%;
+    overflow-x: auto;
 }
 
 .descricao-aula iframe {
@@ -156,7 +187,7 @@
     .container {
         grid-template-columns: 1fr;
         gap: 20px;
-        padding: 20px;
+        padding: 16px 20px 24px;
     }
 
     .video-main {
@@ -166,28 +197,27 @@
     .sidebar-container {
         order: 2;
         position: static;
-        margin-top: 20px;
-    }
-
-    .card-video, .sidebar-container {
-        padding: 20px;
-        border-radius: 20px;
+        margin-top: 0;
     }
 
     .card-video {
-        margin-top: 60px;
+        margin-top: calc(var(--navbar-height) + 16px);
+        padding: 20px;
+        border-radius: 20px;
     }
 
     .card-modulos {
         max-height: none;
         overflow-y: visible;
-        padding: 10px;
+        padding: 16px;
+        border-radius: 20px;
     }
 
     .video-footer {
         flex-direction: column;
         align-items: flex-start;
-        gap: 20px;
+        gap: 12px;
+        margin-top: 20px;
     }
 
     .btn-completar {
@@ -196,12 +226,50 @@
     }
 }
 
+@media (max-width: 768px) {
+    .container {
+        gap: 16px;
+        padding: 8px 12px 20px;
+    }
+
+    .card-video {
+        margin-top: calc(var(--navbar-height) + 12px);
+        padding: 16px;
+        border-radius: 16px;
+    }
+
+    .card-modulos {
+        padding: 12px;
+        border-radius: 16px;
+    }
+
+    .pdf-frame {
+        border-radius: 12px;
+    }
+
+    .btn-completar {
+        padding: 14px 20px;
+        font-size: 0.95rem;
+    }
+}
+
 @media (max-width: 480px) {
+    .container {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .card-video {
+        padding: 12px;
+    }
+
     .titulo-sidebar {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
+        margin-bottom: 16px;
+        padding-bottom: 12px;
     }
     
     .info-aula h3 {
-        font-size: 1.1rem;
+        font-size: 1.05rem;
     }
 }
