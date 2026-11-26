@@ -2,7 +2,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    flex-wrap: wrap;
+    gap: clamp(12px, 4vw, 20px);
     width: 100%;
     margin-top: 24px;
 }
@@ -11,8 +12,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
     border: 1px solid var(--border-color);
     border-radius: 50%;
     background-color: var(--branco);
@@ -35,4 +37,16 @@
     font-weight: bold;
     color: var(--text-dark);
     font-size: 0.95rem;
+    text-align: center;
+}
+
+@media (max-width: 480px) {
+    .pagination-btn {
+        width: 44px;
+        height: 44px;
+    }
+
+    .pagination-info {
+        font-size: 0.9rem;
+    }
 }

@@ -13,7 +13,7 @@
 }
 
 .hero {
-    padding: 80px 80px 80px 80px;
+    padding: calc(var(--navbar-height) + 24px) clamp(16px, 5vw, 80px) clamp(40px, 6vw, 80px);
     background-color: var(--azul);
     background-image: url('/assets/CloudBGLow.svg');
     background-repeat: repeat;
@@ -23,6 +23,7 @@
     flex-direction: column;
     
     border-radius: 0 0 60px 60px;
+    box-sizing: border-box;
 }
 
 header {
@@ -30,9 +31,10 @@ header {
     color: var(--verde-escuro);
     align-items: center;
     height: auto;
-    padding-top: 80px;
+    padding-top: clamp(16px, 5vw, 56px);
 
     justify-content: space-between;
+    gap: 32px;
 }
 
 header h1 {
@@ -89,8 +91,8 @@ header h1 {
 .stats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-    padding: 40px 60px 0;
+    gap: clamp(10px, 2vw, 16px);
+    padding: clamp(24px, 5vw, 40px) clamp(16px, 5vw, 60px) 0;
     color: var(--verde-escuro);
 }
 
@@ -117,19 +119,19 @@ header h1 {
 
 .content {
     background-color: var(--branco);
-    padding: 40px 60px 60px;
+    padding: clamp(24px, 5vw, 40px) clamp(16px, 5vw, 60px) clamp(32px, 6vw, 60px);
     color: var(--verde-escuro);
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: clamp(24px, 4vw, 40px);
 }
 
 .first, .second {
-    padding: 48px 64px;
+    padding: clamp(24px, 4vw, 48px) clamp(20px, 4vw, 64px);
     display: grid;
     grid-template-columns: 1fr 1fr;
     border-radius: 30px;
-    gap: 48px;
+    gap: clamp(24px, 4vw, 48px);
     align-items: center;
     color: var(--text-dark);
 }
@@ -253,18 +255,31 @@ h2 {
 
 app-custom-button {
     width: max-content;
+    max-width: 100%;
+}
+
+@media (max-width: 992px) {
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .first, .second {
+        gap: 24px;
+    }
 }
 
 @media (max-width: 768px) {
     
     .hero {
-        padding: 80px 20px;
+        padding: calc(var(--navbar-height) + 16px) 16px 32px;
+        border-radius: 0 0 32px 32px;
     }
 
     header {
         flex-direction: column;
         align-items: flex-start;
-        gap: 24px;
+        padding-top: 16px;
+        gap: 16px;
     }
 
     header h1 {
@@ -290,19 +305,26 @@ app-custom-button {
     }
 
     .stats {
-        grid-template-columns: repeat(2, 1fr);
-        padding: 24px 20px 0;
+        grid-template-columns: 1fr;
+        grid-auto-rows: 1fr;
+        padding: 20px 12px 0;
+    }
+
+    .stat {
+        height: 100%;
+        justify-content: center;
     }
 
     .content {
-        padding: 24px 20px 40px;
-        gap: 24px;
+        padding: 20px 12px 32px;
+        gap: 20px;
     }
 
     .first, .second {
         grid-template-columns: 1fr;
-        padding: 28px 24px;
-        gap: 24px;
+        padding: 24px 20px;
+        gap: 20px;
+        border-radius: 20px;
     }
 
     .first img, .second img {
@@ -319,9 +341,58 @@ app-custom-button {
 
     .steps-grid, .about {
         grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .step {
+        padding: 24px 20px;
     }
 
     .about-card {
-        padding: 24px;
+        padding: 24px 20px;
+        border-radius: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        padding: calc(var(--navbar-height) + 12px) 12px 24px;
+    }
+
+    header h1 {
+        font-size: 1.7rem;
+    }
+
+    .note {
+        padding: 8px 16px;
+    }
+
+    .stat {
+        padding: 16px 10px;
+    }
+
+    .stat strong {
+        font-size: 1.3rem;
+    }
+
+    .stat span {
+        font-size: 0.95rem;
+    }
+
+    .left app-custom-button {
+        width: 100%;
+    }
+
+    .first img, .second img {
+        max-width: 200px;
+    }
+
+    .step h3 {
+        font-size: 1.25rem;
+    }
+
+    .step p,
+    .about-card p {
+        font-size: 1rem;
     }
 }

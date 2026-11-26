@@ -17,6 +17,7 @@ export class Navbar implements OnInit {
   avatarUrl = this.auth.avatarUrl;
   isAdmin = this.auth.isAdmin;
   showAdminMenu = signal(false);
+  showMobileMenu = signal(false);
 
   toggleAdminMenu() {
     this.showAdminMenu.update(open => !open);
@@ -24,6 +25,14 @@ export class Navbar implements OnInit {
 
   closeAdminMenu() {
     this.showAdminMenu.set(false);
+  }
+
+  toggleMobileMenu() {
+    this.showMobileMenu.update(open => !open);
+  }
+
+  closeMobileMenu() {
+    this.showMobileMenu.set(false);
   }
 
   @HostListener('document:click', ['$event'])
@@ -39,6 +48,17 @@ export class Navbar implements OnInit {
   onEscapePressed(): void {
     if (this.showAdminMenu()) {
       this.closeAdminMenu();
+    }
+
+    if (this.showMobileMenu()) {
+      this.closeMobileMenu();
+    }
+  }
+
+  @HostListener('window:resize')
+  onWindowResize(): void {
+    if (this.showMobileMenu() && window.innerWidth > 768) {
+      this.closeMobileMenu();
     }
   }
 

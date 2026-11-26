@@ -1,15 +1,16 @@
 .container {
     min-height: 100vh;
-    padding: 40px 80px;
+    padding: calc(var(--navbar-height) + 32px) var(--gutter) 40px;
     display: flex;
     flex-direction: column;
     gap: 32px;
     background: var(--azul-bg) url('/assets/CloudBGLow.svg') repeat-x top;
     background-size: contain;
+    width: 100%;
 }
 
 .curso-header-card {
-    margin-top: 70px;
+    margin-top: 0;
 }
 
 .curso-header-card,
@@ -18,6 +19,9 @@
     border-radius: 30px;
     padding: 40px;
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .titulo-curso,
@@ -25,27 +29,36 @@
     color: var(--azul-escuro);
     font-weight: 800;
     margin-bottom: 20px;
+    line-height: 1.25;
+}
+
+.titulo-curso {
+    font-size: clamp(1.5rem, 4vw, 2.1rem);
 }
 
 .modulos-titulo {
     text-align: center;
-    font-size: 2rem;
+    font-size: clamp(1.4rem, 3vw, 2rem);
 }
 
 .header-content {
     display: flex;
+    flex-wrap: wrap;
     align-items: flex-start;
     width: 100%;
+    min-width: 0;
     gap: 40px;
 }
 
 .banner-placeholder {
+    flex: 0 1 500px;
     width: 500px;
-    height: 350px;
-    min-width: 500px;
-    min-height: 350px;
-    max-width: 500px;
-    max-height: 350px;
+    max-width: 100%;
+    aspect-ratio: 10 / 7;
+    height: auto;
+    min-width: 0;
+    min-height: 0;
+    max-height: none;
 
     background-color: #4C96FF;
     border-radius: 20px;
@@ -59,7 +72,7 @@
 
 .banner-icon {
     color: var(--branco);
-    font-size: 6rem;
+    font-size: clamp(3rem, 8vw, 6rem);
 }
 
 .banner-placeholder img {
@@ -72,37 +85,48 @@
 }
 
 .description {
-    flex: 1;
-    height: 350px;
-    min-height: 350px;
-    max-height: 350px;
+    flex: 1 1 280px;
+    height: auto;
+    min-height: 0;
+    max-height: none;
 
     display: flex;
     flex-direction: column;
 
     min-width: 0;
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 .texto-informativo {
     width: 100%;
-    height: 100%;
+    min-width: 0;
 
     display: flex;
     flex-direction: column;
 }
 
+.professor-nome {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-light);
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
 .texto-informativo p {
     color: #4A4A4A;
     line-height: 1.6;
-    font-size: 1.1rem;
-    overflow-wrap: break-word;
+    font-size: clamp(1rem, 1.5vw, 1.1rem);
+    overflow-wrap: anywhere;
 }
 
 .btn-row {
     display: flex;
+    flex-wrap: wrap;
     justify-content: flex-end;
     gap: 12px;
-    margin-top: auto;
+    margin-top: 24px;
 }
 
 .feedback {
@@ -113,4 +137,90 @@
 
 .feedback.error {
     color: var(--vermelho);
+}
+
+@media (max-width: 1024px) {
+    .container {
+        padding: calc(var(--navbar-height) + 24px) 24px 32px;
+        gap: 24px;
+    }
+
+    .header-content {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 24px;
+    }
+
+    .description {
+        flex: 1 1 auto;
+        width: 100%;
+    }
+
+    .banner-placeholder {
+        flex: 0 0 auto;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .curso-header-card,
+    .modulos-card {
+        padding: 28px;
+        border-radius: 24px;
+    }
+
+    .btn-row {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: calc(var(--navbar-height) + 16px) 12px 24px;
+        gap: 20px;
+    }
+
+    .curso-header-card,
+    .modulos-card {
+        padding: 20px;
+        border-radius: 20px;
+    }
+
+    .titulo-curso,
+    .modulos-titulo {
+        margin-bottom: 16px;
+    }
+
+    .banner-placeholder {
+        border-radius: 14px;
+    }
+
+    .btn-row {
+        flex-direction: column;
+        align-items: stretch;
+        margin-top: 20px;
+    }
+
+    .btn-row app-custom-button {
+        width: 100%;
+    }
+
+    .feedback {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .curso-header-card,
+    .modulos-card {
+        padding: 16px;
+    }
+
+    .banner-placeholder {
+        aspect-ratio: 16 / 10;
+    }
 }

@@ -9,7 +9,7 @@
   background-position: top center;
   background-size: 100% auto;
   top: 0;
-  padding-top: 80px;
+  padding-top: calc(var(--navbar-height) + 16px);
   width: 100%;
   min-height: 100vh;
   min-height: 100dvh;
@@ -23,9 +23,10 @@
   padding: 30px;
   margin: 20px auto;
   text-align: left;
-  width: 100%;
+  width: calc(100% - 32px);
   max-width: 700px;
   margin-bottom: 100px;
+  box-sizing: border-box;
 }
 
 .profile {
@@ -167,17 +168,19 @@ section label {
   margin-top: auto;
   background: white;
   border-radius: 25px 25px 0 0;
-  padding: 60px 40px;
+  padding: clamp(24px, 5vw, 60px) clamp(16px, 4vw, 40px);
   width: 100%;
   max-width: 1500px;
   margin-left: auto;
   margin-right: auto;
+  box-sizing: border-box;
 }
 
 .course-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 16px;
   margin-bottom: 24px;
 }
 
@@ -189,7 +192,7 @@ section label {
 .course-grid {
     display: grid;
     width: 100%;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
     gap: 16px;
     justify-content: center;
 }
@@ -269,4 +272,101 @@ app-card-curso-home ::ng-deep .card-description {
     display: flex;
     width: 100%;
     justify-content: space-between;
+}
+
+@media (max-width: 768px) {
+  .profile-container {
+    padding-top: calc(var(--navbar-height) + 12px);
+  }
+
+  .profile-card {
+    width: calc(100% - 16px);
+    margin: 8px auto 32px;
+    padding: 20px 16px;
+    border-radius: 16px;
+  }
+
+  .profile {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .profile-left {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .profile-right {
+    margin-left: 0;
+  }
+
+  .profile-right h3 {
+    font-size: clamp(1.1rem, 4vw, 1.5rem);
+  }
+
+  .btn-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .confirm,
+  .confirm app-custom-button {
+    width: 100%;
+    max-width: 100%;
+    margin-top: 0;
+  }
+
+  .course-section {
+    border-radius: 20px 20px 0 0;
+  }
+
+  .course-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .course-grid {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 160px), 1fr));
+    gap: 12px;
+  }
+
+  form input {
+    font-size: 16px;
+  }
+
+  app-card-curso-home ::ng-deep .card-container {
+    max-width: 100%;
+  }
+
+  app-card-curso-home ::ng-deep .card-titulo {
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-card {
+    width: calc(100% - 12px);
+    padding: 16px 12px;
+  }
+
+  .profile-left {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .profile-left img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .profile-left app-custom-button {
+    width: 100%;
+    max-width: 100%;
+  }
 }

@@ -82,3 +82,33 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+@media (max-width: 768px) {
+  .card-container {
+    max-width: 100%;
+    min-height: 0;
+    padding: 14px;
+  }
+
+  .card-image-area .card-image,
+  .card-placeholder {
+    height: 120px !important;
+  }
+
+  .card-titulo {
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-container {
+    padding: 12px;
+  }
+
+  .card-description {
+    font-size: 14px;
+  }
+}
