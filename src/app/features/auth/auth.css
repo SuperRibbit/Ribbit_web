@@ -7,6 +7,7 @@
 .container {
     display: flex;
     min-height: 100vh;
+    min-height: 100dvh;
     overflow-x: hidden;
 }
 
@@ -63,7 +64,8 @@ form {
 form h2 {
     text-align: center;
     margin-bottom: 25px;
-    font-size: 1.5rem;
+    font-size: clamp(1.25rem, 4vw, 1.5rem);
+    overflow-wrap: anywhere;
 }
 
 .field {
@@ -98,10 +100,16 @@ form h2 {
 
 .field button {
     position: absolute;
-    right: 10px;
+    right: 4px;
     top: 50%;
     transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: none;
+    border-radius: 8px;
     background: none;
     cursor: pointer;
 }
@@ -127,6 +135,7 @@ p {
     font-size: 14px;
     margin: 15px 0 10px;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     text-align: center;
 }
@@ -151,8 +160,10 @@ button:hover {
     background-color: var(--vermelho);
     color: var(--branco);
     padding: 10px;
+    border-radius: 8px;
     margin-top: 16px;
     margin-bottom: 16px;
+    overflow-wrap: anywhere;
 }
 
 @media (max-width: 1024px) {
@@ -174,26 +185,63 @@ button:hover {
 
     .left {
         display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
         width: 100%;
         order: 1;
-        padding: 10px 0px;
+        padding: 16px;
+        gap: 8px 16px;
+    }
+
+    .left img {
+        width: auto;
+        max-width: 110px;
+        max-height: 70px;
+    }
+
+    #ribbit-logo {
+        max-width: 64px;
+        max-height: 64px;
+    }
+
+    .left img:last-child {
+        display: none;
     }
 
     .right {
         width: 100%;
         order: 2;
-        padding: 20px;
+        padding: 20px 16px 32px;
     }
 
-    .left img {
-        max-width: 150px;
+    .field input {
+        font-size: 16px;
     }
 }
 
 @media (max-width: 480px) {
 
+    .left {
+        padding: 12px;
+    }
+
+    .left img {
+        max-width: 90px;
+        max-height: 56px;
+    }
+
+    #ribbit-logo {
+        max-width: 52px;
+        max-height: 52px;
+    }
+
+    .right {
+        padding: 16px 12px 24px;
+    }
+
     form h2 {
-        font-size: 1.1rem;
+        font-size: 1.2rem;
     }
 
     p {
